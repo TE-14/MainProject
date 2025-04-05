@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <!-- 背景装饰元素 -->
+    <!-- Background decoration -->
     <div class="background-shapes">
       <div class="shape shape-1"></div>
       <div class="shape shape-2"></div>
@@ -42,7 +42,16 @@
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-book-open-variant</v-icon>
-          LEARNING CENTER
+          LEARNING HUB
+        </v-btn>
+
+         <v-btn
+          to="/learning/cyberbullying-scenario"
+          :class="['nav-btn mx-2', $route.path === '/learning/cyberbullying-scenario' ? 'nav-btn-active' : '']"
+          elevation="0"
+        >
+          <v-icon start class="mr-2">mdi-shield-alert</v-icon>
+          CB SCENARIO
         </v-btn>
 
         <v-btn
@@ -102,7 +111,7 @@ export default {
   background-color: #f8fafc !important;
 }
 
-/* 背景装饰 */
+/* background decoration */
 .background-shapes {
   position: fixed;
   width: 100%;
@@ -164,7 +173,7 @@ export default {
   }
 }
 
-/* 导航栏样式 */
+/* navigation bar style */
 .nav-blur {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(10px);
@@ -210,7 +219,7 @@ export default {
   color: white !important;
 }
 
-/* 主内容区域 */
+/* main content area */
 .main-content {
   position: relative;
   z-index: 1;
@@ -218,7 +227,7 @@ export default {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 100%);
 }
 
-/* 页面过渡动画 */
+/* page transition animation */
 .page-transition-enter-active,
 .page-transition-leave-active {
   transition: all 0.3s ease;
@@ -230,14 +239,14 @@ export default {
   transform: translateY(20px);
 }
 
-/* 页脚样式 */
+/* footer style */
 .footer-blur {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* 通用卡片样式 */
+/* common card style */
 .v-card {
   background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(10px);
@@ -250,7 +259,7 @@ export default {
   box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15) !important;
 }
 
-/* 按钮样式 */
+/* button style */
 .action-btn {
   background: var(--primary-gradient) !important;
   color: white !important;
@@ -283,7 +292,7 @@ export default {
   border-color: rgba(99, 102, 241, 0.4) !important;
 }
 
-/* 导航按钮激活状态 */
+/* navigation button active state */
 .nav-btn-active {
   background: var(--primary-gradient) !important;
   color: white !important;
