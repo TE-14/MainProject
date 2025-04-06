@@ -1,15 +1,15 @@
 <template>
-  <v-container class="py-8" fluid>
+  <v-container class="py-8 global-container" fluid>
     <v-row>
       <v-col cols="12">
-        <div class="page-header text-center">
+        <div class="page-header text-center responsive-spacing">
           <div class="hero-section">
             <div class="hero-icons">
               <v-icon size="48" color="primary" class="floating-icon left">mdi-shield-account</v-icon>
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title">Understanding Cyberbullying</h1>
+            <h1 class="main-title text-h1">Understanding Cyberbullying</h1>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
@@ -18,8 +18,9 @@
           </p>
         </div>
 
-        <v-row justify="center" class="mt-8 mx-2">
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+        <div class="cards-section">
+          <div class="cards-grid">
+            <!-- Card 1 -->
             <div class="flip-card" @click="card1Flipped = !card1Flipped" :class="{ 'is-flipped': card1Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -33,9 +34,8 @@
                 </div>
               </div>
             </div>
-          </v-col>
 
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+            <!-- Card 2 -->
             <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -45,12 +45,12 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Teenagers aged 16 to 17 report the highest levels of online victimization in recent studies — especially those using many platforms.</p>                  
+                  <p>Teenagers aged 16 to 17 report the highest levels of online victimization in recent studies — especially those using many platforms.</p>
                 </div>
               </div>
             </div>
-          </v-col>
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+
+            <!-- Card 3 -->
             <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -60,12 +60,12 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Cyberbullying affects everyone, but sometimes in different ways. Some data shows males report slightly higher victimization, but girls are more likely to experience emotional forms like exclusion or rumor spreading.</p>                  
+                  <p>Cyberbullying affects everyone, but sometimes in different ways. Some data shows males report slightly higher victimization, but girls are more likely to experience emotional forms like exclusion or rumor spreading.</p>
                 </div>
               </div>
             </div>
-          </v-col>
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+
+            <!-- Card 4 -->
             <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -75,12 +75,12 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it's meant to upset someone, it's not funny — it's bullying.</p>                  
+                  <p>Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it's meant to upset someone, it's not funny — it's bullying.</p>
                 </div>
               </div>
             </div>
-          </v-col>
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+
+            <!-- Card 5 -->
             <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -90,12 +90,12 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Yes. Victims of cyberbullying often feel anxious, depressed, lonely, or angry. It can affect sleep, self-worth, and how safe you feel online — even offline, too.</p>                  
+                  <p>Yes. Victims of cyberbullying often feel anxious, depressed, lonely, or angry. It can affect sleep, self-worth, and how safe you feel online — even offline, too.</p>
                 </div>
               </div>
             </div>
-          </v-col>
-          <v-col cols="12" md="6" lg="4" class="pa-2">
+
+            <!-- Card 6 -->
             <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
@@ -105,27 +105,25 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>
-                    <ul>
+                  <ul class="protection-list">
                     <li>Use privacy settings</li>
                     <li>Think before you post</li>
                     <li>Don't share passwords</li>
                     <li>Block or report bullies</li>
                     <li>Keep proof if something goes wrong</li>
                   </ul>
-                  </p>                  
                 </div>
               </div>
             </div>
-          </v-col>
-        </v-row>
+          </div>
+        </div>
 
         <div class="text-center mt-12">
           <v-btn
             x-large
             color="primary"
             elevation="2"
-            class="next-page-btn"
+            class="next-page-btn responsive-button"
             @click="goToNextPage"
           >
             <v-icon left>mdi-arrow-right-circle</v-icon>
@@ -160,7 +158,7 @@ export default {
 
 <style scoped>
 .page-header {
-  margin-bottom: 4rem;
+  margin-bottom: clamp(2rem, 4vw, 4rem);
 }
 
 .main-title {
@@ -168,29 +166,29 @@ export default {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .intro-text {
   color: #2c3e50;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
   line-height: 1.8;
-  max-width: 800px;
+  max-width: min(800px, 90vw);
   margin: 0 auto;
 }
 
 .hero-section {
   position: relative;
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: clamp(1rem, 3vw, 2rem) 0;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
 }
 
 .hero-icons {
   position: relative;
-  height: 120px;
-  margin-bottom: 1rem;
+  height: clamp(80px, 15vw, 120px);
+  margin-bottom: clamp(0.5rem, 2vw, 1rem);
 }
 
 .floating-icon {
@@ -227,15 +225,27 @@ export default {
   border-radius: 2px;
 }
 
-/* 翻转卡片样式 */
+.cards-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: start;
+}
+
 .flip-card {
-  background-color: transparent;
   width: 100%;
   max-width: 320px;
   height: 280px;
   perspective: 1500px;
-  cursor: pointer;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .flip-card-inner {
@@ -311,7 +321,7 @@ export default {
 
 .flip-card-front h2 {
   color: #2c3e50;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   margin-bottom: 0.6rem;
   padding: 0 0.5rem;
   font-weight: 600;
@@ -319,7 +329,7 @@ export default {
 
 .flip-card-front p {
   color: #6366f1;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   opacity: 0.8;
   font-weight: 500;
 }
@@ -332,7 +342,7 @@ export default {
 
 .flip-card-back p {
   margin-bottom: 0.8rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   line-height: 1.4;
   max-width: 95%;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -354,8 +364,8 @@ export default {
 }
 
 .next-page-btn {
-  font-size: 1.2rem;
-  padding: 0.8rem 2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.2rem, 3vw, 2rem);
   border-radius: 50px;
   text-transform: none;
   letter-spacing: 0.5px;
@@ -372,5 +382,63 @@ export default {
 .next-page-btn .v-icon {
   margin-right: 8px;
   font-size: 1.4rem;
+}
+
+.protection-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.protection-list li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.protection-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: white;
+}
+
+@media (max-width: 1200px) {
+  .cards-grid {
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-section {
+    padding: 1rem 0.5rem;
+  }
+  
+  .cards-grid {
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  
+  .flip-card {
+    max-width: 100%;
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-section {
+    padding: 0.5rem;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .flip-card {
+    height: 240px;
+  }
 }
 </style> 

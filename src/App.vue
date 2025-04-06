@@ -317,4 +317,126 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* 全局响应式基础设置 */
+:root {
+  font-size: 16px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* 响应式字体大小 */
+@media (max-width: 1400px) {
+  :root {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1200px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+/* 全局容器类 */
+.global-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .global-container {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .global-container {
+    padding: 0.5rem;
+  }
+}
+
+/* Vuetify覆盖样式 */
+.v-application {
+  .text-h1 { font-size: 2.5rem !important; }
+  .text-h2 { font-size: 2rem !important; }
+  .text-h3 { font-size: 1.75rem !important; }
+  .text-h4 { font-size: 1.5rem !important; }
+  .text-h5 { font-size: 1.25rem !important; }
+  .text-h6 { font-size: 1rem !important; }
+  
+  @media (max-width: 768px) {
+    .text-h1 { font-size: 2rem !important; }
+    .text-h2 { font-size: 1.75rem !important; }
+    .text-h3 { font-size: 1.5rem !important; }
+    .text-h4 { font-size: 1.25rem !important; }
+    .text-h5 { font-size: 1.1rem !important; }
+    .text-h6 { font-size: 1rem !important; }
+  }
+}
+
+/* 通用间距类 */
+.responsive-spacing {
+  padding: 1rem;
+  margin: 1rem;
+  
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+    margin: 0.75rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+}
+
+/* 响应式图片 */
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 响应式按钮 */
+.responsive-button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  
+  @media (max-width: 768px) {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
 </style>
