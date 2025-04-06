@@ -76,7 +76,7 @@
             </div>
             <div class="card-badge new">New Course</div>
             <h3 class="text-h5 font-weight-bold mb-4">
-              <span class="title-text-blue">Catfishing</span> Protection
+              <span class="title-text-blue">Grooming</span> Protection
             </h3>
             <p class="text-body-1 mb-4">
               Learn how to identify and prevent catfishing (online identity fraud) to protect your personal information. Including:
