@@ -29,13 +29,7 @@
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Cyberbullying refers to intentional and repeated harmful behavior towards others through digital platforms such as the internet, social media, and instant messaging tools. It has the following characteristics:</p>
-                  <ul>
-                    <li>Repetitive: Continuous harassment</li>
-                    <li>Widespread: Quick spread online</li>
-                    <li>Anonymous: Perpetrators may be hidden</li>
-                    <li>Persistent: Digital footprints are hard to erase</li>
-                  </ul>
+                  <p>Cyberbullying is any type of bullying that happens online — through messages, posts, videos, or social media. It can include threats, rumors, exclusion, or posting embarrassing content.</p>
                 </div>
               </div>
             </div>
@@ -46,18 +40,80 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
-                  <h2>Impact of Cyberbullying</h2>
+                  <h2>Who gets cyberbullied the most?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Cyberbullying can have serious effects on victims in multiple aspects:</p>
-                  <ul>
-                    <li>Mental Health: May lead to anxiety and depression</li>
-                    <li>Relationships: Social withdrawal and decreased trust</li>
-                    <li>Academic Performance: Reduced focus and grades</li>
-                    <li>Self-perception: Damaged self-esteem and confidence</li>
+                  <p>Teenagers aged 16 to 17 report the highest levels of online victimization in recent studies — especially those using many platforms.</p>                  
+                </div>
+              </div>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6" class="d-flex justify-center">
+            <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <h2>Does gender affect cyberbullying?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Cyberbullying affects everyone, but sometimes in different ways. Some data shows males report slightly higher victimization, but girls are more likely to experience emotional forms like exclusion or rumor spreading.</p>                  
+                </div>
+              </div>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6" class="d-flex justify-center">
+            <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <h2>What is trolling?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it’s meant to upset someone, it’s not funny — it’s bullying.</p>                  
+                </div>
+              </div>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6" class="d-flex justify-center">
+            <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <h2>Does cyberbullying affect mental health?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Yes. Victims of cyberbullying often feel anxious, depressed, lonely, or angry. It can affect sleep, self-worth, and how safe you feel online — even offline, too.</p>                  
+                </div>
+              </div>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6" class="d-flex justify-center">
+            <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <h2>How can I protect myself online?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>
+                    <ul>
+                    <li>Use privacy settings</li>
+                    <li>Think before you post</li>
+                    <li>Don’t share passwords</li>
+                    <li>Block or report bullies</li>
+                    <li>Keep proof if something goes wrong</li>
                   </ul>
+                  </p>                  
                 </div>
               </div>
             </div>
@@ -87,7 +143,11 @@ export default {
   data() {
     return {
       card1Flipped: false,
-      card2Flipped: false
+      card2Flipped: false,
+      card3Flipped: false,
+      card4Flipped: false,
+      card5Flipped: false,
+      card6Flipped: false
     }
   },
   methods: {
