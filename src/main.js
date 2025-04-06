@@ -40,8 +40,16 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 
+// Set document title
+document.title = 'Digital Citizenship'
+
 app.use(store)
 app.use(router)
 app.use(vuetify)
+
+// Update title on route change
+router.afterEach((to) => {
+  document.title = to.meta.title || 'Digital Citizenship'
+})
 
 app.mount('#app')
