@@ -12,7 +12,12 @@ const router = createRouter({
     {
       path: '/resources',
       name: 'resources',
-      component: () => import('../views/ResourcesView.vue')
+      component: () => import('../views/LearningHubView.vue')
+    },
+    {
+      path: '/resource',
+      name: 'resource',
+      component: () => import('../views/ResourceView.vue')
     },
     {
       path: '/quiz',
