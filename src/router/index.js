@@ -30,9 +30,9 @@ const router = createRouter({
       component: () => import('../views/learning/CyberbullyingView.vue')
     },
     {
-      path: '/learning/cyberbullying-scenario',
-      name: 'cyberbullying-scenario',
-      component: () => import('../views/learning/CyberbullyingScenario.vue')
+      path: '/scenario',
+      name: 'scenario',
+      component: () => import('../views/Scenario.vue')
     },
     {
       path: '/learning/phishing',

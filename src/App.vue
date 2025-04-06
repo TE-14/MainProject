@@ -55,12 +55,12 @@
         </v-btn>
 
         <v-btn
-          to="/learning/cyberbullying-scenario"
-          :class="['nav-btn mx-2', $route.path === '/learning/cyberbullying-scenario' ? 'nav-btn-active' : '']"
+          to="/scenario"
+          :class="['nav-btn mx-2', $route.path === '/scenario' ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-shield-alert</v-icon>
-          CB SCENARIO
+          SCENARIO
         </v-btn>
 
         <v-btn

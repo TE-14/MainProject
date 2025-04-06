@@ -18,12 +18,12 @@
           </p>
         </div>
 
-        <v-row justify="center" class="mt-8">
-          <v-col cols="12" md="6" class="d-flex justify-center">
+        <v-row justify="center" class="mt-8 mx-2">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card1Flipped = !card1Flipped" :class="{ 'is-flipped': card1Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="primary" class="mb-4">mdi-help-circle</v-icon>
+                  <v-icon size="40" color="primary" class="mb-4">mdi-help-circle</v-icon>
                   <h2>What is Cyberbullying?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -35,11 +35,11 @@
             </div>
           </v-col>
 
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <v-icon size="40" color="warning" class="mb-4">mdi-account-group</v-icon>
                   <h2>Who gets cyberbullied the most?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -50,11 +50,11 @@
               </div>
             </div>
           </v-col>
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <v-icon size="40" color="info" class="mb-4">mdi-gender-male-female</v-icon>
                   <h2>Does gender affect cyberbullying?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -65,26 +65,26 @@
               </div>
             </div>
           </v-col>
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <v-icon size="40" color="error" class="mb-4">mdi-emoticon-devil</v-icon>
                   <h2>What is trolling?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it’s meant to upset someone, it’s not funny — it’s bullying.</p>                  
+                  <p>Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it's meant to upset someone, it's not funny — it's bullying.</p>                  
                 </div>
               </div>
             </div>
           </v-col>
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
                   <h2>Does cyberbullying affect mental health?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -95,11 +95,11 @@
               </div>
             </div>
           </v-col>
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <v-col cols="12" md="6" lg="4" class="pa-2">
             <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
+                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
                   <h2>How can I protect myself online?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -109,7 +109,7 @@
                     <ul>
                     <li>Use privacy settings</li>
                     <li>Think before you post</li>
-                    <li>Don’t share passwords</li>
+                    <li>Don't share passwords</li>
                     <li>Block or report bullies</li>
                     <li>Keep proof if something goes wrong</li>
                   </ul>
@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     goToNextPage() {
-      this.$router.push('/learning/cyberbullying-scenario')
+      this.$router.push('/scenario')
     }
   }
 }
@@ -231,10 +231,11 @@ export default {
 .flip-card {
   background-color: transparent;
   width: 100%;
-  max-width: 600px;
-  height: 500px;
-  perspective: 1000px;
+  max-width: 320px;
+  height: 280px;
+  perspective: 1500px;
   cursor: pointer;
+  margin: 0 auto;
 }
 
 .flip-card-inner {
@@ -242,8 +243,14 @@ export default {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.8s;
+  transition: transform 0.6s;
   transform-style: preserve-3d;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: translateY(-5px);
 }
 
 .flip-card.is-flipped .flip-card-inner {
@@ -255,52 +262,80 @@ export default {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 15px;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .flip-card-front {
-  background: white;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.flip-card-front::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #6366f1;
+  opacity: 0.7;
+}
+
+.flip-card-front::after {
+  content: '↻';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 16px;
+  color: #6366f1;
+  opacity: 0.7;
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  transform: rotateY(180deg);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
 }
 
 .flip-card-front h2 {
   color: #2c3e50;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  padding: 0 0.5rem;
+  font-weight: 600;
 }
 
 .flip-card-front p {
-  color: #666;
-  font-size: 1.1rem;
+  color: #6366f1;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 500;
 }
 
-.flip-card-back {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  transform: rotateY(180deg);
+.flip-card-front .v-icon {
+  font-size: 28px !important;
+  margin-bottom: 0.8rem !important;
+  filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.2));
 }
 
 .flip-card-back p {
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
-  line-height: 1.6;
-  max-width: 90%;
-}
-
-.flip-card-back ul {
-  text-align: left;
-  padding-left: 2rem;
-  width: 90%;
-}
-
-.flip-card-back li {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  max-width: 95%;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes floatLeft {

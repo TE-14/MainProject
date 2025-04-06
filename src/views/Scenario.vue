@@ -128,7 +128,7 @@
 
 <script>
 export default {
-  name: 'CyberbullyingScenario',
+  name: 'Scenario',
   data() {
     return {
       selectedChoice: null,
