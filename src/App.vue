@@ -37,8 +37,8 @@
         </v-btn>
 
         <v-btn
-          to="/resources"
-          :class="['nav-btn mx-2', $route.path === '/resources' ? 'nav-btn-active' : '']"
+          to="/learning-hub"
+          :class="['nav-btn mx-2', $route.path === '/learning-hub' ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-book-open-variant</v-icon>
@@ -46,8 +46,8 @@
         </v-btn>
 
         <v-btn
-          to="/resource"
-          :class="['nav-btn mx-2', $route.path === '/resource' ? 'nav-btn-active' : '']"
+          to="/resources"
+          :class="['nav-btn mx-2', $route.path === '/resources' ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-information</v-icon>
@@ -98,11 +98,29 @@
 
 <script>
 import { useRoute } from 'vue-router'
+import { onMounted, onUnmounted } from 'vue'
 
 export default {
   name: 'App',
   setup() {
     const route = useRoute()
+
+    // 处理 ResizeObserver 错误
+    const handleError = (event) => {
+      if (event.message && event.message.includes('ResizeObserver')) {
+        event.stopPropagation()
+        event.preventDefault()
+      }
+    }
+
+    onMounted(() => {
+      window.addEventListener('error', handleError)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('error', handleError)
+    })
+
     return { route }
   }
 }
