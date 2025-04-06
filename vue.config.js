@@ -6,6 +6,12 @@ module.exports = defineConfig({
   devServer: {
     port: 3007
   },
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'Digital Citizenship'
+    }
+  },
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
