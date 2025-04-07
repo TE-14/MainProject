@@ -10,13 +10,13 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/resources',
-      name: 'resources',
+      path: '/learning-hub',
+      name: 'learning-hub',
       component: () => import('../views/LearningHubView.vue')
     },
     {
-      path: '/resource',
-      name: 'resource',
+      path: '/resources',
+      name: 'resources',
       component: () => import('../views/ResourceView.vue')
     },
     {

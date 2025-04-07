@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     goToNextPage() {
-      this.$router.push('/learning/scenario')
+      this.$router.push('/scenario')
     }
   }
 }

@@ -204,7 +204,7 @@
                   color="primary"
                   size="large"
                   class="mt-6"
-                  :to="'/learning'"
+                  :to="'/learning-hub'"
                 >
                   Start Learning
                   <v-icon end class="ml-2">mdi-arrow-right</v-icon>
@@ -246,17 +246,17 @@
     <v-row class="mt-16">
       <v-col cols="12">
         <v-card class="cta-card text-center pa-12" elevation="0">
-          <h2 class="cta-title mb-4">Ready to Test Your Security Awareness?</h2>
+          <h2 class="cta-title mb-4">Ready to Experience Real-World Scenarios?</h2>
           <p class="text-body-1 text-grey-lighten-4 mt-2">
-            Take just 2 minutes to understand your cybersecurity level.
+            Learn through interactive scenarios to better understand digital security.
           </p>
           <v-btn
             color="white"
             size="x-large"
             class="mt-6 white-btn"
-            :to="'/quiz'"
+            :to="'/scenario'"
           >
-            <span class="gradient-text">Start Now</span>
+            <span class="gradient-text">Start Scenario</span>
             <v-icon right class="ml-2 gradient-text">mdi-arrow-right</v-icon>
           </v-btn>
         </v-card>
@@ -625,5 +625,41 @@ section.py-16 .v-container {
 
 .v-img {
   height: 250px !important;
+}
+
+.start-btn {
+  background: white !important;
+  color: #6366f1 !important;
+  padding: 0.75rem 2rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2) !important;
+}
+
+.btn-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    margin: 1rem;
+    padding: 3rem 1rem;
+  }
+  
+  .start-btn {
+    padding: 0.6rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
 }
 </style> 
