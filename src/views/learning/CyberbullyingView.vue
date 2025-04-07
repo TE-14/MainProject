@@ -9,7 +9,7 @@
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title text-h1">"Cyberbullying doesn’t just happen — it spreads. Online posts, group chats, private messages — all of it can be used to hurt someone in ways that last far beyond a screen."</h1>
+            <h1 class="main-title text-h1">"Cyberbullying doesn't just happen — it spreads. Online posts, group chats, private messages — all of it can be used to hurt someone in ways that last far beyond a screen."</h1>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
@@ -24,7 +24,7 @@
             <div class="flip-card" @click="card1Flipped = !card1Flipped" :class="{ 'is-flipped': card1Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="primary" class="mb-4">mdi-help-circle</v-icon>
+                  <v-icon size="40" color="primary" class="mb-4">mdi-bullhorn-outline</v-icon>
                   <h2>What is Cyberbullying?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -39,7 +39,7 @@
             <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="warning" class="mb-4">mdi-account-group</v-icon>
+                  <v-icon size="40" color="error" class="mb-4">mdi-account-group-outline</v-icon>
                   <h2>Who gets cyberbullied the most?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
@@ -69,8 +69,8 @@
             <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="error" class="mb-4">mdi-emoticon-devil</v-icon>
-                  <h2>What is trolling?</h2>
+                  <v-icon size="40" color="warning" class="mb-4">mdi-message-alert-outline</v-icon>
+                  <h2>What are the warning signs?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -85,7 +85,7 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>Does cyberbullying affect mental health?</h2>
+                  <h2>Mental Health Impact</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -99,8 +99,8 @@
             <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
-                  <h2>How can I protect myself online?</h2>
+                  <v-icon size="40" color="success" class="mb-4">mdi-shield-check</v-icon>
+                  <h2>Prevention Strategies</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -119,13 +119,13 @@
             <div class="flip-card" @click="card7Flipped = !card7Flipped" :class="{ 'is-flipped': card7Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
-                  <h2>Is cyberbullying illegal?</h2>
+                  <v-icon size="40" color="orange" class="mb-4">mdi-chat-alert-outline</v-icon>
+                  <h2>Types of Cyberbullying</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Yes — in many places, things like online threats, harassment, and defamation break the law. Even if it feels like “just online stuff,” cyberbullying can lead to serious consequences.</p>
+                  <p>Yes — in many places, things like online threats, harassment, and defamation break the law. Even if it feels like "just online stuff," cyberbullying can lead to serious consequences.</p>
                 </div>
               </div>
             </div>
@@ -133,8 +133,8 @@
             <div class="flip-card" @click="card8Flipped = !card8Flipped" :class="{ 'is-flipped': card8Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2> Can impulsive behavior lead to bullying?</h2>
+                  <v-icon size="40" color="red-darken-2" class="mb-4">mdi-hand-back-right</v-icon>
+                  <h2>How to Stop Cyberbullying</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -147,8 +147,8 @@
             <div class="flip-card" @click="card9Flipped = !card9Flipped" :class="{ 'is-flipped': card9Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>Is blocking someone enough?</h2>
+                  <v-icon size="40" color="blue-grey" class="mb-4">mdi-school-outline</v-icon>
+                  <h2>School's Role</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -161,8 +161,8 @@
             <div class="flip-card" @click="card10Flipped = !card10Flipped" :class="{ 'is-flipped': card10Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>Is ignoring the bully the best option?</h2>
+                  <v-icon size="40" color="teal" class="mb-4">mdi-account-child-outline</v-icon>
+                  <h2>Parent's Guide</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -175,8 +175,8 @@
             <div class="flip-card" @click="card11Flipped = !card11Flipped" :class="{ 'is-flipped': card11Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>What if I only meant it as a joke?</h2>
+                  <v-icon size="40" color="pink" class="mb-4">mdi-heart-broken-outline</v-icon>
+                  <h2>Emotional Impact</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -189,8 +189,8 @@
             <div class="flip-card" @click="card12Flipped = !card12Flipped" :class="{ 'is-flipped': card12Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
-                  <h2>How can I help a friend who's being bullied online?</h2>
+                  <v-icon size="40" color="indigo" class="mb-4">mdi-gavel</v-icon>
+                  <h2>Legal Consequences</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -209,8 +209,8 @@
             <div class="flip-card" @click="card13Flipped = !card13Flipped" :class="{ 'is-flipped': card13Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>How do I know if it's cyberbullying or just drama?</h2>
+                  <v-icon size="40" color="cyan" class="mb-4">mdi-lifebuoy</v-icon>
+                  <h2>Support Resources</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
@@ -223,13 +223,13 @@
             <div class="flip-card" @click="card14Flipped = !card14Flipped" :class="{ 'is-flipped': card14Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>Can someone be both a victim and a bully?</h2>
+                  <v-icon size="40" color="deep-orange" class="mb-4">mdi-account-voice</v-icon>
+                  <h2>Speaking Up</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Yes. Data shows many teens who are bullied online have also bullied others. It’s often a cycle — and understanding this can help break it.</p>
+                  <p>Yes. Data shows many teens who are bullied online have also bullied others. It's often a cycle — and understanding this can help break it.</p>
                 </div>
               </div>
             </div>
@@ -237,8 +237,8 @@
             <div class="flip-card" @click="card15Flipped = !card15Flipped" :class="{ 'is-flipped': card15Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
-                  <h2>Why don't more people talk about it?</h2>
+                  <v-icon size="40" color="green" class="mb-4">mdi-handshake</v-icon>
+                  <h2>Building Digital Citizenship</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
