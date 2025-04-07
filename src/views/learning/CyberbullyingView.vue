@@ -9,12 +9,15 @@
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title text-h1">"Cyberbullying doesn't just happen — it spreads. Online posts, group chats, private messages — all of it can be used to hurt someone in ways that last far beyond a screen."</h1>
+            <h1 class="main-title text-h1">Understanding Cyberbullying</h1>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
             <v-icon color="info" small class="mr-2">mdi-information</v-icon>
             Cyberbullying is when someone uses digital technology to harass, humiliate, threaten, or target another person. It can happen through texts, social media, emails, gaming platforms, or any online space. Unlike in-person bullying, cyberbullying can happen anytime, anywhere — and it often feels harder to escape.
+          </p>
+          <p class="intro-text mt-4">
+            "Cyberbullying doesn't just happen — it spreads. Online posts, group chats, private messages — all of it can be used to hurt someone in ways that last far beyond a screen."
           </p>
         </div>
 
@@ -304,21 +307,26 @@ export default {
 }
 
 .main-title {
-  background: linear-gradient(45deg, #6366f1, #8b5cf6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #8b5cf6;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .intro-text {
   color: #2c3e50;
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-size: 1.1rem;
   line-height: 1.8;
   max-width: min(800px, 90vw);
   margin: 0 auto;
+}
+
+.intro-text:last-of-type {
+  font-style: italic;
+  color: #6366f1;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .hero-section {
