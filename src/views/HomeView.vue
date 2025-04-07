@@ -124,17 +124,10 @@
                 <p class="text-body-1 mb-6">
                   In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
                 </p>
-                <!-- Chart -->
-                <canvas ref="chartRef" width="400" height="300"></canvas>
               </div>
             </v-col>
             <v-col cols="12" md="6" order-md="2" order="1">
-              <v-img
-                src="@/assets/images/cyberbullying.jpg"
-                class="rounded-lg"
-                height="400"
-                cover
-              ></v-img>
+              <canvas ref="chartRef" width="400" height="300"></canvas>
             </v-col>
           </v-row>
         </div>
@@ -670,5 +663,12 @@ section.py-16 .v-container {
     padding: 0.6rem 1.5rem !important;
     font-size: 1rem !important;
   }
+}
+
+/* Feature List */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 </style> 
