@@ -1,20 +1,33 @@
 <template>
   <v-container class="py-16">
     <!-- Main Content Area -->
-    <div class="flex flex-col md:flex-row items-start justify-between gap-8 px-10 py-16 bg-purple-50">
-    <!-- LEFT: Paragraph Block -->
-    <div class="md:w-1/2 order-2 md:order-1">
-      <h1 class="text-3xl font-bold text-gray-800 mb-4 border-b-4 border-indigo-500 w-fit">Cyberbullying</h1>
-      <p class="text-gray-700 leading-relaxed">
-        In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
-      </p>
-    </div>
-
-    <!-- RIGHT: Chart Block -->
-    <div class="md:w-1/2 order-1 md:order-2">
-      <canvas ref="chartRef" width="400" height="350"></canvas>
-    </div>
-  </div>
+    <v-row class="hero-section">
+      <v-col cols="12" md="5" class="d-flex flex-column justify-center">
+        <div class="position-relative">
+          <div class="highlight-badge mb-4">
+            <v-icon size="18" class="mr-1">mdi-shield-check</v-icon>
+            Digital Citizenship Program
+          </div>
+          <h1 class="hero-title mb-6">
+            Enhance Digital Literacy<br>
+            <span class="gradient-text">Protect Cybersecurity</span>
+          </h1>
+          <p class="hero-subtitle mb-8">
+            In this digital age, everyone should understand the importance of cybersecurity.<br>
+            Let's learn together how to prevent cyberbullying, identity fraud, and other security risks.
+          </p>
+        </div>
+      </v-col>
+      <v-col cols="12" md="7" class="hero-image-section">
+        <div class="hero-image-container">
+          <img
+            :src="require('../assets/images/mimi-thian-vdXMSiX-n6M-unsplash.jpg')"
+            alt="Digital Learning"
+            class="hero-image"
+          />
+        </div>
+      </v-col>
+    </v-row>
 
     <!-- Statistics -->
     <section class="py-16">
@@ -111,12 +124,18 @@
                 <p class="text-body-1 mb-6">
                   In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
                 </p>
+                <!-- Chart -->
+                <canvas ref="chartRef" width="400" height="300"></canvas>
               </div>
             </v-col>
-            <!-- Chart Block -->
-            <div class="md:w-1/2">
-              <canvas ref="chartRef" width="400" height="300"></canvas>
-            </div>
+            <v-col cols="12" md="6" order-md="2" order="1">
+              <v-img
+                src="@/assets/images/cyberbullying.jpg"
+                class="rounded-lg"
+                height="400"
+                cover
+              ></v-img>
+            </v-col>
           </v-row>
         </div>
 
@@ -219,7 +238,7 @@ onMounted(async () => {
         }]
       },
       options: {
-        indexAxis: 'y', // ← makes it a horizontal bar chart
+        indexAxis: 'y',
         responsive: true,
         plugins: {
           legend: { display: false },
@@ -255,12 +274,11 @@ onMounted(async () => {
         }
       }
     })
-  } catch (err) {
-    console.error('Error loading chart data:', err)
+  } catch (error) {
+    console.error('Error fetching data:', error)
   }
 })
 </script>
-
 
 <style scoped>
 .v-container {
