@@ -9,12 +9,12 @@
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title text-h1">Understanding Cyberbullying</h1>
+            <h1 class="main-title text-h1">"Cyberbullying doesn’t just happen — it spreads. Online posts, group chats, private messages — all of it can be used to hurt someone in ways that last far beyond a screen."</h1>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
             <v-icon color="info" small class="mr-2">mdi-information</v-icon>
-            In today's digital age, cyberbullying has become a significant social issue that cannot be ignored. Let's learn how to identify, prevent, and respond to cyberbullying, working together to create a safer and friendlier online environment.
+            Cyberbullying is when someone uses digital technology to harass, humiliate, threaten, or target another person. It can happen through texts, social media, emails, gaming platforms, or any online space. Unlike in-person bullying, cyberbullying can happen anytime, anywhere — and it often feels harder to escape.
           </p>
         </div>
 
@@ -115,8 +115,141 @@
                 </div>
               </div>
             </div>
+            <!-- Card 7 -->
+            <div class="flip-card" @click="card7Flipped = !card7Flipped" :class="{ 'is-flipped': card7Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
+                  <h2>Is cyberbullying illegal?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Yes — in many places, things like online threats, harassment, and defamation break the law. Even if it feels like “just online stuff,” cyberbullying can lead to serious consequences.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 8 -->
+            <div class="flip-card" @click="card8Flipped = !card8Flipped" :class="{ 'is-flipped': card8Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2> Can impulsive behavior lead to bullying?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Yes. Teens who act without thinking — especially when angry or bored — are more likely to lash out online. That impulsive post or comment? It can become cyberbullying.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 9 -->
+            <div class="flip-card" @click="card9Flipped = !card9Flipped" :class="{ 'is-flipped': card9Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>Is blocking someone enough?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Blocking is a good first step. But also report abusive content and keep evidence (screenshots) if things escalate. You have a right to feel safe online.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 10 -->
+            <div class="flip-card" @click="card10Flipped = !card10Flipped" :class="{ 'is-flipped': card10Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>Is ignoring the bully the best option?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Sometimes. Ignoring can stop the bully from getting attention, but it doesn't always work. If it keeps happening, block them, report the behavior, and talk to someone you trust.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 11 -->
+            <div class="flip-card" @click="card11Flipped = !card11Flipped" :class="{ 'is-flipped': card11Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>What if I only meant it as a joke?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Jokes can still hurt. If someone feels humiliated or targeted, it might be bullying. Intent doesn't matter as much as impact — be kind and think before posting.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 12 -->
+            <div class="flip-card" @click="card12Flipped = !card12Flipped" :class="{ 'is-flipped': card12Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="success" class="mb-4">mdi-shield-lock</v-icon>
+                  <h2>How can I help a friend who's being bullied online?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <ul class="protection-list">
+                    <li>Listen without judgment</li>
+                    <li>Encourage them to save proof</li>
+                    <li>Help them report it</li>
+                    <li>Remind them it's not their fault</li>
+                    <li>Suggest talking to a trusted adult or school counselor</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Card 13 -->
+            <div class="flip-card" @click="card13Flipped = !card13Flipped" :class="{ 'is-flipped': card13Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>How do I know if it's cyberbullying or just drama?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>If it's repeated, targeted, and meant to hurt, it's bullying. One argument might be drama — but consistent teasing, threats, or humiliation online crosses the line.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 14 -->
+            <div class="flip-card" @click="card14Flipped = !card14Flipped" :class="{ 'is-flipped': card14Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>Can someone be both a victim and a bully?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Yes. Data shows many teens who are bullied online have also bullied others. It’s often a cycle — and understanding this can help break it.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 15 -->
+            <div class="flip-card" @click="card15Flipped = !card15Flipped" :class="{ 'is-flipped': card15Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="40" color="deep-purple" class="mb-4">mdi-brain</v-icon>
+                  <h2>Why don't more people talk about it?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Many teens stay silent due to shame, fear, or not wanting to get others in trouble. But speaking up helps protect you and others.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        
 
         <div class="text-center mt-12">
           <v-btn
@@ -145,7 +278,16 @@ export default {
       card3Flipped: false,
       card4Flipped: false,
       card5Flipped: false,
-      card6Flipped: false
+      card6Flipped: false,
+      card7Flipped: false,
+      card8Flipped: false,
+      card9Flipped: false,
+      card10Flipped: false,
+      card11Flipped: false,
+      card12Flipped: false,
+      card13Flipped: false,
+      card14Flipped: false,
+      card15Flipped: false,     
     }
   },
   methods: {
