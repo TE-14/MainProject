@@ -284,7 +284,7 @@ export default {
 }
 
 .text-content {
-  margin-top: 1rem;
+  margin-top: 4rem;
   margin-bottom: 1rem;
   text-align: center;
   opacity: 0.9;
@@ -292,18 +292,20 @@ export default {
 }
 
 .resource-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-  overflow-y: auto;
-  max-height: calc(100vh - 250px); /* 设置最大高度，留出标题和边距的空间 */
+  padding: 2rem;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .resource-card {
+  flex: 0 1 400px;
+  height: 300px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -314,8 +316,8 @@ export default {
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
   color: #1a1035;
-  height: fit-content; /* 高度自适应内容 */
-  min-height: 200px; /* 设置最小高度 */
+  display: flex;
+  flex-direction: column;
 }
 
 .resource-card:hover {
@@ -327,31 +329,64 @@ export default {
     inset 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-.v-card-title {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.03em !important;
-  font-size: 1.3rem !important;
-  filter: drop-shadow(0 0 8px rgba(133, 104, 201, 0.3)) !important;
-  padding: 1rem !important;
-}
-
-.title {
-  font-size: 2.5rem; /* 稍微减小标题大小 */
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #1a1f5f, #483d8b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.help-card,
+.support-card {
+  flex: 0 1 400px;
+  height: 300px;
 }
 
 .category {
-  font-size: 1.25rem; /* 稍微减小分类文字大小 */
-  color: #6366f1;
-  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #7D5FD3, #4A389F);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 12px rgba(125, 95, 211, 1);
+  display: inline-block;
+  position: relative;
+  padding: 0.5rem 1.5rem;
+}
+
+.category::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  z-index: -1;
+  border: 2px solid rgba(125, 95, 211, 0.7);
+  box-shadow: 0 4px 20px rgba(125, 95, 211, 0.6);
+}
+
+.category::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 10%;
+  width: 80%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #7D5FD3, transparent);
+  border-radius: 4px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.7;
+    box-shadow: 0 0 5px rgba(125, 95, 211, 0.7);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(125, 95, 211, 1);
+  }
 }
 
 .floating-elements {
@@ -573,5 +608,96 @@ export default {
   padding: 1rem !important;
   max-height: calc(100vh - 350px); /* 设置最大高度 */
   overflow-y: auto; /* 允许内容滚动 */
+}
+
+.support-contacts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.support-contacts .v-btn {
+  width: 85% !important;
+  height: 50px !important;
+  border-radius: 25px !important;
+  margin-bottom: 1.5rem !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.5px !important;
+  font-weight: 500 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-left: 1.5rem !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  box-shadow: 0 4px 15px rgba(133, 104, 201, 0.15) !important;
+  background: linear-gradient(120deg, rgba(133, 104, 201, 0.85), rgba(79, 70, 229, 0.85)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(5px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.support-contacts .v-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(133, 104, 201, 0.25) !important;
+  background: linear-gradient(120deg, rgba(133, 104, 201, 0.9), rgba(79, 70, 229, 0.9)) !important;
+  width: 88% !important;
+}
+
+.support-contacts .v-btn:last-child {
+  margin-bottom: 0 !important;
+}
+
+.support-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.support-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(157, 137, 217, 0.1), transparent 70%);
+  z-index: 0;
+}
+
+/* Update Get Support card content */
+.support-card .v-card-text {
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+}
+
+.support-card .v-card-title {
+  background: none !important;
+  color: #7D5FD3 !important;
+  -webkit-text-fill-color: #7D5FD3 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-size: 1.4rem !important;
+  padding: 1.5rem 1rem 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  filter: drop-shadow(0 0 5px rgba(125, 95, 211, 0.3)) !important;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #1a1f5f, #483d8b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style> 
