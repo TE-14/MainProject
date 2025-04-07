@@ -1,6 +1,9 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
-    <div class="sections-wrapper" :style="{ transform: `translateX(${-scrollPosition}px)` }">
+    <!-- 删除旧的帮助按钮 -->
+    <router-view v-if="$route.name !== 'resources'"></router-view>
+
+    <div class="sections-wrapper" v-if="$route.name === 'resources'" :style="{ transform: `translateX(${-scrollPosition}px)` }">
       <!-- 第一屏 -->
       <section class="section" ref="section1">
         <div class="content-wrapper">
@@ -130,6 +133,26 @@
            :class="{ 'active': getCurrentSection === n }"
            @click="scrollToSection(n)">
       </div>
+    </div>
+
+    <!-- 保留新的导航按钮样式 -->
+    <div class="nav-buttons">
+      <v-btn
+        class="nav-btn"
+        variant="flat"
+        :to="{ name: 'cyberbullying-help' }"
+        prepend-icon="mdi-shield-account"
+      >
+        Cyberbullying Help
+      </v-btn>
+      <v-btn
+        class="nav-btn"
+        variant="flat"
+        :to="{ name: 'grooming-help' }"
+        prepend-icon="mdi-alert-circle"
+      >
+        Grooming Help
+      </v-btn>
     </div>
   </div>
 </template>
@@ -930,6 +953,51 @@ export default {
   }
   50% {
     transform: translateY(-30px) translateZ(calc(var(--z) + 50px)) rotate3d(1, 1, 1, 3deg);
+  }
+}
+
+/* 保留新的导航按钮样式 */
+.nav-buttons {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-buttons .nav-btn {
+  min-width: 160px;
+  background: rgba(99, 102, 241, 0.1) !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  color: white !important; /* 改为白色文字 */
+  font-weight: bold !important;
+  transition: all 0.3s ease !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; /* 添加文字阴影增加可读性 */
+}
+
+.nav-btn:hover {
+  background: rgba(99, 102, 241, 0.2) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2) !important;
+}
+
+.nav-btn :deep(.v-icon) {
+  color: white !important; /* 图标也改为白色 */
+}
+
+@media (max-width: 600px) {
+  .nav-buttons {
+    top: auto;
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+  }
+
+  .nav-buttons .nav-btn {
+    min-width: auto;
   }
 }
 </style> 

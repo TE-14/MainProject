@@ -95,7 +95,19 @@
           <v-row align="center">
             <v-col cols="12" md="6" order-md="1" order="2">
               <div class="content-text pr-md-8">
-                <h3 class="content-title mb-6">Cyberbullying</h3>
+                <div class="d-flex align-center mb-6">
+                  <h3 class="content-title mb-0">Cyberbullying</h3>
+                  <v-btn
+                    class="ml-4"
+                    color="primary"
+                    variant="outlined"
+                    :to="'/learning/cyberbullying'"
+                    size="small"
+                  >
+                    <v-icon start>mdi-arrow-right</v-icon>
+                    Learn More
+                  </v-btn>
+                </div>
                 <p class="text-body-1 mb-6">
                   In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
                 </p>
@@ -108,8 +120,8 @@
           </v-row>
         </div>
 
-        <!-- Identity Fraud Section -->
-        <div class="content-block mb-16">
+        <!-- Online Grooming Section -->
+        <div class="content-block">
           <v-row align="center">
             <v-col cols="12" md="6" order="1">
               <v-img
@@ -121,33 +133,23 @@
             </v-col>
             <v-col cols="12" md="6" order="2">
               <div class="content-text pl-md-8">
-                <h3 class="content-title mb-6">Identity Fraud</h3>
+                <div class="d-flex align-center mb-6">
+                  <h3 class="content-title mb-0">Online Grooming</h3>
+                  <v-btn
+                    class="ml-4"
+                    color="primary"
+                    variant="outlined"
+                    :to="'/learning/phishing'"
+                    size="small"
+                  >
+                    <v-icon start>mdi-arrow-right</v-icon>
+                    Learn More
+                  </v-btn>
+                </div>
                 <p class="text-body-1 mb-6">
-                  In today's social media-driven world, identity fraud has become a common form of cybercrime. Criminals establish trust relationships with victims on social platforms using carefully crafted fake identities. They use emotional manipulation tactics to lower victims' guard, ultimately leading to financial losses or personal information leaks. These scam methods are becoming increasingly sophisticated and harder to identify, requiring constant vigilance to avoid becoming a victim.
+                  Online grooming is a serious threat in today's digital world. Predators use social media and online platforms to build relationships with young people, often pretending to be someone they're not. They gradually gain trust through manipulation and deception, potentially leading to emotional harm or dangerous situations. The tactics used by online predators are becoming more sophisticated, making it crucial to stay informed and vigilant about online interactions.
                 </p>
               </div>
-            </v-col>
-          </v-row>
-        </div>
-
-        <!-- Data Security Section -->
-        <div class="content-block">
-          <v-row align="center">
-            <v-col cols="12" md="6" order-md="1" order="2">
-              <div class="content-text pr-md-8">
-                <h3 class="content-title mb-6">Data Security</h3>
-                <p class="text-body-1 mb-6">
-                  In the digital age, personal data is like our "digital fingerprint," and its leak can lead to unpredictable consequences. From simple password breaches to complex identity theft, data security threats are everywhere. Unsafe data handling habits can give hackers opportunities, leading to privacy breaches at best and financial losses or damaged credit records at worst. In this highly digitized information age, developing data security awareness has become essential for everyone.
-                </p>
-              </div>
-            </v-col>
-            <v-col cols="12" md="6" order-md="2" order="1">
-              <v-img
-                src="@/assets/images/digital-safety.jpg"
-                class="rounded-lg"
-                height="400"
-                cover
-              ></v-img>
             </v-col>
           </v-row>
         </div>
@@ -157,94 +159,28 @@
     <!-- Part 2: Learning Goals and Statistics -->
     <section class="py-16">
       <v-container>
-        <!-- Learning Goals Introduction -->
-        <div class="learning-intro mb-16">
-          <v-row align="center">
-            <v-col cols="12" md="6">
-              <div class="intro-content pr-md-8">
-                <div class="subtitle-badge mb-4">Digital Citizenship Program</div>
-                <h2 class="text-h4 font-weight-bold mb-6">
-                  Join Us on a Digital Security Learning Journey
-                </h2>
-                <p class="text-body-1 text-grey-darken-1 mb-6">
-                  Explore our carefully designed interactive learning platform to help you master cybersecurity knowledge, develop security awareness, and become a responsible digital citizen.
-                </p>
-                <ul class="feature-list">
-                  <li>
-                    <v-icon color="primary" class="mr-2">mdi-shield-check</v-icon>
-                    <span>Comprehensive Cybersecurity Courses</span>
-                  </li>
-                  <li>
-                    <v-icon color="primary" class="mr-2">mdi-brain</v-icon>
-                    <span>Personalized Learning Experience</span>
-                  </li>
-                  <li>
-                    <v-icon color="primary" class="mr-2">mdi-account-group</v-icon>
-                    <span>Real-time Interaction and Feedback</span>
-                  </li>
-                </ul>
-                <v-btn
-                  color="primary"
-                  size="large"
-                  class="mt-6"
-                  :to="'/learning-hub'"
-                >
-                  Start Learning
-                  <v-icon end class="ml-2">mdi-arrow-right</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-            <v-col cols="12" md="6">
-              <div class="image-grid">
-                <v-img
-                  src="@/assets/images/learning-1.jpg"
-                  class="rounded-lg mb-4"
-                  height="200"
-                  cover
-                ></v-img>
-                <div class="d-flex gap-4">
-                  <v-img
-                    src="@/assets/images/learning-2.jpg"
-                    class="rounded-lg"
-                    height="150"
-                    width="50%"
-                    cover
-                  ></v-img>
-                  <v-img
-                    src="@/assets/images/learning-3.jpg"
-                    class="rounded-lg"
-                    height="150"
-                    width="50%"
-                    cover
-                  ></v-img>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-        </div>
+        <!-- 行动召唤区域 -->
+        <v-row>
+          <v-col cols="12">
+            <v-card class="cta-card text-center pa-12" elevation="0">
+              <h2 class="cta-title mb-4">Ready to Experience Real-World Scenarios?</h2>
+              <p class="text-body-1 text-grey-lighten-4 mt-2">
+                Learn through interactive scenarios to better understand digital security.
+              </p>
+              <v-btn
+                color="white"
+                size="x-large"
+                class="mt-6 white-btn"
+                :to="'/scenario'"
+              >
+                <span class="gradient-text">Start Scenario</span>
+                <v-icon right class="ml-2 gradient-text">mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </section>
-
-    <!-- 行动召唤区域 -->
-    <v-row class="mt-16">
-      <v-col cols="12">
-        <v-card class="cta-card text-center pa-12" elevation="0">
-          <h2 class="cta-title mb-4">Ready to Experience Real-World Scenarios?</h2>
-          <p class="text-body-1 text-grey-lighten-4 mt-2">
-            Learn through interactive scenarios to better understand digital security.
-          </p>
-          <v-btn
-            color="white"
-            size="x-large"
-            class="mt-6 white-btn"
-            :to="'/scenario'"
-          >
-            <span class="gradient-text">Start Scenario</span>
-            <v-icon right class="ml-2 gradient-text">mdi-arrow-right</v-icon>
-          </v-btn>
-        </v-card>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 

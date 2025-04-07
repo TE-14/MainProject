@@ -38,7 +38,7 @@
 
         <v-btn
           to="/learning-hub"
-          :class="['nav-btn mx-2', $route.path === '/learning-hub' ? 'nav-btn-active' : '']"
+          :class="['nav-btn mx-2', $route.path.startsWith('/learning') ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-book-open-variant</v-icon>
@@ -47,7 +47,7 @@
 
         <v-btn
           to="/resources"
-          :class="['nav-btn mx-2', $route.path === '/resources' ? 'nav-btn-active' : '']"
+          :class="['nav-btn mx-2', $route.path.startsWith('/resources') ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-information</v-icon>
@@ -61,15 +61,6 @@
         >
           <v-icon start class="mr-2">mdi-shield-alert</v-icon>
           SCENARIO
-        </v-btn>
-
-        <v-btn
-          to="/quiz"
-          :class="['nav-btn mx-2', $route.path === '/quiz' ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-help-circle</v-icon>
-          QUIZ
         </v-btn>
       </div>
     </v-app-bar>
