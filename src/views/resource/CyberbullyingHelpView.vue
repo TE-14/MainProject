@@ -1,7 +1,7 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-      <!-- 添加过渡面板作为第一屏 -->
+      <!-- Add  transition panel as the first screen -->
       <section class="section intro-section">
         <div class="full-screen-panel cyberbullying-panel">
           <div class="panel-overlay"></div>
@@ -20,7 +20,7 @@
         </div>
       </section>
 
-      <!-- 现有的第一屏变成第二屏 -->
+      <!-- The existing first screen becomes the second screen -->
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
@@ -28,7 +28,7 @@
             <div class="category">Warning Signs & Protection</div>
           </div>
           <div class="resource-grid">
-            <!-- 保持简化后的内容结构 -->
+            <!-- Keep the simplified content structure -->
             <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
                 Warning Signs
@@ -87,7 +87,7 @@
         </div>
       </section>
 
-      <!-- 现有的第二屏变成第三屏 -->
+      <!-- The existing second screen becomes the third screen -->
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
@@ -154,19 +154,19 @@
       </section>
     </div>
 
-    <!-- 返回主页面提示 -->
+    <!-- Return to main page hint -->
     <div v-if="currentSection === 2" class="return-to-main-hint">
       <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
       <div class="hint-text">Scroll down to return</div>
     </div>
 
-    <!-- 返回按钮 -->
+    <!-- Return button -->
     <div class="return-button" @click="returnToResources">
       <v-icon icon="mdi-chevron-left"></v-icon>
       <span>Back</span>
     </div>
 
-    <!-- 页面指示器 -->
+    <!-- Page indicators -->
     <div class="page-indicators">
       <div
         v-for="(_, index) in Array(totalSections)"
@@ -202,7 +202,7 @@ export default defineComponent({
   },
   computed: {
     totalSections() {
-      return 3; // 现在有三个部分
+      return 3; 
     },
     getTransformStyle() {
       return {
@@ -231,16 +231,16 @@ export default defineComponent({
       }
       
       if (event.deltaY > this.scrollThreshold) {
-        // 向下滚动
+        // Scroll down
         if (this.currentSection < this.totalSections - 1) {
           this.currentSection++;
           this.lastScrollTime = now;
         } else {
-          // 在最后一个部分继续向下滚动时返回主资源页面
+          // When scrolling down in the last section, return to the main resources page
           this.returnToResources();
         }
       } else if (event.deltaY < -this.scrollThreshold) {
-        // 向上滚动
+        // Scroll up
         if (this.currentSection > 0) {
           this.currentSection--;
           this.lastScrollTime = now;
@@ -257,7 +257,6 @@ export default defineComponent({
       this.router.push({ name: 'resources' });
     },
     returnToMainView() {
-      // 使用更直接的方式返回主页面
       window.location.href = '/resources';
     },
   },
@@ -270,13 +269,13 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   background: linear-gradient(135deg, 
-    #e6f1ff 0%,      /* 浅蓝白色开始 */
-    #c0dcff 15%,     /* 浅蓝色 */
-    #99c1ff 30%,     /* 中浅蓝色 */
-    #6fa5ff 45%,     /* 中蓝色 */
-    #4682b4 60%,     /* 钢蓝色 */
-    #2b5797 75%,     /* 深蓝色 */
-    #1a3a6c 100%     /* 深藏蓝色结束 */
+    #e6f1ff 0%,      
+    #c0dcff 15%,     
+    #99c1ff 30%,    
+    #6fa5ff 45%,     
+    #4682b4 60%,     
+    #2b5797 75%,     
+    #1a3a6c 100%     
   );
 }
 
@@ -299,7 +298,7 @@ export default defineComponent({
   position: relative;
 }
 
-/* 全屏过渡面板样式 */
+/* Full screen transition panel style */
 .intro-section {
   padding: 0;
   overflow: hidden;
