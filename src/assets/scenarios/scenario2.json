@@ -1,0 +1,164 @@
+{
+    "id": "grooming-scenario",
+    "title": "Grooming Scenario",
+    "parts": [
+      {
+        "type": "narrative",
+        "image":  "gr_tc1.jpg",
+        "imageAlt": "This is potential grooming victim Chris.",
+        "narrativeText": "Chris Hanson doesn't have a great home life. He takes solace in working out and getting fit. His reasoning, that if he is physically strong; then he will mentally strong at home."
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc1.jpg",
+        "imageAlt": "Groomer initiates contact with Chris",
+        "narrativeText": "After a hard day blasting the glutes, Chris is contacted by an individual with the username [HarryTitoBoower27062010] in the gym group chat."
+      },
+      {
+        "type": "action",
+        "image":  "gr_tc1.jpg",
+        "imageAlt": "Text conversation showing signs of grooming",
+        "narrativeText": "Chris appreciates the compliments. He feels unappreciated by others around him, but at least someone cares.",
+        "question": "What are some red flags that Chris should have noticed in his conversations with [HarryTitoBoower27062010]?",
+        "choices": [
+          {
+            "text": "The account complimented his progress and offered workout tips.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. This might feel supportive at first, but predators often use flattery to build trust. While compliments are not always bad, repeated praise from a stranger can be manipulative."
+          },
+          {
+            "text": "The account discouraged him from sharing his progress with others.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": true,
+            "feedback": "Correct. Trying to isolate someone from others is a major red flag in grooming. It builds secrecy and makes the groomer the only person the victim trusts."
+          },
+          {
+  
+            "text": "The account followed lots of other gym influencers.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Many people follow fitness pages; this does not automatically indicate grooming. It is normal for fitness enthusiasts to be part of online communities."
+          },
+          {
+            "text": "The account asked about his gym equipment.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Asking about gear alone is not harmful. It is the emotional tone, secrecy, and control that reveal harmful intentions."
+          }
+        ]
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc2.jpg",
+        "imageAlt": "Chris has a change in dress.",
+        "narrativeText": "Chris did not recognise the danger. He started frequently contacting [HarryTitoBoower27062010] about his daily progress. He also made a few changes to his lifestyle."
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc2.jpg",
+        "imageAlt": "Groomer sends more texts to Chris.",
+        "narrativeText": "The conversations between them also became more initimate; as [HarryTitoBoower27062010] continued to foster a relationship with Chris. "
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc2.jpg",
+        "imageAlt": "Chris friend Joash",
+        "narrativeText": "Joash, the best friend of Chris, has noticed that he keeps blowing him off to hang out like they previously used to. Further, he is concerned about the changes in the lifestyle of Chris."
+      },
+      {
+        "type": "action",
+        "image": "gr_tc2.jpg",
+        "imageAlt": "Groomer sends more texts to Chris.",
+        "question": "What changes might Joash have noticed that indicate Preston is being groomed?",
+        "choices": [
+          {
+            "text": "Preston started eating more protein and lifting heavier weights.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. These are typical signs of someone getting more serious about fitness and are not necessarily linked to grooming."
+          },
+          {
+            "text": "Preston posted less often on social media.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. While pulling back from social media can be a sign of emotional stress, it is too vague without context."
+          },
+          {
+            "text": "Preston started wearing long sleeves and stopped showing his progress publicly.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": true,
+            "feedback": "Correct. This shift suggests he might be hiding his body or responding to someone's pressure to dress differently. Sudden changes like these, especially when paired with secrecy, are warning signs."
+          },
+          {
+            "text": "Preston and Joash started working out at different times.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Schedules change for lots of reasons. On its own, this isn't enough to suggest grooming."
+          }
+        ]
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc3.jpg",
+        "imageAlt": "Chris receives more texts",
+        "narrativeText": "One day, Chris receives a new set of messages."
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc3.jpg",
+        "imageAlt": "Chris is conflicted",
+        "narrativeText": "The location is on the other side of town. While Chris has spent over a month getting to know [HarryTitoBoower27062010], this has made him feel uncomfortable."
+      },
+      {
+        "type": "narrative",
+        "image": "gr_tc3.jpg",
+        "imageAlt": "Chris tosses and turns",
+        "narrativeText": "[HarryTitoBoower27062010] has been a valued person that Chris can talk to. But can he really be trusted?"
+      },      
+      {
+        "type": "action",
+        "image": "gr_tc3.jpg",
+        "imageAlt": "Chris receives a disturbing invitation",
+        "question": "What is the best thing Chris can do to stay safe?",
+        "choices": [
+          {
+            "text": "Keep the conversations going, but avoid sending any photos.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Limiting photos helps, but it still leaves Preston vulnerable to manipulation through messaging."
+          },
+          {
+            "text": "Meet with the groomer, but bring a friend for safety.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Predators often count on secrecy — even with someone else present, meeting in person is dangerous and should be avoided."
+          },
+          {
+            "text": "Block the account and delete the messages.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": false,
+            "feedback": "Incorrect. Blocking helps, but deleting the messages can erase important evidence that could help protect others."
+          },
+          {
+            "text": "Tell a trusted adult and report the account.",
+            "icon": "mdi-checkbox-blank-circle",
+            "correct": true,
+            "feedback": "Correct. Reporting the account helps prevent further harm, and involving an adult provides emotional and legal support. Preston should not handle this alone."
+          }
+        ]
+      },
+      {
+        "type": "end",
+        "image": "scenario3.jpg",
+        "imageAlt": "Illustration showing positive online interaction",
+        "narrativeText": "By taking appropriate action and involving trusted adults, Chris was able to avoid being groomed. He narrowly avoided an encounter with an online predator.",
+        "title": "Scenario Complete!",
+        "message": "You've completed this grooming scenario and learned about appropriate responses to online harassment. Remember that grooming is a serious issue and you should speak up immediately.",
+        "statistics": {
+          "correctAnswers": 0,
+          "totalQuestions": 3
+        }
+      }
+    ]
+  }
