@@ -1,0 +1,195 @@
+{
+  "id": "cyberbullying-scenario",
+  "title": "Cyberbullying Scenario",
+  "parts": [
+    {
+      "type": "narrative",
+      "image": "cb_tc1.jpg",
+      "imageAlt": "Initial text conversation showing signs of cyberbullying",
+      "narrativeText": "Jenna, Lachlan and Allison are figuring out where to eat."
+    },
+    {
+      "type": "action",
+      "image": "cb_tc1.jpg",
+      "imageAlt": "Text conversation showing cyberbullying comments",
+      "narrativeText": "Lachlan is making Allison feel uncomfortable; as he knows that Allison is a vegan. This is not the first time this issue has come up. Jenna doesn't feel comfortable advocating for her friend.",
+      "question": "What should Allison do in this situation?",
+      "choices": [
+        {
+          "text": "Block Lachlan and report the messages to a trusted adult or platform moderator.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": true,
+          "feedback": "Correct. Lachlan’s behavior is a form of cyberbullying, and Allison has the right to protect herself. Blocking and reporting helps stop the behavior and brings in someone with the authority to address it."
+        },
+        {
+          "text": "Respond with a sarcastic comment to shut him down.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. While this might feel satisfying in the moment, it can escalate the situation and make things worse. Responding directly may give Lachlan more reason to continue."
+        },
+        {
+
+          "text": "Ignore the messages and hope they stop on their own.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. Ignoring bullying can sometimes work, but when the behavior is repeated and targeted, it’s important to take action. Doing nothing may leave Allison feeling isolated or unsafe."
+        },
+        {
+          "text": "# SLUR #",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "WOAH WOAH WOAH. This approach typically escalates the situation and can make the bullying worse. (Also you clicked this one to see what would happen. BAD!)"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "image": "cb_tc2.jpg",
+      "imageAlt": "Follow-up conversation with more cyberbullying",
+      "narrativeText": "Unfortunately, Lachlan continues to escalate. He cannot comprehend that he is not being funny and Allison is genuninely offended by his comparisoms."
+    },
+    {
+      "type": "narrative",
+      "image": "CB1_angry_allison.jpg",
+      "imageAlt": "Allison keeps doomscrolling",
+      "narrativeText": "Allison also refuses to let Lachlan win; this is her pride on the line. But she cannot stop reading the comments."
+    },
+    {
+      "type": "action",
+      "image": "CB1_angry_allison.jpg",
+      "imageAlt": "Allison keeps doomscrolling",
+      "question": "How should Allison respond?",
+      "choices": [
+        {
+          "text": "Save the messages and report the harassment to a teacher, counselor, or other trusted adult.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": true,
+          "feedback": "Correct. Saving the messages provides proof of the bullying, and involving a trusted adult ensures that the issue is taken seriously and dealt with appropriately. Cyberbullying can have serious emotional effects, and Allison deserves support."
+        },
+        {
+          "text": "Make a public post calling out Lachlan’s behavior.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. Publicly calling someone out can backfire, drawing more unwanted attention or causing further conflict. It’s safer and more effective to handle the situation privately with trusted help."
+        },
+        {
+          "text": "Leave the group chat and delete the messages to avoid thinking about it.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. While leaving the chat may bring temporary relief, deleting the messages removes important evidence. Without proof, it’s harder to show the pattern of harassment and get proper support."
+        },
+        {
+          "text": "Try to talk to Lachlan one-on-one to explain how she feels.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. While open communication can help in some situations, this isn’t one of them—especially since Lachlan has shown a repeated pattern of harassment. Trying to reason with someone who’s bullying can make things worse and put Allison in an even more uncomfortable position."
+        }
+      ]
+    },
+
+    {
+      "type": "narrative",
+      "image": "CB1_distressed_allison.jpg",
+      "imageAlt": "Allison looks upset at her phone.",
+      "narrativeText": "The harassment unfortunately does not stop. As the days go by, Lachlan keeps messaging Allison about eating meat."
+    },
+    {
+      "type": "narrative",
+      "image": "cb_tc3.jpg",
+      "imageAlt": "Another harassing textchain.",
+      "narrativeText": "It's starting to get ridiculous. Allison just wants it to stop. She decides to talk with Lachlan one-on-one, but to no avail."
+    },
+    {
+      "type": "action",
+      "image": "CB1_distressed_allison.jpg",
+      "imageAlt": "Allison messages Lachlan privately",
+      "narrativeText": "Lachlan continued to harass her and even mocked her for speaking up.",
+      "question": "What should she do now?",
+      "choices": [
+        {
+          "text": " Immediately stop responding, block Lachlan, and report the situation again—this time including the new messages.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": true,
+          "feedback": "Correct. Lachlan has shown he isn’t willing to change, and continuing to engage only fuels the bullying. Blocking and reporting with updated evidence helps escalate the issue to someone who can intervene meaningfully."
+        },
+        {
+          "text": "Ask mutual friends to pressure Lachlan into stopping.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. This puts others in an uncomfortable and possibly unsafe position, and may make things more dramatic or public. It’s not their responsibility to manage someone else's harmful behavior."
+        },
+        {
+          "text": "Change her phone number and all her accounts to avoid Lachlan.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. This puts the burden on Allison to escape the bullying, which isn’t fair or sustainable. The focus should be on holding the bully accountable, not forcing the victim to disappear."
+        },
+        {
+          "text": "Post screenshots of Lachlan’s messages to social media to expose him.",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. While it might feel like justice, publicly exposing someone online can create more problems and possibly violate school or platform rules. It’s better to handle it through trusted adults or official reporting systems."
+        }
+      ]
+    },
+
+    {
+      "type": "narrative",
+      "image": "CB1_stressed_allison.jpg",
+      "imageAlt": "Allison walking.",
+      "narrativeText": "Allison is feeling extremely bothered by this. Lachlan is clearly fixated on this; so some intervention is needed."
+    },
+    {
+      "type": "narrative",
+      "image": "CB1_angry_allison.jpg",
+      "imageAlt": "Allison walking 2",
+      "narrativeText": "NEED IMAGE HERE. Allison decides to tell the school counsellor about the harassment. As she is walking to the confidential meeting, she reflects on why Lachlan singled her out specifically. Is she in a group more predisposed to cyberbullying or something?"
+    },
+    {
+      "type": "action",
+      "image": "CB1_angry_allison.jpg",
+      "imageAlt": "lineup",
+      "narrativeText": "Demographics reflection.",
+      "question": "In Australia, which group is most likely to experience cyberbullying?",
+      "choices": [
+        {
+          "text": "Teenage girls aged 12–17",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": true,
+          "feedback": "Correct. Research consistently shows that teenage girls in this age group are the most frequent targets of cyberbullying in Australia. They often face appearance-based shaming, exclusion, and targeted harassment on social media platforms."
+        },
+        {
+          "text": "Adult men aged 25–40",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. While adults can experience online abuse, this group is statistically less likely to face persistent cyberbullying compared to teens. The nature of online abuse in adults also differs significantly from youth bullying dynamics."
+        },
+        {
+          "text": "Boys under 10",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. Young children are at risk for online dangers, but they're less active on social media where most cyberbullying occurs. Supervised internet use also plays a protective role at this age."
+        },
+        {
+          "text": "Seniors over 65",
+          "icon": "mdi-checkbox-blank-circle",
+          "correct": false,
+          "feedback": "Incorrect. Older adults may face scams or misinformation online, but they are not commonly targeted for cyberbullying. Their digital presence is generally lower, reducing exposure to these types of interactions."
+        }
+      ]
+    },
+
+    {
+      "type": "end",
+      "image": "scenario3.jpg",
+      "imageAlt": "Illustration showing positive online interaction",
+      "narrativeText": "By taking appropriate action and involving trusted adults, Allison was able to address the cyberbullying situation. The school implemented additional digital citizenship training for all students.",
+      "title": "Scenario Complete!",
+      "message": "You've completed this cyberbullying scenario and learned about appropriate responses to online harassment. Remember that cyberbullying is never okay, and it's important to take action rather than staying silent.",
+      "statistics": {
+        "correctAnswers": 0,
+        "totalQuestions": 4
+      }
+    }
+  ]
+}
