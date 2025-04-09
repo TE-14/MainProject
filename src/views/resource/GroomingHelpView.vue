@@ -1,105 +1,156 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
-    <div class="sections-wrapper" :style="{ transform: `translateX(${-scrollPosition}px)` }">
+    <div class="sections-wrapper" :style="getTransformStyle">
+      <!-- 添加过渡面板作为第一屏 -->
+      <section class="section intro-section">
+        <div class="full-screen-panel grooming-panel">
+          <div class="panel-overlay"></div>
+          <div class="panel-content">
+            <h1 class="panel-title">Online Grooming</h1>
+            <p class="panel-description">
+              Learn to identify, prevent and respond to online grooming.
+            </p>
+            <div class="scroll-hint">
+              <span>Scroll to explore</span>
+              <div class="scroll-arrow-container">
+                <v-icon class="scroll-arrow" icon="mdi-chevron-down"></v-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 现有的第一屏变成第二屏 -->
       <section class="section">
         <div class="content-wrapper">
-          <div class="text-content" :style="getTextStyle(0)">
-            <h1 class="title glitch-text" data-text="Are you being groomed online?">Are you being groomed online?</h1>
-            <div class="category">Emergency Help</div>
+          <div class="text-content">
+            <div class="title">Understanding Online Grooming</div>
+            <div class="category">Warning Signs & Prevention</div>
           </div>
-          <div class="resource-grid" :style="{ transform: `translateX(${scrollPosition * 0.1}px)` }">
-            <v-card class="warning-card resource-card mb-6" elevation="2">
+          <div class="resource-grid">
+            <!-- First Card: What to Watch Out For -->
+            <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
-                <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
-                Emergency
+                What to Watch Out For
               </v-card-title>
               <v-card-text>
-                <v-list>
-                  <v-list-item prepend-icon="mdi-alert" title="Being asked for private photos"></v-list-item>
-                  <v-list-item prepend-icon="mdi-alert" title="Being threatened"></v-list-item>
-                  <v-list-item prepend-icon="mdi-alert" title="Feeling unsafe"></v-list-item>
-                </v-list>
-                <v-btn color="primary" block class="emergency-btn mt-4" prepend-icon="mdi-phone">
-                  Call Emergency: 911
+                <div class="warning-message">
+                  <v-icon class="warning-icon" icon="mdi-alert-circle"></v-icon>
+                  <div>Warning signs:</div>
+                </div>
+                <ul class="mt-4">
+                  <li>Strangers contacting you online</li>
+                  <li>Asking personal questions</li>
+                  <li>Unexpected gifts or money</li>
+                  <li>Keeping relationships secret</li>
+                </ul>
+              </v-card-text>
+            </v-card>
+
+            <!-- Second Card: How to Protect Yourself -->
+            <v-card class="resource-card help-card">
+              <v-card-title>
+                How to Protect Yourself
+              </v-card-title>
+              <v-card-text>
+                <ul>
+                  <li><strong>Privacy Settings:</strong> Keep accounts private</li>
+                  <li><strong>Friend Requests:</strong> Only accept from people you know</li>
+                  <li><strong>Trust Your Instincts:</strong> If it feels wrong, it is</li>
+                  <li><strong>Tell Someone:</strong> Talk to a trusted adult</li>
+                </ul>
+                <v-btn block color="primary" class="mt-4">
+                  Learn More
                 </v-btn>
               </v-card-text>
             </v-card>
 
-            <v-card class="help-card resource-card mb-6" elevation="2">
-              <v-card-title>Take Action Now</v-card-title>
-              <v-card-text>
-                <v-list>
-                  <v-list-item prepend-icon="mdi-content-save" title="Save Evidence" subtitle="Screenshots, chat logs"></v-list-item>
-                  <v-list-item prepend-icon="mdi-account-multiple" title="Tell Someone" subtitle="Parents or teachers"></v-list-item>
-                  <v-list-item prepend-icon="mdi-block-helper" title="Block & Report" subtitle="Block on social media"></v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-card>
-
-            <v-card class="support-card resource-card" elevation="2">
-              <v-card-title>Get Support</v-card-title>
+            <!-- Third Card: Get Support -->
+            <v-card class="resource-card support-card">
+              <v-card-title>
+                Get Support Now
+              </v-card-title>
               <v-card-text>
                 <div class="support-contacts">
-                  <v-btn color="primary" block class="mb-4" prepend-icon="mdi-phone">
-                    24/7 Helpline: 800-123-4567
+                  <v-btn prepend-icon="mdi-phone" block>
+                    Kids Helpline: 1800 55 1800
                   </v-btn>
-                  <v-btn color="secondary" block prepend-icon="mdi-chat">
-                    Online Consultation
+                  <v-btn prepend-icon="mdi-web" block>
+                    eSafety Commissioner
+                  </v-btn>
+                  <v-btn prepend-icon="mdi-police-badge" block>
+                    Police: 000 (Emergency)
                   </v-btn>
                 </div>
               </v-card-text>
             </v-card>
           </div>
-          <div class="floating-elements">
-            <div class="element element-1">
-              <svg viewBox="0 0 200 200" class="blob">
-                <path fill="rgba(133, 104, 201, 0.3)" d="M45.5,-59.5C57.9,-52.3,66.2,-37.1,71.1,-20.6C76,-4.1,77.4,13.8,71.5,28.9C65.6,43.9,52.3,56.1,37.1,63.4C21.9,70.7,4.8,73.1,-12.4,70.7C-29.7,68.3,-47.1,61.1,-58.9,47.9C-70.7,34.7,-76.9,15.5,-74.8,-2.1C-72.7,-19.7,-62.3,-35.7,-48.8,-42.8C-35.3,-49.9,-18.6,-48.1,-1.2,-46.5C16.3,-45,32.6,-43.8,45.5,-59.5Z" transform="translate(100 100)" />
-              </svg>
-            </div>
-            <div class="element element-2">
-              <svg viewBox="0 0 200 200" class="blob">
-                <path fill="rgba(99, 102, 241, 0.2)" d="M42.7,-57.2C54.9,-47.3,64.1,-33.5,69.2,-17.6C74.3,-1.7,75.2,16.2,68.6,30.8C61.9,45.4,47.6,56.7,31.5,63.9C15.4,71,-2.5,74,-20.6,71.1C-38.7,68.2,-57,59.4,-67.1,44.7C-77.2,30,-79.1,9.4,-74.2,-8.1C-69.2,-25.6,-57.5,-40,-43.6,-50C-29.7,-60,-14.9,-65.6,0.9,-66.8C16.7,-68,33.3,-64.8,42.7,-57.2Z" transform="translate(100 100)" />
-              </svg>
-            </div>
-            <div class="element element-3">
-              <svg viewBox="0 0 200 200" class="blob">
-                <path fill="rgba(199, 210, 254, 0.3)" d="M48.2,-64.8C62,-55.6,72.2,-40.6,75.7,-24.4C79.2,-8.2,76,9.2,68.9,24.4C61.8,39.6,50.8,52.6,37.2,60.7C23.6,68.9,7.3,72.2,-9.7,71.1C-26.7,70,-44.4,64.5,-57.8,53C-71.1,41.4,-80.1,23.8,-81.1,5.8C-82.1,-12.2,-75.1,-30.5,-62.8,-40.2C-50.5,-49.9,-32.9,-51,-17.8,-60.5C-2.7,-69.9,9.9,-87.7,25.5,-86.8C41.2,-86,62,-74.4,48.2,-64.8Z" transform="translate(100 100)" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="gradient-orbs">
-          <div class="orb orb-1"></div>
-          <div class="orb orb-2"></div>
         </div>
       </section>
 
+      <!-- 现有的第二屏变成第三屏 -->
       <section class="section">
         <div class="content-wrapper">
-          <div class="text-content" :style="getTextStyle(1)">
-            <h2 class="title glitch-text" data-text="How to Prevent Online Grooming">How to Prevent Online Grooming</h2>
-            <div class="category">Protection Guide</div>
+          <div class="text-content">
+            <div class="title">What to Do If You're Being Groomed</div>
+            <div class="category">Immediate Actions</div>
           </div>
-          <div class="resource-grid" :style="{ transform: `translateX(${(scrollPosition - windowWidth) * 0.1}px)` }">
-            <v-card class="resource-card mb-6" elevation="2">
-              <v-card-title>Preventive Measures</v-card-title>
+          <div class="resource-grid">
+            <!-- Action Steps Card -->
+            <v-card class="resource-card">
+              <v-card-title>
+                Steps to Take
+              </v-card-title>
               <v-card-text>
-                <v-list>
-                  <v-list-item prepend-icon="mdi-shield-check" title="Protect Privacy" subtitle="Don't share personal information"></v-list-item>
-                  <v-list-item prepend-icon="mdi-account-lock" title="Be Cautious" subtitle="Don't trust strangers"></v-list-item>
-                  <v-list-item prepend-icon="mdi-alert-circle" title="Recognize Danger" subtitle="Learn common grooming tactics"></v-list-item>
-                </v-list>
+                <ol>
+                  <li><strong>Stop all contact</strong> immediately</li>
+                  <li><strong>Save evidence</strong> - screenshots, messages</li>
+                  <li><strong>Block the person</strong> on all platforms</li>
+                  <li><strong>Tell a trusted adult</strong></li>
+                </ol>
+                <div class="remember-tip">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                  <span>Not your fault</span>
+                </div>
               </v-card-text>
             </v-card>
 
-            <v-card class="resource-card" elevation="2">
-              <v-card-title>Safety Tips</v-card-title>
+            <!-- Resources Card -->
+            <v-card class="resource-card">
+              <v-card-title>
+                Helpful Resources
+              </v-card-title>
               <v-card-text>
-                <v-list>
-                  <v-list-item prepend-icon="mdi-camera-off" title="No Private Photos" subtitle="Never share intimate photos"></v-list-item>
-                  <v-list-item prepend-icon="mdi-map-marker-off" title="Avoid Meetings" subtitle="Don't meet online friends in person"></v-list-item>
-                  <v-list-item prepend-icon="mdi-account-multiple" title="Tell Parents" subtitle="Keep communication with parents"></v-list-item>
-                </v-list>
+                <ul>
+                  <li><strong>eSafety Guide</strong></li>
+                  <li><strong>Kids Helpline</strong></li>
+                  <li><strong>ReachOut</strong></li>
+                  <li><strong>Youth Support Services</strong></li>
+                </ul>
+                <v-btn size="small" color="primary" class="mt-4 action-btn">
+                  <v-icon size="small" icon="mdi-download" class="mr-1"></v-icon>
+                  <span>Guide</span>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <!-- Support Card -->
+            <v-card class="resource-card">
+              <v-card-title>
+                Talk to Someone
+              </v-card-title>
+              <v-card-text>
+                <p>Professional support is available:</p>
+                <ul class="mt-2">
+                  <li>School counselors</li>
+                  <li>Mental health professionals</li>
+                  <li>Community centers</li>
+                  <li>Youth services</li>
+                </ul>
+                <v-btn size="small" color="secondary" class="mt-4 action-btn">
+                  <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
+                  <span>Find Help</span>
+                </v-btn>
               </v-card-text>
             </v-card>
           </div>
@@ -107,107 +158,108 @@
       </section>
     </div>
 
+    <!-- 返回主页面提示 -->
+    <div v-if="currentSection === 2" class="return-to-main-hint">
+      <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
+      <div class="hint-text">Scroll down to return</div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="return-button" @click="returnToResources">
+      <v-icon icon="mdi-chevron-left"></v-icon>
+      <span>Back</span>
+    </div>
+
     <!-- 页面指示器 -->
     <div class="page-indicators">
-      <div v-for="n in 2" 
-           :key="n"
-           class="page-indicator"
-           :class="{ 'active': getCurrentSection === n }"
-           @click="scrollToSection(n)">
-      </div>
+      <div
+        v-for="(_, index) in Array(totalSections)"
+        :key="index"
+        class="page-indicator"
+        :class="{ active: currentSection === index }"
+        @click="scrollToSection(index)"
+      ></div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+
+export default defineComponent({
   name: 'GroomingHelpView',
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   data() {
     return {
-      scrollPosition: 0,
+      currentSection: 0,
+      scrollThreshold: 50,
       windowWidth: window.innerWidth,
-      scrolling: false
-    }
-  },
-  computed: {
-    getCurrentSection() {
-      return Math.floor(this.scrollPosition / this.windowWidth) + 1
-    }
+      lastScrollTime: 0,
+      scrollCooldown: 1000, // 1 second cooldown
+    };
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.handleResize);
+  },
+  computed: {
+    totalSections() {
+      return 3; // 现在有三个部分
+    },
+    getTransformStyle() {
+      return {
+        transform: `translateX(-${this.currentSection * (100 / this.totalSections)}%)`,
+      };
+    },
   },
   methods: {
-    handleScroll(e) {
-      e.preventDefault()
-      if (this.scrolling) return
-
-      const delta = e.deltaY
-      const maxScroll = this.windowWidth
-      const scrollSpeed = 3.0
-      
-      let targetScroll = this.scrollPosition + delta * scrollSpeed
-      
-      if (targetScroll > maxScroll / 2 && delta > 0) {
-        targetScroll = maxScroll
-      } else if (targetScroll < maxScroll / 2 && delta < 0) {
-        targetScroll = 0
-      }
-      
-      targetScroll = Math.max(0, Math.min(targetScroll, maxScroll))
-      
-      const animate = () => {
-        const diff = targetScroll - this.scrollPosition
-        if (Math.abs(diff) < 0.5) {
-          this.scrollPosition = targetScroll
-          this.scrolling = false
-          return
-        }
-        this.scrollPosition += diff * 0.2
-        requestAnimationFrame(animate)
-      }
-      
-      this.scrolling = true
-      requestAnimationFrame(animate)
-    },
     handleResize() {
-      this.windowWidth = window.innerWidth
+      this.windowWidth = window.innerWidth;
+    },
+    scrollToSection(index) {
+      this.currentSection = index;
+    },
+    handleScroll(event) {
+      const now = Date.now();
+      if (now - this.lastScrollTime < this.scrollCooldown) {
+        return;
+      }
+      
+      if (event.deltaY > this.scrollThreshold) {
+        // 向下滚动
+        if (this.currentSection < this.totalSections - 1) {
+          this.currentSection++;
+          this.lastScrollTime = now;
+        } else {
+          // 在最后一个部分继续向下滚动时返回主资源页面
+          this.returnToResources();
+        }
+      } else if (event.deltaY < -this.scrollThreshold) {
+        // 向上滚动
+        if (this.currentSection > 0) {
+          this.currentSection--;
+          this.lastScrollTime = now;
+        }
+      }
     },
     getTextStyle(sectionIndex) {
-      const offset = this.scrollPosition - (sectionIndex * this.windowWidth)
-      const threshold = this.windowWidth * 0.5
-      
-      const scale = Math.min(1, Math.max(0.6, 1 - Math.abs(offset) / (threshold * 2)))
-      const opacity = Math.min(1, Math.max(0, 1 - Math.abs(offset) / threshold))
-      
+      const opacity = this.currentSection === sectionIndex ? 1 : 0.3;
       return {
-        transform: `scale(${scale})`,
-        opacity: opacity
-      }
+        opacity,
+      };
     },
-    scrollToSection(section) {
-      const targetScroll = (section - 1) * this.windowWidth
-      
-      const animate = () => {
-        const diff = targetScroll - this.scrollPosition
-        if (Math.abs(diff) < 0.5) {
-          this.scrollPosition = targetScroll
-          this.scrolling = false
-          return
-        }
-        this.scrollPosition += diff * 0.2
-        requestAnimationFrame(animate)
-      }
-      
-      this.scrolling = true
-      requestAnimationFrame(animate)
-    }
-  }
-}
+    returnToResources() {
+      this.router.push({ name: 'resources' });
+    },
+  },
+});
 </script>
 
 <style scoped>
@@ -228,7 +280,7 @@ export default {
 
 .sections-wrapper {
   display: flex;
-  width: 200%;
+  width: 300%;
   height: calc(100vh - 64px);
   overflow: hidden;
   position: relative;
@@ -236,13 +288,114 @@ export default {
 }
 
 .section {
-  flex: 0 0 50%;
-  width: 50%;
+  flex: 0 0 33.333%;
+  width: 33.333%;
   height: 100%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+/* 全屏过渡面板样式 */
+.intro-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.full-screen-panel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.grooming-panel {
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('@/assets/grooming-background.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.panel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.panel-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.panel-title {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,    /* 白色 */
+    #d9d9ff 50%,    /* 浅紫色 */
+    #a6a6ff 100%    /* 紫色 */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(133, 104, 201, 0.8));
+}
+
+.panel-description {
+  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.scroll-arrow-container {
+  margin-top: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+  color: white !important;
+  opacity: 0.8;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
 }
 
 .content-wrapper {
@@ -284,7 +437,7 @@ export default {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   transform-style: preserve-3d;
@@ -296,12 +449,12 @@ export default {
 }
 
 .resource-card:hover {
-  transform: translateY(-10px) translateZ(30px) scale(1.02);
+  transform: translateY(-5px) translateZ(20px) scale(1.01);
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.2),
-    0 0 30px rgba(255, 255, 255, 0.3),
-    inset 0 0 30px rgba(255, 255, 255, 0.2);
+    0 15px 30px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(255, 255, 255, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .warning-card,
@@ -312,7 +465,7 @@ export default {
 }
 
 .warning-card {
-  border-left: 4px solid #6366f1;
+  border-left: 3px solid #6366f1;
 }
 
 .warning-title {
@@ -325,15 +478,15 @@ export default {
   background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.03em !important;
-  font-size: 1.3rem !important;
-  filter: drop-shadow(0 0 8px rgba(133, 104, 201, 0.3)) !important;
-  padding: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  font-size: 1.2rem !important;
+  filter: drop-shadow(0 0 5px rgba(133, 104, 201, 0.3)) !important;
+  padding: 0.8rem 1rem !important;
 }
 
 .title {
-  font-size: 2.5rem; /* 稍微减小标题大小 */
+  font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   background: linear-gradient(135deg, #1a1f5f, #483d8b);
@@ -343,19 +496,19 @@ export default {
 }
 
 .category {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-transform: uppercase;
   background: linear-gradient(135deg, #7D5FD3, #4A389F);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 1.5rem;
-  letter-spacing: 0.1em;
-  text-shadow: 0 0 12px rgba(125, 95, 211, 1);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(125, 95, 211, 0.8);
   display: inline-block;
   position: relative;
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 1.2rem;
 }
 
 .category::before {
@@ -365,34 +518,34 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
   backdrop-filter: blur(5px);
   z-index: -1;
-  border: 2px solid rgba(125, 95, 211, 0.7);
-  box-shadow: 0 4px 20px rgba(125, 95, 211, 0.6);
+  border: 1px solid rgba(125, 95, 211, 0.5);
+  box-shadow: 0 3px 15px rgba(125, 95, 211, 0.4);
 }
 
 .category::after {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 10%;
-  width: 80%;
-  height: 4px;
+  bottom: -3px;
+  left: 15%;
+  width: 70%;
+  height: 2px;
   background: linear-gradient(90deg, transparent, #7D5FD3, transparent);
-  border-radius: 4px;
+  border-radius: 2px;
   animation: glow 2s infinite alternate;
 }
 
 @keyframes glow {
   0% {
     opacity: 0.7;
-    box-shadow: 0 0 5px rgba(125, 95, 211, 0.7);
+    box-shadow: 0 0 5px rgba(125, 95, 211, 0.5);
   }
   100% {
     opacity: 1;
-    box-shadow: 0 0 15px rgba(125, 95, 211, 1);
+    box-shadow: 0 0 10px rgba(125, 95, 211, 0.8);
   }
 }
 
@@ -480,22 +633,23 @@ export default {
 
 .page-indicators {
   position: fixed;
-  right: 2rem;
+  right: 1.5rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.8rem;
   z-index: 10;
 }
 
 .page-indicator {
   width: 3px;
-  height: 30px;
+  height: 20px;
   background: rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  border-radius: 1.5px;
 }
 
 .page-indicator::before {
@@ -509,6 +663,7 @@ export default {
   transform: scaleY(0);
   transform-origin: top;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1.5px;
 }
 
 .page-indicator.active::before {
@@ -519,18 +674,25 @@ export default {
   transform: scaleY(0.5);
 }
 
+/* 修改按钮样式 - 更精致 */
 :deep(.v-btn) {
   background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
   color: white !important;
   border: none !important;
-  box-shadow: 0 4px 15px rgba(133, 104, 201, 0.3) !important;
-  transition: all 0.3s ease !important;
+  border-radius: 8px !important;
+  height: auto !important;
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
+  transition: all 0.2s ease !important;
 }
 
 :deep(.v-btn:hover) {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(133, 104, 201, 0.4) !important;
-  background: linear-gradient(135deg, #9d89d9, #3d1c5c) !important;
+  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
+  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
 }
 
 :deep(.v-btn.v-btn--color-primary) {
@@ -545,56 +707,103 @@ export default {
   background: linear-gradient(135deg, #7b68ee, #483d8b) !important;
 }
 
+/* 新的操作按钮样式 */
+.action-btn {
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: auto !important;
+  margin-left: auto !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
+  box-shadow: 0 2px 5px rgba(133, 104, 201, 0.2) !important;
+}
+
+.action-btn .v-icon {
+  font-size: 14px !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
+}
+
+/* Remember提示样式 */
+.remember-tip {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 4px 10px;
+  background-color: rgba(254, 202, 202, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  color: #ef4444;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.remember-tip .v-icon {
+  color: #ef4444;
+  margin-right: 4px;
+}
+
 :deep(.v-alert.v-alert--type-error) {
   background-color: rgba(99, 102, 241, 0.1) !important;
   color: #4f46e5 !important;
   border-color: #6366f1 !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
 }
 
 :deep(.v-alert.v-alert--type-error .v-alert-title) {
   color: #4f46e5 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
 }
 
 .emergency-btn {
   background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
   color: white !important;
-  font-weight: bold !important;
+  font-weight: 600 !important;
   margin-top: 1rem !important;
-  padding: 1rem !important;
-  box-shadow: 0 4px 15px rgba(133, 104, 201, 0.3) !important;
+  padding: 8px 16px !important;
+  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
 }
 
 .emergency-btn:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(133, 104, 201, 0.4) !important;
-  background: linear-gradient(135deg, #9d89d9, #3d1c5c) !important;
+  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
+  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
 }
 
-/* 添加警告消息样式 */
+/* 修改警告消息样式 */
 .warning-message {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 12px;
   background: rgba(99, 102, 241, 0.1);
-  border: 2px solid #6366f1;
+  border: 1px solid #6366f1;
   border-radius: 8px;
   color: #4f46e5;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .warning-icon {
   color: #6366f1;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .v-card-text {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 1rem !important;
+  justify-content: space-between;
+  padding: 0.8rem !important;
   overflow-y: auto;
 }
 
@@ -605,35 +814,36 @@ export default {
   align-items: center;
   height: 100%;
   width: 100%;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
+/* 修改联系人按钮样式 - 更精致 */
 .support-contacts .v-btn {
-  width: 85% !important;
-  height: 50px !important;
-  border-radius: 25px !important;
-  margin-bottom: 1.5rem !important;
-  font-size: 0.95rem !important;
+  width: 80% !important;
+  height: 36px !important;
+  border-radius: 18px !important;
+  margin-bottom: 0.7rem !important;
+  font-size: 0.85rem !important;
   letter-spacing: 0.5px !important;
   font-weight: 500 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  padding-left: 1.5rem !important;
+  padding-left: 1rem !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
-  box-shadow: 0 4px 15px rgba(133, 104, 201, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(133, 104, 201, 0.15) !important;
   background: linear-gradient(120deg, rgba(133, 104, 201, 0.85), rgba(79, 70, 229, 0.85)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   backdrop-filter: blur(5px) !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.2s ease !important;
 }
 
 .support-contacts .v-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 20px rgba(133, 104, 201, 0.25) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.25) !important;
   background: linear-gradient(120deg, rgba(133, 104, 201, 0.9), rgba(79, 70, 229, 0.9)) !important;
-  width: 88% !important;
+  width: 83% !important;
 }
 
 .support-contacts .v-btn:last-child {
@@ -672,10 +882,81 @@ export default {
   -webkit-text-fill-color: #7D5FD3 !important;
   text-align: center !important;
   justify-content: center !important;
-  font-size: 1.4rem !important;
-  padding: 1.5rem 1rem 1rem !important;
+  font-size: 1.3rem !important;
+  padding: 1.2rem 1rem 0.8rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.02em !important;
   filter: drop-shadow(0 0 5px rgba(125, 95, 211, 0.3)) !important;
+}
+
+.return-to-main-hint {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.bounce-arrow {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hint-text {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+}
+
+.return-button {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.return-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.return-button:active {
+  transform: scale(0.98);
+}
+
+/* 设置列表样式使其更简洁 */
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+li:last-child {
+  margin-bottom: 0;
 }
 </style> 
