@@ -158,19 +158,24 @@
       </section>
     </div>
 
+
     <!-- Return to main page hint -->
+
     <div v-if="currentSection === 2" class="return-to-main-hint">
       <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
       <div class="hint-text">Scroll down to return</div>
     </div>
 
+
     <!-- Return button -->
+
     <div class="return-button" @click="returnToResources">
       <v-icon icon="mdi-chevron-left"></v-icon>
       <span>Back</span>
     </div>
 
     <!-- Page indicators -->
+
     <div class="page-indicators">
       <div
         v-for="(_, index) in Array(totalSections)"
@@ -238,10 +243,12 @@ export default defineComponent({
           this.currentSection++;
           this.lastScrollTime = now;
         } else {
+
           // When scrolling down in the last section, return to the main resources page
           this.returnToResources();
         }
       } else if (event.deltaY < -this.scrollThreshold) {
+
         if (this.currentSection > 0) {
           this.currentSection--;
           this.lastScrollTime = now;
@@ -296,6 +303,9 @@ export default defineComponent({
   position: relative;
 }
 
+
+/* 全屏过渡面板样式 */
+
 .intro-section {
   padding: 0;
   overflow: hidden;
@@ -346,9 +356,11 @@ export default defineComponent({
   letter-spacing: 3px;
   background: linear-gradient(
     135deg,
+
     #ffffff 0%,   
     #d9d9ff 50%,    
     #a6a6ff 100%    
+
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -672,6 +684,7 @@ export default defineComponent({
   transform: scaleY(0.5);
 }
 
+/* 修改按钮样式 - 更精致 */
 :deep(.v-btn) {
   background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
   color: white !important;
@@ -704,6 +717,9 @@ export default defineComponent({
   background: linear-gradient(135deg, #7b68ee, #483d8b) !important;
 }
 
+
+/* 新的操作按钮样式 */
+
 .action-btn {
   padding: 6px 12px !important;
   font-size: 0.8rem !important;
@@ -727,7 +743,9 @@ export default defineComponent({
   box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
 }
 
+
 /* Remember tip style */
+
 .remember-tip {
   display: inline-flex;
   align-items: center;
@@ -776,6 +794,7 @@ export default defineComponent({
 }
 
 /* Modify warning message style */
+
 .warning-message {
   display: flex;
   align-items: center;
@@ -813,6 +832,7 @@ export default defineComponent({
   padding: 1rem 0;
 }
 
+/* 修改联系人按钮样式 - 更精致 */
 .support-contacts .v-btn {
   width: 80% !important;
   height: 36px !important;
@@ -939,7 +959,9 @@ export default defineComponent({
   transform: scale(0.98);
 }
 
+
 /* Set list style to be more concise */
+
 ul, ol {
   padding-left: 1.5rem;
   margin: 0.5rem 0;
