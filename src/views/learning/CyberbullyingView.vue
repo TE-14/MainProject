@@ -295,7 +295,7 @@ export default {
   },
   methods: {
     goToNextPage() {
-      this.$router.push('/scenario')
+      this.$router.push('/cyberbullyingscenario')
     }
   }
 }
