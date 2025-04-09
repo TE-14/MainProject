@@ -64,12 +64,78 @@
           </v-col>
         </v-row>
 
+        <!-- 添加新闻推荐模块 -->
+        <v-card class="mt-8 news-module" elevation="2">
+          <v-card-title class="headline d-flex align-center">
+            <v-icon left color="primary">mdi-newspaper-variant</v-icon>
+            Recommended News
+            <v-spacer></v-spacer>
+            <v-btn
+              icon
+              @click="fetchNews"
+              :loading="loadingNews"
+              :disabled="loadingNews"
+            >
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col v-for="(article, index) in newsArticles" :key="index" cols="12" sm="6" md="3">
+                <v-card outlined class="news-card" @click="openArticle(article.url)">
+                  <v-img
+                    v-if="article.urlToImage"
+                    :src="article.urlToImage"
+                    height="160"
+                    class="news-image"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                  <v-img
+                    v-else
+                    height="160"
+                    src="@/assets/default-news.jpg"
+                    class="news-image"
+                  ></v-img>
+                  <v-card-title class="subtitle-1 news-title">{{ article.title }}</v-card-title>
+                  <v-card-subtitle class="pt-2">{{ formatDate(article.publishedAt) }}</v-card-subtitle>
+                  <v-card-text class="news-description">
+                    {{ article.description || 'No description available' }}
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click.stop="openArticle(article.url)"
+                    >
+                      Read More
+                      <v-icon right>mdi-open-in-new</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-alert
+              v-if="error"
+              type="error"
+              class="mt-4"
+            >
+              {{ error }}
+            </v-alert>
+          </v-card-text>
+        </v-card>
+
         <div class="text-center mt-12">
           <v-btn
             x-large
             color="primary"
             elevation="2"
-            class="next-page-btn"
+            class="next-page-btn mr-4"
             @click="goToNextPage"
           >
             <v-icon left>mdi-arrow-right-circle</v-icon>
@@ -87,13 +153,57 @@ export default {
   data() {
     return {
       card1Flipped: false,
-      card2Flipped: false
+      card2Flipped: false,
+      newsArticles: [],
+      loadingNews: false,
+      error: null
     }
   },
   methods: {
     goToNextPage() {
       this.$router.push('/scenario')
+    },
+    async fetchNews() {
+      this.loadingNews = true;
+      try {
+        const response = await fetch(
+          'https://newsapi.org/v2/everything?' +
+          'q=cybersecurity+teenagers+OR+online+safety+OR+grooming&' +
+          'language=en&' +
+          'sortBy=relevancy&' +
+          'pageSize=4',
+          {
+            headers: {
+              'X-Api-Key': 'aec3b79e79e8421cb917a227f6360e77'
+            }
+          }
+        );
+        const data = await response.json();
+        if (data.status === 'ok') {
+          this.newsArticles = data.articles;
+        } else {
+          throw new Error('Failed to fetch news');
+        }
+      } catch (error) {
+        console.error('Error fetching news:', error);
+        this.error = 'Unable to load news. Please try again later.';
+      } finally {
+        this.loadingNews = false;
+      }
+    },
+    formatDate(dateString) {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    },
+    openArticle(url) {
+      window.open(url, '_blank');
     }
+  },
+  mounted() {
+    this.fetchNews();
   }
 }
 </script>
@@ -254,5 +364,50 @@ export default {
   50% {
     transform: translateY(-15px);
   }
+}
+
+.news-module {
+  background: linear-gradient(to right, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+  border-radius: 12px;
+}
+
+.news-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.news-image {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.news-title {
+  font-size: 1rem !important;
+  line-height: 1.4;
+  height: 70px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.news-description {
+  height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.875rem;
+}
+
+.v-card__actions {
+  margin-top: auto;
 }
 </style> 

@@ -158,19 +158,24 @@
       </section>
     </div>
 
-    <!-- 返回主页面提示 -->
+
+    <!-- Return to main page hint -->
+
     <div v-if="currentSection === 2" class="return-to-main-hint">
       <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
       <div class="hint-text">Scroll down to return</div>
     </div>
 
-    <!-- 返回按钮 -->
+
+    <!-- Return button -->
+
     <div class="return-button" @click="returnToResources">
       <v-icon icon="mdi-chevron-left"></v-icon>
       <span>Back</span>
     </div>
 
-    <!-- 页面指示器 -->
+    <!-- Page indicators -->
+
     <div class="page-indicators">
       <div
         v-for="(_, index) in Array(totalSections)"
@@ -238,11 +243,12 @@ export default defineComponent({
           this.currentSection++;
           this.lastScrollTime = now;
         } else {
-          // 在最后一个部分继续向下滚动时返回主资源页面
+
+          // When scrolling down in the last section, return to the main resources page
           this.returnToResources();
         }
       } else if (event.deltaY < -this.scrollThreshold) {
-        // 向上滚动
+
         if (this.currentSection > 0) {
           this.currentSection--;
           this.lastScrollTime = now;
@@ -268,13 +274,13 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   background: linear-gradient(135deg, 
-    #e8e6ff 0%,      /* 浅白紫色开始 */
-    #d4d0ff 15%,     /* 浅紫色 */
-    #b8acff 30%,     /* 中浅紫色 */
-    #9c8cff 45%,     /* 中紫色 */
-    #7b68ee 60%,     /* 中深紫色 */
-    #483d8b 75%,     /* 深紫色 */
-    #1a1f5f 100%     /* 深藏蓝色结束 */
+    #e8e6ff 0%,      
+    #d4d0ff 15%,    
+    #b8acff 30%,   
+    #9c8cff 45%,     
+    #7b68ee 60%,    
+    #483d8b 75%,                            
+    #1a1f5f 100%     
   );
 }
 
@@ -297,7 +303,9 @@ export default defineComponent({
   position: relative;
 }
 
+
 /* 全屏过渡面板样式 */
+
 .intro-section {
   padding: 0;
   overflow: hidden;
@@ -348,9 +356,11 @@ export default defineComponent({
   letter-spacing: 3px;
   background: linear-gradient(
     135deg,
-    #ffffff 0%,    /* 白色 */
-    #d9d9ff 50%,    /* 浅紫色 */
-    #a6a6ff 100%    /* 紫色 */
+
+    #ffffff 0%,   
+    #d9d9ff 50%,    
+    #a6a6ff 100%    
+
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -707,7 +717,9 @@ export default defineComponent({
   background: linear-gradient(135deg, #7b68ee, #483d8b) !important;
 }
 
+
 /* 新的操作按钮样式 */
+
 .action-btn {
   padding: 6px 12px !important;
   font-size: 0.8rem !important;
@@ -731,7 +743,9 @@ export default defineComponent({
   box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
 }
 
-/* Remember提示样式 */
+
+/* Remember tip style */
+
 .remember-tip {
   display: inline-flex;
   align-items: center;
@@ -779,7 +793,8 @@ export default defineComponent({
   background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
 }
 
-/* 修改警告消息样式 */
+/* Modify warning message style */
+
 .warning-message {
   display: flex;
   align-items: center;
@@ -944,7 +959,9 @@ export default defineComponent({
   transform: scale(0.98);
 }
 
-/* 设置列表样式使其更简洁 */
+
+/* Set list style to be more concise */
+
 ul, ol {
   padding-left: 1.5rem;
   margin: 0.5rem 0;
