@@ -14,7 +14,7 @@
           </h1>
           <p class="hero-subtitle mb-8">
             In this digital age, everyone should understand the importance of cybersecurity.<br>
-            Let's learn together how to prevent cyberbullying, identity fraud, and other security risks.
+            Let's learn together how to prevent cyberbullying, grooming, and other security risks.
           </p>
         </div>
       </v-col>
