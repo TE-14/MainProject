@@ -137,36 +137,33 @@
 
         <!-- Online Grooming Section -->
         <div class="content-block">
-          <v-row align="center">
-            <v-col cols="12" md="6" order="1">
-              <v-img
-                src="@/assets/images/catfishing.jpg"
-                class="rounded-lg"
-                height="400"
-                cover
-              ></v-img>
-            </v-col>
-            <v-col cols="12" md="6" order="2">
-              <div class="content-text pl-md-8">
-                <div class="d-flex align-center mb-6">
-                  <h3 class="content-title mb-0">Online Grooming</h3>
-                  <v-btn
-                    class="ml-4"
-                    color="primary"
-                    variant="outlined"
-                    :to="'/learning/grooming'"
-                    size="small"
-                  >
-                    <v-icon start>mdi-arrow-right</v-icon>
-                    Learn More
-                  </v-btn>
-                </div>
-                <p class="text-body-1 mb-6">
-                  Online grooming is a serious threat in today's digital world. Predators use social media and online platforms to build relationships with young people, often pretending to be someone they're not. They gradually gain trust through manipulation and deception, potentially leading to emotional harm or dangerous situations. The tactics used by online predators are becoming more sophisticated, making it crucial to stay informed and vigilant about online interactions.
-                </p>
+          <div class="grooming-section">
+            <div class="grooming-img-container">
+              <img
+                :src="require('@/assets/images/WhatsApp Image 2025-04-10 at 21.14.30.jpeg')"
+                alt="Online Grooming"
+                class="grooming-img"
+              />
+            </div>
+            <div class="grooming-content">
+              <div class="d-flex align-center mb-6">
+                <h3 class="content-title mb-0">Online Grooming</h3>
+                <v-btn
+                  class="ml-4"
+                  color="primary"
+                  variant="outlined"
+                  :to="'/learning/grooming'"
+                  size="small"
+                >
+                  <v-icon start>mdi-arrow-right</v-icon>
+                  Learn More
+                </v-btn>
               </div>
-            </v-col>
-          </v-row>
+              <p class="text-body-1 mb-6">
+                Online grooming is a serious threat in today's digital world. Predators use social media and online platforms to build relationships with young people, often pretending to be someone they're not. They gradually gain trust through manipulation and deception, potentially leading to emotional harm or dangerous situations. The tactics used by online predators are becoming more sophisticated, making it crucial to stay informed and vigilant about online interactions.
+              </p>
+            </div>
+          </div>
         </div>
       </v-container>
     </section>
@@ -628,10 +625,6 @@ section.py-16 .v-container {
   margin-bottom: 2rem !important;
 }
 
-.v-img {
-  height: 250px !important;
-}
-
 .start-btn {
   background: white !important;
   color: #6366f1 !important;
@@ -673,5 +666,47 @@ section.py-16 .v-container {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.grooming-img-container {
+  flex: 0 0 500px;
+  width: 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.grooming-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.grooming-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1280px;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.grooming-content {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+@media (max-width: 960px) {
+  .grooming-section {
+    flex-direction: column;
+  }
+  
+  .grooming-img {
+    width: 100%;
+    flex: none;
+  }
 }
 </style> 

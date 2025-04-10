@@ -59,7 +59,10 @@ const router = createRouter({
       name: 'scenario',
       component: () => import('../views/Scenario.vue')
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { top: 0 }  // 强制滚动到顶部
+  }
 })
 
 export default router
