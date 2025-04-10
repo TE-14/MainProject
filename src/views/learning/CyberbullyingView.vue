@@ -414,9 +414,35 @@ export default {
 }
 
 .next-page-btn {
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-  text-transform: none;
+  padding: 12px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: none !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #4682b4, #1a5fb4) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(70, 130, 180, 0.25) !important;
+  transition: all 0.3s ease !important;
+}
+
+.next-page-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.35) !important;
+  background: linear-gradient(135deg, #5190c4, #2069c4) !important;
+}
+
+.next-page-btn .v-icon {
+  font-size: 1.2rem !important;
+  margin-right: 8px !important;
 }
 
 @keyframes floatLeft {

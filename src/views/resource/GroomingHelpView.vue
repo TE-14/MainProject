@@ -436,7 +436,7 @@ export default defineComponent({
   transform-style: preserve-3d;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
-  color: #1a1035;
+  color: #0c2c4d;
   display: flex;
   flex-direction: column;
 }
@@ -667,167 +667,73 @@ export default defineComponent({
   transform: scaleY(0.5);
 }
 
-/* 修改按钮样式 - 更精致 */
-:deep(.v-btn) {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-  color: white !important;
+/* 默认按钮样式 - 更柔和 */
+:deep(.v-btn:not(.support-contacts .v-btn)) {
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
   border: none !important;
   border-radius: 8px !important;
   height: auto !important;
-  padding: 8px 16px !important;
-  font-size: 0.9rem !important;
-  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-  transition: all 0.2s ease !important;
-}
-
-:deep(.v-btn:hover) {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
-  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
-}
-
-:deep(.v-btn.v-btn--color-primary) {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-}
-
-:deep(.v-btn.v-btn--color-secondary) {
-  background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
-}
-
-:deep(.v-btn.v-btn--color-error) {
-  background: linear-gradient(135deg, #7b68ee, #483d8b) !important;
-}
-
-
-/* 新的操作按钮样式 */
-
-.action-btn {
-  padding: 6px 12px !important;
-  font-size: 0.8rem !important;
-  font-weight: 500 !important;
-  border-radius: 6px !important;
-  display: inline-flex !important;
+  box-shadow: none !important;
+  transition: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 8px auto !important;
+  display: flex !important;
+  justify-content: center !important;
   align-items: center !important;
-  width: auto !important;
-  margin-left: auto !important;
+  text-align: center !important;
+  opacity: 0.85 !important;
+}
+
+/* 操作按钮样式 - 更柔和 */
+.action-btn {
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 16px auto !important;
   letter-spacing: 0.03em !important;
   text-transform: none !important;
-  box-shadow: 0 2px 5px rgba(133, 104, 201, 0.2) !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
+  border: none !important;
+  opacity: 0.85 !important;
 }
 
 .action-btn .v-icon {
-  font-size: 14px !important;
+  font-size: 16px !important;
+  opacity: 0.8;
+  margin-right: 8px !important;
 }
 
-.action-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-}
-
-
-/* Remember tip style */
-
-.remember-tip {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 1rem;
-  padding: 4px 10px;
-  background-color: rgba(254, 202, 202, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 6px;
-  color: #ef4444;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.remember-tip .v-icon {
-  color: #ef4444;
-  margin-right: 4px;
-}
-
-:deep(.v-alert.v-alert--type-error) {
-  background-color: rgba(99, 102, 241, 0.1) !important;
-  color: #4f46e5 !important;
-  border-color: #6366f1 !important;
-  border-radius: 8px !important;
-  font-size: 0.9rem !important;
-}
-
-:deep(.v-alert.v-alert--type-error .v-alert-title) {
-  color: #4f46e5 !important;
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-}
-
-.emergency-btn {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  margin-top: 1rem !important;
-  padding: 8px 16px !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-}
-
-.emergency-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
-  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
-}
-
-/* Modify warning message style */
-
-.warning-message {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid #6366f1;
-  border-radius: 8px;
-  color: #4f46e5;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.warning-icon {
-  color: #6366f1;
-  font-size: 20px;
-}
-
-.v-card-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0.8rem !important;
-  overflow-y: auto;
-}
-
-.support-contacts {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding: 1rem 0;
-}
-
-/* 修改联系人按钮样式 - 更精致 */
+/* National Resources 卡片的按钮样式保持不变 */
 .support-contacts .v-btn {
-  width: 80% !important;
-  height: 36px !important;
-  border-radius: 18px !important;
-  margin-bottom: 0.7rem !important;
-  font-size: 0.85rem !important;
+  width: 90% !important;
+  height: 42px !important;
+  border-radius: 21px !important;
+  margin-bottom: 0.8rem !important;
+  font-size: 0.95rem !important;
   letter-spacing: 0.5px !important;
   font-weight: 500 !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  padding-left: 1rem !important;
+  justify-content: center !important;
+  padding: 0 24px !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
   box-shadow: 0 2px 8px rgba(133, 104, 201, 0.15) !important;
@@ -835,56 +741,26 @@ export default defineComponent({
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   backdrop-filter: blur(5px) !important;
   transition: all 0.2s ease !important;
+  color: white !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 .support-contacts .v-btn:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(133, 104, 201, 0.25) !important;
   background: linear-gradient(120deg, rgba(133, 104, 201, 0.9), rgba(79, 70, 229, 0.9)) !important;
-  width: 83% !important;
+  width: 92% !important;
 }
 
-.support-contacts .v-btn:last-child {
-  margin-bottom: 0 !important;
-}
-
-.support-card {
-  overflow: hidden;
-  position: relative;
-}
-
-.support-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, rgba(157, 137, 217, 0.1), transparent 70%);
-  z-index: 0;
-}
-
-/* Update Get Support card content */
-.support-card .v-card-text {
-  padding: 0 !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-}
-
-.support-card .v-card-title {
-  background: none !important;
-  color: #7D5FD3 !important;
-  -webkit-text-fill-color: #7D5FD3 !important;
-  text-align: center !important;
+.support-contacts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
   justify-content: center !important;
-  font-size: 1.3rem !important;
-  padding: 1.2rem 1rem 0.8rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  filter: drop-shadow(0 0 5px rgba(125, 95, 211, 0.3)) !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 16px !important;
 }
 
 .return-to-main-hint {
@@ -990,14 +866,64 @@ li:last-child {
   padding: 1.2rem;
   margin-bottom: 1rem;
   border: 1px solid rgba(125, 95, 211, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .quote {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-style: italic;
   font-weight: 600;
   margin-bottom: 0.8rem;
   color: #7D5FD3;
   text-align: center;
+  line-height: 1.4;
+}
+
+/* 为 Remember 卡片中的段落添加特殊样式 */
+.resource-card:has(.encouragement-message) .v-card-text p:not(.quote) {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: #2c1810;
+}
+
+/* 专门为 Remember 卡片添加的样式 */
+.resource-card:has(.encouragement-message) {
+  min-height: 400px !important;
+  height: auto !important;
+}
+
+.resource-card:has(.encouragement-message) .v-card-text {
+  padding: 1rem !important;
+  overflow-y: auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 调整按钮位置 */
+.resource-card:has(.encouragement-message) .action-btn {
+  margin-top: 0.5rem !important;
+  align-self: flex-end;
+}
+
+.v-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  padding: 1rem !important;
+  overflow-y: auto;
+}
+
+.v-card-text ul {
+  margin: 0.8rem 0;
+}
+
+.v-card-text li {
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
 }
 </style> 
