@@ -7,9 +7,9 @@ app.use(cors());
 
 // DB connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '~!@Pcl19910303',
+  host: 'seatdatabase.cy12y2awagfp.us-east-1.rds.amazonaws.com',
+  user: 'db_admin',
+  password: 'gkA$k8Yme4RG',
   database: 'mainproject'
 });
 
