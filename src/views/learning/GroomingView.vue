@@ -9,55 +9,136 @@
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title">Understanding Phishing</h1>
+            <h1 class="main-title">Understanding Grooming</h1>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
             <v-icon color="info" small class="mr-2">mdi-information</v-icon>
-            In today's digital age, phishing has become a significant security threat that cannot be ignored. Let's learn how to identify, prevent, and respond to phishing attempts, working together to create a safer and more secure online environment.
+            Grooming is when someone builds a relationship, trust, and emotional connection with a young person online to manipulate, exploit, or abuse them. It can happen through social media, messaging apps, gaming platforms, or any online space where interaction occurs. Groomers often use flattery, attention, and gifts to earn trust — making it difficult for victims to recognize the danger until it's too late.
+          </p>
+          <p class="quote-text">
+            <v-icon color="primary" small class="mr-2">mdi-format-quote-open</v-icon>
+            "Grooming often starts as a friendly chat, but it can quickly become manipulation. The goal is to isolate, control, and ultimately exploit the child — all behind a screen."
+            <v-icon color="primary" small class="ml-2">mdi-format-quote-close</v-icon>
           </p>
         </div>
 
         <v-row justify="center" class="mt-8">
-          <v-col cols="12" md="6" class="d-flex justify-center">
+          <!-- Card 1 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
             <div class="flip-card" @click="card1Flipped = !card1Flipped" :class="{ 'is-flipped': card1Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="primary" class="mb-4">mdi-help-circle</v-icon>
-                  <h2>What is Phishing?</h2>
+                  <h2>What is online grooming?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Phishing is a type of cyber attack where criminals attempt to trick users into providing sensitive information by posing as legitimate entities. It has the following characteristics:</p>
+                  <p>Online grooming is when someone (often an adult) tries to gain the trust of a child or teen online to exploit or abuse them later. They might act friendly, send gifts, or pretend to be someone else to build a relationship.</p>
+                </div>
+              </div>
+            </div>
+          </v-col>
+
+          <!-- Card 2 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
+            <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="error" class="mb-4">mdi-account-group</v-icon>
+                  <h2>How do groomers contact teens?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Groomers use platforms like social media, gaming chats, forums, or direct messages. They may lie about their age or identity to get close to their targets and often move the conversation to private messaging quickly.</p>
+                </div>
+              </div>
+            </div>
+          </v-col>
+
+          <!-- Card 3 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
+            <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="warning" class="mb-4">mdi-gauge-low</v-icon>
+                  <h2>What tactics do groomers use?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
                   <ul>
-                    <li>Deceptive: Mimics trusted sources</li>
-                    <li>Widespread: Targets many users</li>
-                    <li>Sophisticated: Uses social engineering</li>
-                    <li>Dangerous: Can cause significant harm</li>
+                    <li>Flattery and compliments</li>
+                    <li>Gifting money or game credits</li>
+                    <li>Asking to keep conversations secret</li>
+                    <li>Pretending to share similar interests</li>
+                    <li>Making the victim feel special or understood</li>
                   </ul>
                 </div>
               </div>
             </div>
           </v-col>
 
-          <v-col cols="12" md="6" class="d-flex justify-center">
-            <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
+          <!-- Card 4 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
+            <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
-                  <v-icon size="48" color="error" class="mb-4">mdi-alert-circle</v-icon>
-                  <h2>Impact of Phishing</h2>
+                  <v-icon size="48" color="success" class="mb-4">mdi-shield-check</v-icon>
+                  <h2>How can I protect myself?</h2>
                   <p class="mt-2">Click card to learn more</p>
                 </div>
                 <div class="flip-card-back">
                   <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
-                  <p>Phishing attacks can have serious consequences in multiple aspects:</p>
                   <ul>
-                    <li>Financial: Direct monetary losses</li>
-                    <li>Security: Compromised accounts and data</li>
-                    <li>Privacy: Identity theft risks</li>
-                    <li>Trust: Damaged online confidence</li>
+                    <li>Don't share personal info online</li>
+                    <li>Keep social media private</li>
+                    <li>Be cautious of online strangers</li>
+                    <li>Never agree to meet someone you've only met online</li>
+                    <li>Tell a trusted adult if something feels wrong</li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </v-col>
+
+          <!-- Card 5 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
+            <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="info" class="mb-4">mdi-school</v-icon>
+                  <h2>How can parents and schools help?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <ul>
+                    <li>Teach safe online habits early</li>
+                    <li>Monitor digital behavior and apps</li>
+                    <li>Encourage open communication</li>
+                    <li>Set boundaries for screen time and contacts</li>
+                    <li>Stay informed about new online risks</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </v-col>
+
+          <!-- Card 6 -->
+          <v-col cols="12" md="4" class="d-flex justify-center mb-6">
+            <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <v-icon size="48" color="deep-purple" class="mb-4">mdi-heart-pulse</v-icon>
+                  <h2>What are the long-term effects of online grooming?</h2>
+                  <p class="mt-2">Click card to learn more</p>
+                </div>
+                <div class="flip-card-back">
+                  <v-icon size="32" color="white" class="mb-4">mdi-information</v-icon>
+                  <p>Online grooming can lead to serious emotional and psychological consequences, including anxiety, depression, trust issues, and trauma. Victims may feel ashamed or blame themselves. Early support and intervention are key to recovery.</p>
                 </div>
               </div>
             </div>
@@ -136,7 +217,7 @@
             color="primary"
             elevation="2"
             class="next-page-btn mr-4"
-            @click="goToNextPage"
+            @click="goToGroomingScenario"
           >
             <v-icon left>mdi-arrow-right-circle</v-icon>
             Learn More About Prevention and Response
@@ -149,19 +230,23 @@
 
 <script>
 export default {
-  name: 'PhishingView',
+  name: 'GroomingView',
   data() {
     return {
       card1Flipped: false,
       card2Flipped: false,
+      card3Flipped: false,
+      card4Flipped: false,
+      card5Flipped: false,
+      card6Flipped: false,
       newsArticles: [],
       loadingNews: false,
       error: null
     }
   },
   methods: {
-    goToNextPage() {
-      this.$router.push('/scenario')
+    goToGroomingScenario() {
+      this.$router.push('/groomingscenario')
     },
     async fetchNews() {
       this.loadingNews = true;
@@ -227,8 +312,21 @@ export default {
   color: #2c3e50;
   font-size: 1.1rem;
   line-height: 1.8;
+  max-width: 1000px;
+  margin: 0 auto 1.5rem;
+}
+
+.quote-text {
+  color: #4a5568;
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.8;
   max-width: 800px;
   margin: 0 auto;
+  padding: 1rem 2rem;
+  background-color: rgba(99, 102, 241, 0.05);
+  border-left: 4px solid #6366f1;
+  border-radius: 4px;
 }
 
 .hero-section {
@@ -281,8 +379,7 @@ export default {
 .flip-card {
   background-color: transparent;
   width: 100%;
-  max-width: 600px;
-  height: 500px;
+  height: 320px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -311,11 +408,11 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .flip-card-front {
   background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .flip-card-back {
@@ -326,11 +423,24 @@ export default {
 
 .flip-card-back ul {
   text-align: left;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
 }
 
 .flip-card-back li {
   margin: 0.5rem 0;
+  text-align: left;
+}
+
+.flip-card-back p {
+  text-align: left;
+  line-height: 1.6;
+}
+
+.flip-card h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
 .next-page-btn {
@@ -410,4 +520,21 @@ export default {
 .v-card__actions {
   margin-top: auto;
 }
-</style> 
+
+@media (max-width: 960px) {
+  .flip-card {
+    height: 360px;
+  }
+}
+
+@media (max-width: 600px) {
+  .flip-card {
+    margin-bottom: 1rem;
+    height: 300px;
+  }
+  
+  .flip-card-front, .flip-card-back {
+    padding: 1.5rem;
+  }
+}
+</style>

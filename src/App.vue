@@ -56,7 +56,7 @@
 
         <v-btn
           to="/scenario"
-          :class="['nav-btn mx-2', $route.path === '/scenario' ? 'nav-btn-active' : '']"
+          :class="['nav-btn mx-2', $route.path === '/scenario' || $route.path.includes('scenario') ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-shield-alert</v-icon>

@@ -1,15 +1,18 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-      <!-- 添加过渡面板作为第一屏 -->
+      <!-- First screen: Main intro panel -->
       <section class="section intro-section">
         <div class="full-screen-panel grooming-panel">
           <div class="panel-overlay"></div>
           <div class="panel-content">
             <h1 class="panel-title">Online Grooming</h1>
-            <p class="panel-description">
-              Learn to identify, prevent and respond to online grooming.
-            </p>
+            <div class="banner-message">
+              <h2 class="banner-headline">Something feels off? Trust that feeling.</h2>
+              <p class="banner-text">
+                Online grooming often starts with friendly messages — but if someone pushes personal questions, asks for photos, or wants to keep your chat secret, pause and trust your instincts. Healthy connections never rely on secrecy or pressure.
+              </p>
+            </div>
             <div class="scroll-hint">
               <span>Scroll to explore</span>
               <div class="scroll-arrow-container">
@@ -20,7 +23,7 @@
         </div>
       </section>
 
-      <!-- 现有的第一屏变成第二屏 -->
+      <!-- Second screen: Understanding section -->
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
@@ -28,47 +31,84 @@
             <div class="category">Warning Signs & Prevention</div>
           </div>
           <div class="resource-grid">
-            <!-- First Card: What to Watch Out For -->
+            <!-- First Card: Warning Signs -->
             <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
-                What to Watch Out For
+                Recognize the Red Flags
               </v-card-title>
               <v-card-text>
                 <div class="warning-message">
                   <v-icon class="warning-icon" icon="mdi-alert-circle"></v-icon>
-                  <div>Warning signs:</div>
+                  <div>Trust your instincts</div>
                 </div>
-                <ul class="mt-4">
-                  <li>Strangers contacting you online</li>
-                  <li>Asking personal questions</li>
-                  <li>Unexpected gifts or money</li>
-                  <li>Keeping relationships secret</li>
-                </ul>
+                <p class="mt-2">Real friends don't ask for secrets, pics, or silence.</p>
+                <p>If someone wants you to send private images, meet in person, or stay quiet — that's manipulation, not friendship. You always have the right to say no, and no one should make you feel bad for doing so.</p>
               </v-card-text>
             </v-card>
 
-            <!-- Second Card: How to Protect Yourself -->
+            <!-- Second Card: Not Your Fault -->
             <v-card class="resource-card help-card">
               <v-card-title>
-                How to Protect Yourself
+                It's Not Your Fault
               </v-card-title>
               <v-card-text>
-                <ul>
-                  <li><strong>Privacy Settings:</strong> Keep accounts private</li>
-                  <li><strong>Friend Requests:</strong> Only accept from people you know</li>
-                  <li><strong>Trust Your Instincts:</strong> If it feels wrong, it is</li>
-                  <li><strong>Tell Someone:</strong> Talk to a trusted adult</li>
+                <p>You're not alone — and this is not your fault.</p>
+                <p>Groomers often make young people feel isolated or responsible. But their behavior is the problem, not yours. Talk to someone you trust — a teacher, parent, or counselor. You deserve support, and help is always available.</p>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                  <span>You deserve support</span>
+                </div>
+              </v-card-text>
+            </v-card>
+
+            <!-- Third Card: Evidence -->
+            <v-card class="resource-card">
+              <v-card-title>
+                Save the Evidence
+              </v-card-title>
+              <v-card-text>
+                <p>It can help you later.</p>
+                <p>Even if you're unsure, don't delete messages. Save screenshots, usernames, and chat history. This evidence can help if you decide to report — and protect others, too.</p>
+                <v-btn size="small" color="primary" class="mt-4 action-btn">
+                  <v-icon size="small" icon="mdi-content-save" class="mr-1"></v-icon>
+                  <span>How to Save Evidence</span>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </div>
+        </div>
+      </section>
+
+      <!-- Third screen: Support Resources -->
+      <section class="section">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <div class="title">Reach Out For Help</div>
+            <div class="category">Support Resources</div>
+          </div>
+          <div class="resource-grid">
+            <!-- Local Services Card -->
+            <v-card class="resource-card">
+              <v-card-title>
+                Local Support Services
+              </v-card-title>
+              <v-card-text>
+                <p>You can contact local services confidentially:</p>
+                <ul class="mt-2">
+                  <li><strong>headspace Melbourne</strong> (Youth Mental Health)</li>
+                  <li>headspace.org.au/headspace-centres/melbourne</li>
                 </ul>
-                <v-btn block color="primary" class="mt-4">
-                  Learn More
+                <v-btn size="small" color="primary" class="mt-4 action-btn">
+                  <v-icon size="small" icon="mdi-map-marker" class="mr-1"></v-icon>
+                  <span>Find Local Support</span>
                 </v-btn>
               </v-card-text>
             </v-card>
 
-            <!-- Third Card: Get Support -->
+            <!-- National Resources Card -->
             <v-card class="resource-card support-card">
               <v-card-title>
-                Get Support Now
+                National Resources
               </v-card-title>
               <v-card-text>
                 <div class="support-contacts">
@@ -78,75 +118,23 @@
                   <v-btn prepend-icon="mdi-web" block>
                     eSafety Commissioner
                   </v-btn>
-                  <v-btn prepend-icon="mdi-police-badge" block>
-                    Police: 000 (Emergency)
+                  <v-btn prepend-icon="mdi-web" block>
+                    www.esafety.gov.au
                   </v-btn>
                 </div>
               </v-card-text>
             </v-card>
-          </div>
-        </div>
-      </section>
 
-      <!-- 现有的第二屏变成第三屏 -->
-      <section class="section">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <div class="title">What to Do If You're Being Groomed</div>
-            <div class="category">Immediate Actions</div>
-          </div>
-          <div class="resource-grid">
-            <!-- Action Steps Card -->
+            <!-- Encouragement Card -->
             <v-card class="resource-card">
               <v-card-title>
-                Steps to Take
+                Remember
               </v-card-title>
               <v-card-text>
-                <ol>
-                  <li><strong>Stop all contact</strong> immediately</li>
-                  <li><strong>Save evidence</strong> - screenshots, messages</li>
-                  <li><strong>Block the person</strong> on all platforms</li>
-                  <li><strong>Tell a trusted adult</strong></li>
-                </ol>
-                <div class="remember-tip">
-                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                  <span>Not your fault</span>
+                <div class="encouragement-message">
+                  <p class="quote">"Speaking up is a sign of strength — and you're not alone."</p>
                 </div>
-              </v-card-text>
-            </v-card>
-
-            <!-- Resources Card -->
-            <v-card class="resource-card">
-              <v-card-title>
-                Helpful Resources
-              </v-card-title>
-              <v-card-text>
-                <ul>
-                  <li><strong>eSafety Guide</strong></li>
-                  <li><strong>Kids Helpline</strong></li>
-                  <li><strong>ReachOut</strong></li>
-                  <li><strong>Youth Support Services</strong></li>
-                </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-download" class="mr-1"></v-icon>
-                  <span>Guide</span>
-                </v-btn>
-              </v-card-text>
-            </v-card>
-
-            <!-- Support Card -->
-            <v-card class="resource-card">
-              <v-card-title>
-                Talk to Someone
-              </v-card-title>
-              <v-card-text>
-                <p>Professional support is available:</p>
-                <ul class="mt-2">
-                  <li>School counselors</li>
-                  <li>Mental health professionals</li>
-                  <li>Community centers</li>
-                  <li>Youth services</li>
-                </ul>
+                <p class="mt-3">People are ready to help. Taking the first step to talk to someone may feel difficult, but professionals understand what you're going through and can provide the support you need.</p>
                 <v-btn size="small" color="secondary" class="mt-4 action-btn">
                   <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
                   <span>Find Help</span>
@@ -158,24 +146,19 @@
       </section>
     </div>
 
-
     <!-- Return to main page hint -->
-
     <div v-if="currentSection === 2" class="return-to-main-hint">
       <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
       <div class="hint-text">Scroll down to return</div>
     </div>
 
-
     <!-- Return button -->
-
     <div class="return-button" @click="returnToResources">
       <v-icon icon="mdi-chevron-left"></v-icon>
       <span>Back</span>
     </div>
 
     <!-- Page indicators -->
-
     <div class="page-indicators">
       <div
         v-for="(_, index) in Array(totalSections)"
@@ -216,7 +199,7 @@ export default defineComponent({
   },
   computed: {
     totalSections() {
-      return 3; // 现在有三个部分
+      return 3;
     },
     getTransformStyle() {
       return {
@@ -975,5 +958,46 @@ li {
 
 li:last-child {
   margin-bottom: 0;
+}
+
+/* Add new banner styles */
+.banner-message {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+}
+
+.banner-headline {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.encouragement-message {
+  background: rgba(125, 95, 211, 0.1);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(125, 95, 211, 0.2);
+}
+
+.quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #7D5FD3;
+  text-align: center;
 }
 </style> 

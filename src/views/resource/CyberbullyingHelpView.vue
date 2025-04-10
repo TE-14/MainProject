@@ -9,9 +9,12 @@
           <div class="panel-overlay"></div>
           <div class="panel-content">
             <h1 class="panel-title">Cyberbullying</h1>
-            <p class="panel-description">
-              Learn to identify, protect yourself, and respond to cyberbullying.
-            </p>
+            <div class="banner-message">
+              <h2 class="banner-headline">Are you experiencing cyberbullying?</h2>
+              <p class="banner-text">
+                You're not alone and it's not your fault. Cyberbullying can happen to anyone, and it can be painful, confusing, and overwhelming. But there is help, and there are steps you can take right now.
+              </p>
+            </div>
             <div class="scroll-hint">
               <span>Scroll to explore</span>
               <div class="scroll-arrow-container">
@@ -26,42 +29,39 @@
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
-            <div class="title">Understanding Cyberbullying</div>
-            <div class="category">Warning Signs & Protection</div>
+            <div class="title">Take a deep breath</div>
+            <div class="category">Let's walk through this together</div>
           </div>
           <div class="resource-grid">
 
-            <!-- Keep the simplified content structure -->
-
-
             <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
-                Warning Signs
+                Document Everything
               </v-card-title>
               <v-card-text>
                 <div class="warning-message">
-                  <v-icon class="warning-icon" icon="mdi-alert-circle"></v-icon>
-                  <div>Look out for:</div>
+                  <v-icon class="warning-icon" icon="mdi-file-document"></v-icon>
+                  <div>Evidence is important</div>
                 </div>
                 <ul class="mt-4">
-                  <li>Repeated mean messages</li>
-                  <li>Negative comments on posts</li>
-                  <li>Fake accounts or impersonation</li>
-                  <li>Sharing private information</li>
+                  <li>Take screenshots of harmful messages</li>
+                  <li>Save abusive texts or emails</li>
+                  <li>Record dates and times of incidents</li>
+                  <li>This can help if you report later</li>
                 </ul>
               </v-card-text>
             </v-card>
 
             <v-card class="resource-card help-card">
               <v-card-title>
-                How to Protect Yourself
+                Block and Report
               </v-card-title>
               <v-card-text>
                 <ul>
-                  <li><strong>Privacy Settings:</strong> Adjust your accounts</li>
-                  <li><strong>Block Feature:</strong> Use it on social media</li>
-                  <li><strong>Save Evidence:</strong> Screenshots of bullying</li>
-                  <li><strong>Tell Someone:</strong> Talk to a trusted adult</li>
+                  <li><strong>Block the bully</strong> on all platforms</li>
+                  <li><strong>Report abusive content</strong> to the platform</li>
+                  <li><strong>Use privacy settings</strong> to control who contacts you</li>
+                  <li><strong>You deserve</strong> to feel safe online</li>
                 </ul>
                 <v-btn size="small" color="primary" class="mt-4 action-btn">
                   <v-icon size="small" icon="mdi-shield" class="mr-1"></v-icon>
@@ -72,18 +72,19 @@
 
             <v-card class="resource-card support-card">
               <v-card-title>
-                Get Help Now
+                Talk to Someone
               </v-card-title>
               <v-card-text>
                 <div class="support-contacts">
-                  <v-btn prepend-icon="mdi-phone" block>
-                    Kids Helpline: 1800 55 1800
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-web" block>
-                    eSafety Commissioner
-                  </v-btn>
+                  <p class="mb-3">Speaking up is a sign of strength. Reach out to:</p>
                   <v-btn prepend-icon="mdi-account-group" block>
+                    Parent or Teacher
+                  </v-btn>
+                  <v-btn prepend-icon="mdi-school" block>
                     School Counselor
+                  </v-btn>
+                  <v-btn prepend-icon="mdi-account" block>
+                    Trusted Friend
                   </v-btn>
                 </div>
               </v-card-text>
@@ -92,67 +93,67 @@
         </div>
       </section>
 
-      <!-- The existing second screen becomes the third screen -->
-
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
-            <div class="title">What to Do If You're Being Cyberbullied</div>
-            <div class="category">Steps to Take</div>
+            <div class="title">Know Your Rights and Options</div>
+            <div class="category">Help is Available</div>
           </div>
           <div class="resource-grid">
-            <v-card class="resource-card">
-              <v-card-title>
-                Immediate Actions
-              </v-card-title>
-              <v-card-text>
-                <ol>
-                  <li><strong>Don't respond</strong> to the bully</li>
-                  <li><strong>Block the person</strong> on social media</li>
-                  <li><strong>Save the evidence</strong> - screenshots</li>
-                  <li><strong>Report to the platform</strong></li>
-                </ol>
-                <div class="remember-tip">
-                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                  <span>Not your fault</span>
-                </div>
-              </v-card-text>
-            </v-card>
-
-            <v-card class="resource-card">
-              <v-card-title>
-                Mental Health
-              </v-card-title>
-              <v-card-text>
-                <ul>
-                  <li><strong>Talk to Someone</strong> you trust</li>
-                  <li><strong>Self-Care</strong> is important</li>
-                  <li><strong>Disconnect</strong> when needed</li>
-                  <li><strong>Focus</strong> on positive activities</li>
-                </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-heart" class="mr-1"></v-icon>
-                  <span>Self-Care</span>
-                </v-btn>
-              </v-card-text>
-            </v-card>
-
             <v-card class="resource-card">
               <v-card-title>
                 Support Resources
               </v-card-title>
               <v-card-text>
-                <p>Help is available:</p>
+                <p>Professional help is available:</p>
                 <ul class="mt-2">
-                  <li>Kids Helpline</li>
-                  <li>eSafety Commissioner</li>
-                  <li>School Counselors</li>
-                  <li>Parents and Teachers</li>
+                  <li><strong>Kids Helpline:</strong> 1800 55 1800</li>
+                  <li><strong>Online Chat:</strong> yourtown.com.au/webcounselling</li>
+                  <li><strong>eSafety Commissioner</strong></li>
+                  <li><strong>School Counselors</strong></li>
                 </ul>
-                <v-btn size="small" color="secondary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
-                  <span>Find Help</span>
+                <v-btn size="small" color="primary" class="mt-4 action-btn" href="https://apps.yourtown.com.au/apps/webcounselling/live/chat/chatLogin.php?id=1636642018&KHL=1" target="_blank">
+                  <v-icon size="small" icon="mdi-web" class="mr-1"></v-icon>
+                  <span>Online Chat</span>
                 </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <v-card class="resource-card">
+              <v-card-title>
+                Serious Situations
+              </v-card-title>
+              <v-card-text>
+                <p>When things feel serious, involve the police:</p>
+                <ul>
+                  <li>Threats or intimidation</li>
+                  <li>Sharing explicit images</li>
+                  <li>Stalking behavior</li>
+                  <li>Physical threats</li>
+                </ul>
+                <v-btn size="small" color="error" class="mt-4 action-btn">
+                  <v-icon size="small" icon="mdi-phone" class="mr-1"></v-icon>
+                  <span>Emergency: 000</span>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <v-card class="resource-card">
+              <v-card-title>
+                You Matter
+              </v-card-title>
+              <v-card-text>
+                <p class="mb-3">You are not defined by someone else's cruelty.</p>
+                <ul>
+                  <li>You are valued and important</li>
+                  <li>You deserve kindness, online and offline</li>
+                  <li>Help is available</li>
+                  <li>Healing is possible</li>
+                </ul>
+                <div class="remember-tip">
+                  <v-icon size="small" icon="mdi-heart" class="mr-1"></v-icon>
+                  <span>Stay strong</span>
+                </div>
               </v-card-text>
             </v-card>
           </div>
@@ -969,5 +970,46 @@ li {
 
 li:last-child {
   margin-bottom: 0;
+}
+
+/* Add new banner styles to match GroomingHelpView */
+.banner-message {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+}
+
+.banner-headline {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.encouragement-message {
+  background: rgba(70, 130, 180, 0.1);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(70, 130, 180, 0.2);
+}
+
+.quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #4682b4;
+  text-align: center;
 }
 </style> 

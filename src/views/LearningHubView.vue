@@ -79,28 +79,28 @@
               <span class="title-text-blue">Grooming</span> Protection
             </h3>
             <p class="text-body-1 mb-4">
-              Learn how to identify and prevent catfishing (online identity fraud) to protect your personal information. Including:
+              Learn how to recognize and prevent online grooming to stay safe during digital interactions. Including:
             </p>
             <ul class="text-body-1 mb-6 feature-list">
               <li>
                 <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Identify identity forgery and social infiltration</span>
+                <span class="feature-text">Understand how online grooming begins and develops</span>
               </li>
               <li>
                 <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Prevent emotional and investment scams</span>
+                <span class="feature-text">Spot suspicious behavior and manipulation tactics</span>
               </li>
               <li>
                 <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Protect personal information security</span>
+                <span class="feature-text">Learn how to protect personal boundaries online</span>
               </li>
               <li>
                 <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Measures to deal with catfishing</span>
+                <span class="feature-text"> Stay safe while using social media and messaging apps</span>
               </li>
             </ul>
             <v-btn
-              :to="'/learning/phishing'"
+              :to="'/learning/grooming'"
               color="info"
               class="mt-4 learn-btn"
               elevation="0"

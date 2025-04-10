@@ -50,9 +50,14 @@ const router = createRouter({
       component: () => import('../views/GroomingScenario.vue')
     },
     {
-      path: '/learning/phishing',
-      name: 'phishing',
-      component: () => import('../views/learning/PhishingView.vue')
+      path: '/learning/grooming',
+      name: 'grooming',
+      component: () => import('../views/learning/GroomingView.vue')
+    },
+    {
+      path: '/scenario',
+      name: 'scenario',
+      component: () => import('../views/Scenario.vue')
     }
   ]
 })

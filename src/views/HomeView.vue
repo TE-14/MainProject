@@ -151,7 +151,7 @@
                     class="ml-4"
                     color="primary"
                     variant="outlined"
-                    :to="'/learning/phishing'"
+                    :to="'/learning/grooming'"
                     size="small"
                   >
                     <v-icon start>mdi-arrow-right</v-icon>
