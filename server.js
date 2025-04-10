@@ -7,9 +7,9 @@ app.use(cors());
 
 // DB connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '~!@Pcl19910303',
+  host: 'seatdatabase.cy12y2awagfp.us-east-1.rds.amazonaws.com',
+  user: 'db_admin',
+  password: 'gkA$k8Yme4RG',
   database: 'mainproject'
 });
 
@@ -62,7 +62,7 @@ app.get('/api/victims-by-gender', (req, res) => {
   });
 });
 
-// ✅ Route: Get all table names
+//  Route: Get all table names
 app.get('/api/tables', (req, res) => {
   const sql = `SHOW TABLES`;
   db.query(sql, (err, results) => {
@@ -75,7 +75,7 @@ app.get('/api/tables', (req, res) => {
   });
 });
 
-// ✅ Route: Get all data from a specific table
+//  Route: Get all data from a specific table
 app.get('/api/table/:name', (req, res) => {
   const tableName = req.params.name;
 
