@@ -35,7 +35,7 @@
         <div class="statistics-section text-center">
           <h3 class="text-h5 font-weight-bold mb-8">Warning Data in the Digital Age</h3>
           <p class="text-subtitle-1 text-grey-darken-1 mb-12">
-            These statistics remind us that cybersecurity cannot be ignored
+            Cyberbullying is a significant concern among Australian teenagers, with recent data highlighting its prevalence and impact:
           </p>
           
           <v-row>
@@ -44,10 +44,10 @@
                 <div class="stat-icon mb-4">
                   <v-icon size="32" color="primary">mdi-account-alert</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">37%</div>
-                <div class="stat-label text-grey-darken-1">Youth Experience Cyberbullying</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">44%</div>
+                <div class="stat-label text-grey-darken-1">Negative Online Experiences</div>
                 <div class="stat-description text-caption text-grey">
-                  From global youth survey data
+                  Including 15% receiving threats
                 </div>
               </v-card>
             </v-col>
@@ -55,12 +55,12 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-emoticon-sad</v-icon>
+                  <v-icon size="32" color="primary">mdi-account-child</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">64%</div>
-                <div class="stat-label text-grey-darken-1">Victims Face Mental Health Issues</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">12-13</div>
+                <div class="stat-label text-grey-darken-1">Most Vulnerable Age</div>
                 <div class="stat-description text-caption text-grey">
-                  Including anxiety and depression
+                  Over 1/3 of victims in this age group
                 </div>
               </v-card>
             </v-col>
@@ -68,12 +68,12 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-account-multiple-alert</v-icon>
+                  <v-icon size="32" color="primary">mdi-account-group</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">85%</div>
-                <div class="stat-label text-grey-darken-1">Scammers Use Fake Identities</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">Both</div>
+                <div class="stat-label text-grey-darken-1">Genders Affected</div>
                 <div class="stat-description text-caption text-grey">
-                  Analysis of social media fraud cases
+                  Males report slightly higher rates
                 </div>
               </v-card>
             </v-col>
@@ -81,16 +81,19 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-currency-usd-off</v-icon>
+                  <v-icon size="32" color="primary">mdi-apps</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">4.7B</div>
-                <div class="stat-label text-grey-darken-1">Annual Online Fraud Losses</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">6+</div>
+                <div class="stat-label text-grey-darken-1">Social Media Risk</div>
                 <div class="stat-description text-caption text-grey">
-                  Global social media fraud amount
+                  Platforms increase cyberbullying risk
                 </div>
               </v-card>
             </v-col>
           </v-row>
+          <p class="text-subtitle-1 text-grey-darken-1 mt-12">
+            These statistics underscore the urgent need for awareness and proactive measures to combat cyberbullying among Australian youth.
+          </p>
         </div>
       </v-container>
     </section>
