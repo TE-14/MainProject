@@ -28,14 +28,14 @@ def grooming_chart():
     })
     counts = df[col_name].value_counts()
 
-    # 绘图
+    # draw the plot
     fig, ax = plt.subplots(figsize=(6, 6))
     ax.pie(counts, labels=counts.index, autopct='%1.1f%%',
            colors=["#66b3ff", "#ff9999"], startangle=140)
     ax.set_title("Awareness of Child Grooming")
     plt.tight_layout()
 
-    # 转为图像流返回
+    # Return to image stream
     buf = io.BytesIO()
     fig.savefig(buf, format='png')
     buf.seek(0)
