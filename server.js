@@ -65,7 +65,7 @@ app.get('/api/victims-by-gender', (req, res) => {
 
 //  Route: Get all table names
 app.get('/api/tables', (req, res) => {
-  const sql = SHOW TABLES;
+  const sql = 'SHOW TABLES';
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
 
@@ -85,7 +85,7 @@ app.get('/api/table/:name', (req, res) => {
     return res.status(400).json({ error: 'Invalid table name' });
   }
 
-  const sql = SELECT * FROM ??;
+  const sql = 'SELECT * FROM ??';
   db.query(sql, [tableName], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
