@@ -212,7 +212,7 @@ const chartRef = ref(null)
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://seatdatabase.cy12y2awagfp.us-east-1.rds.amazonaws.com:3001/api/perpetrators-by-age')
+    const res = await fetch('https://www.shieldskills.live:3001/api/perpetrators-by-age')
     const data = await res.json()
 
     const labels = data.map(row => row.age)
