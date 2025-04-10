@@ -251,18 +251,7 @@ export default {
     async fetchNews() {
       this.loadingNews = true;
       try {
-        const response = await fetch(
-          'https://newsapi.org/v2/everything?' +
-          'q=cybersecurity+teenagers+OR+online+safety+OR+grooming&' +
-          'language=en&' +
-          'sortBy=relevancy&' +
-          'pageSize=4',
-          {
-            headers: {
-              'X-Api-Key': 'aec3b79e79e8421cb917a227f6360e77'
-            }
-          }
-        );
+        const response = await fetch('/api/news');
         const data = await response.json();
         if (data.status === 'ok') {
           this.newsArticles = data.articles;
