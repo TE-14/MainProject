@@ -204,26 +204,28 @@ import ScenarioQuizCard from '@/assets/ScenarioQuizCard.vue';
 import { loadScenario, getHardcodedScenario } from '@/assets/scenarioLoader';
 
 // Import images directly 
-//import scenario2Image1 from '@/assets/images/chris_rl1.jpg';
+import scenario2Image1 from '@/assets/images/chris_rl1.jpg';
 import scenario2Text1 from '@/assets/images/gr_tc1.jpg';
-//import scenario2Image2 from '@/assets/images/chris_rl2.jpg';
+import scenario2Image2 from '@/assets/images/chris_rl2.jpg';
 import scenario2Text2 from '@/assets/images/gr_tc2.jpg';
-//import scenario2Image3 from '@/assets/images/joash_rl1.jpg';
+import scenario2Image3 from '@/assets/images/joash_rl1.jpg';
 import scenario2Text3 from '@/assets/images/gr_tc3.jpg';
-//import scenario2Image4 from '@/assets/images/chris_rl3.jpg';
-//import scenario2Image5 from '@/assets/images/chris_rl4.jpg';
+import scenario2Image4 from '@/assets/images/chris_rl3.jpg';
+import scenario2Image5 from '@/assets/images/chris_rl4.jpg';
+import end_card from '@/assets/images/end_card.jpg';
 // Add any other images you need for your scenarios
 
 // Image map for resolving paths
 const imageMap = {
-  //'chris_rl1.jpg': scenario2Image1 ,
+  'chris_rl1.jpg': scenario2Image1 ,
   'gr_tc1.jpg': scenario2Text1,
-  //'chris_rl2.jpg': scenario2Image2,
+  'chris_rl2.jpg': scenario2Image2,
   'gr_tc2.jpg': scenario2Text2,
-  //'joash_rl1.jpg': scenario2Image3,
+  'joash_rl1.jpg': scenario2Image3,
   'gr_tc3.jpg': scenario2Text3,
-  //'chris_rl3.jpg': scenario2Image4,
-  //'chris_rl4.jpg': scenario2Image5
+  'chris_rl3.jpg': scenario2Image4,
+  'chris_rl4.jpg': scenario2Image5,
+  'end_card.jpg': end_card
 };
 
 export default {
@@ -311,7 +313,7 @@ export default {
         this.correctAnswers++;
       }
       
-      // You could also update the end card statistics here
+      // Update the end card statistics here
       if (this.scenario.parts) {
         const endCardIndex = this.scenario.parts.findIndex(part => part.type === 'end');
         if (endCardIndex !== -1 && this.scenario.parts[endCardIndex].statistics) {

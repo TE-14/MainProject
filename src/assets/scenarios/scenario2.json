@@ -4,7 +4,7 @@
     "parts": [
       {
         "type": "narrative",
-        "image":  "gr_tc1.jpg",
+        "image":  "chris_rl1.jpg",
         "imageAlt": "This is potential grooming victim Chris.",
         "narrativeText": "Chris Hanson doesn't have a great home life. He takes solace in working out and getting fit. His reasoning, that if he is physically strong; then he will mentally strong at home."
       },
@@ -50,7 +50,7 @@
       },
       {
         "type": "narrative",
-        "image": "gr_tc2.jpg",
+        "image": "chris_rl2.jpg",
         "imageAlt": "Chris has a change in dress.",
         "narrativeText": "Chris did not recognise the danger. He started frequently contacting [HarryTitoBoower27062010] about his daily progress. He also made a few changes to his lifestyle."
       },
@@ -62,13 +62,13 @@
       },
       {
         "type": "narrative",
-        "image": "gr_tc2.jpg",
+        "image": "joash_rl1.jpg",
         "imageAlt": "Chris friend Joash",
         "narrativeText": "Joash, the best friend of Chris, has noticed that he keeps blowing him off to hang out like they previously used to. Further, he is concerned about the changes in the lifestyle of Chris."
       },
       {
         "type": "action",
-        "image": "gr_tc2.jpg",
+        "image": "joash_rl1.jpg",
         "imageAlt": "Groomer sends more texts to Chris.",
         "question": "What changes might Joash have noticed that indicate Preston is being groomed?",
         "choices": [
@@ -106,13 +106,13 @@
       },
       {
         "type": "narrative",
-        "image": "gr_tc3.jpg",
+        "image": "chris_rl3.jpg",
         "imageAlt": "Chris is conflicted",
         "narrativeText": "The location is on the other side of town. While Chris has spent over a month getting to know [HarryTitoBoower27062010], this has made him feel uncomfortable."
       },
       {
         "type": "narrative",
-        "image": "gr_tc3.jpg",
+        "image": "chris_rl4.jpg",
         "imageAlt": "Chris tosses and turns",
         "narrativeText": "[HarryTitoBoower27062010] has been a valued person that Chris can talk to. But can he really be trusted?"
       },      
@@ -150,7 +150,7 @@
       },
       {
         "type": "end",
-        "image": "scenario3.jpg",
+        "image": "end_card.jpg",
         "imageAlt": "Illustration showing positive online interaction",
         "narrativeText": "By taking appropriate action and involving trusted adults, Chris was able to avoid being groomed. He narrowly avoided an encounter with an online predator.",
         "title": "Scenario Complete!",

@@ -141,15 +141,14 @@
     },
     {
       "type": "narrative",
-      "image": "CB1_angry_allison.jpg",
+      "image": "CB1_neutral_allison.jpg",
       "imageAlt": "Allison walking 2",
-      "narrativeText": "NEED IMAGE HERE. Allison decides to tell the school counsellor about the harassment. As she is walking to the confidential meeting, she reflects on why Lachlan singled her out specifically. Is she in a group more predisposed to cyberbullying or something?"
+      "narrativeText": "Allison decides to tell the school counsellor about the harassment. As she is walking to the confidential meeting, she reflects on why Lachlan singled her out specifically. Is she in a group more predisposed to cyberbullying or something?"
     },
     {
       "type": "action",
-      "image": "CB1_angry_allison.jpg",
+      "image": "CB1_neutral_allison.jpg",
       "imageAlt": "lineup",
-      "narrativeText": "Demographics reflection.",
       "question": "In Australia, which group is most likely to experience cyberbullying?",
       "choices": [
         {
@@ -181,7 +180,7 @@
 
     {
       "type": "end",
-      "image": "scenario3.jpg",
+      "image": "end_card.jpg",
       "imageAlt": "Illustration showing positive online interaction",
       "narrativeText": "By taking appropriate action and involving trusted adults, Allison was able to address the cyberbullying situation. The school implemented additional digital citizenship training for all students.",
       "title": "Scenario Complete!",
