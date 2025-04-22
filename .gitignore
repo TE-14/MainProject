@@ -1,0 +1,60 @@
+# Dependencies
+/node_modules
+
+# Production
+/dist
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test coverage
+coverage/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+
+# Build files
+dist/
+coverage/
+
+# Python virtual environment
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Model files
+grooming_model/
+grooming_model/model.safetensors
+grooming_model/checkpoint-*/
+*.pt
+*.bin
+*.safetensors
+*.pth
+*.onnx
+*.dylib

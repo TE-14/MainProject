@@ -1,0 +1,18 @@
+
+{
+    "username": "John Doe",
+    "metrics": {
+      "bloodPressure": "120/80 mmHg",
+      "bloodSugar": "90 mg/dL",
+      "cholesterol": "180 mg/dL"
+    },
+    "appointments": [
+      {
+        "date": "2024-08-30",
+        "doctor": "Dr. Green",
+        "time": "10:00 AM",
+        "reason": "Follow-up on hypertension treatment"
+      }
+    ]
+  }
+  
