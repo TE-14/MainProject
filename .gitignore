@@ -41,3 +41,4 @@ coverage/
 # Build files
 dist/
 coverage/
+venv/
