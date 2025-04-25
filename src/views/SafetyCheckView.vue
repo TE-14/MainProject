@@ -36,22 +36,44 @@
           ></v-text-field>
           
           <div class="d-flex align-center">
-            <v-btn
-              icon
-              class="image-upload-btn mr-2"
-              @click="triggerFileUpload"
-            >
-              <v-icon>mdi-image</v-icon>
-              <input 
-                ref="fileInput" 
-                type="file" 
-                accept="image/*" 
-                style="display: none" 
-                @change="handleFileUpload"
-              />
-            </v-btn>
-            <span v-if="selectedFile" class="text-caption mr-auto">{{ selectedFile.name }}</span>
-            <v-spacer v-else></v-spacer>
+            <div class="image-upload-container mr-2" v-if="!selectedFile">
+              <v-btn
+                icon
+                class="image-upload-btn"
+                @click="triggerFileUpload"
+              >
+                <v-icon>mdi-image</v-icon>
+                <input 
+                  ref="fileInput" 
+                  type="file" 
+                  accept="image/*" 
+                  style="display: none" 
+                  @change="handleFileUpload"
+                />
+              </v-btn>
+            </div>
+            <div v-else class="selected-file-container mr-2">
+              <div class="image-preview-wrapper">
+                <div class="image-preview">
+                  <img 
+                    :src="selectedFilePreview" 
+                    alt="Selected file preview" 
+                    class="preview-image"
+                  />
+                </div>
+                <button 
+                  type="button"
+                  class="custom-remove-btn"
+                  @click.prevent="removeSelectedFile"
+                  aria-label="Remove file"
+                >
+                  <span class="close-icon">×</span>
+                </button>
+              </div>
+              <span class="text-caption file-name">{{ selectedFile.name }}</span>
+            </div>
+            <span v-if="selectedFile && !extractedText" class="text-caption mr-auto"></span>
+            <v-spacer v-if="!selectedFile"></v-spacer>
             <v-btn
               color="primary"
               class="check-btn"
@@ -94,10 +116,10 @@
               </div>
               
               <div v-if="resultType === 'grooming'" class="mt-3">
-                <div class="risk-score-label">Risk Score: 85%</div>
+                <div class="risk-score-label">Risk Score: {{ Math.round(bullyingScore * 100) }}%</div>
                 <v-progress-linear 
                   color="red-darken-2" 
-                  :model-value="85"
+                  :model-value="bullyingScore * 100"
                   height="8"
                   rounded
                   class="mt-1"
@@ -221,7 +243,7 @@
           
           <div class="report-item">
             <div class="report-label">Analyzed Content:</div>
-            <div class="report-value">{{ contentToAnalyze || 'n/a' }}</div>
+            <div class="report-value">{{ displayContent || 'n/a' }}</div>
           </div>
           
           <div class="report-item">
@@ -292,6 +314,8 @@
 </template>
 
 <script>
+import apiConfig from '@/config/api-config';
+
 export default {
   name: 'SafetyCheckView',
   data() {
@@ -299,13 +323,18 @@ export default {
       activeTab: 'cyberbullying',
       contentToAnalyze: '',
       selectedFile: null,
+      selectedFilePreview: null,
+      extractedText: '',
       analysisComplete: false,
       resultType: 'cyberbullying',
       bullyingScore: 0,
       inputError: '',
       isAnalyzing: false,
       perspectiveApiKey: 'AIzaSyBfZHcZx1g76dSAfTNxpcPGvxqRDyiOt5U', 
-      riskLevel: 'safe' // 'high', 'medium', 'low', 'safe'
+      riskLevel: 'safe', // 'high', 'medium', 'low', 'safe'
+      groomingApiUrl: apiConfig.grooming.url,
+      isGroomingApiAvailable: false,
+      displayContent: '' // New property to store content for display
     }
   },
   computed: {
@@ -488,6 +517,30 @@ export default {
     }
   },
   methods: {
+    async testApiConnection() {
+      try {
+        console.log('Testing Grooming API connection...')
+        const response = await fetch(this.groomingApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({ text: 'This is a test message' }),
+          mode: 'cors',
+          credentials: 'omit'
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          console.log('API test successful:', data)
+        } else {
+          console.error('API test failed:', response.status, response.statusText)
+        }
+      } catch (error) {
+        console.error('API connection test error:', error)
+      }
+    },
     clearError() {
       if (this.inputError) {
         this.inputError = '';
@@ -497,6 +550,7 @@ export default {
       this.activeTab = tab
       this.analysisComplete = false // Hide results when switching tabs
       this.inputError = ''
+      this.contentToAnalyze = '' // Clear input text when switching tabs
     },
     triggerFileUpload() {
       this.$refs.fileInput.click()
@@ -505,48 +559,144 @@ export default {
       const file = event.target.files[0]
       if (file) {
         this.selectedFile = file
+        this.contentToAnalyze = '' // Clear text input
+        this.extractedText = '' // Clear extracted text
+        this.createImagePreview(file)
+      }
+    },
+    createImagePreview(file) {
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.selectedFilePreview = e.target.result
+        }
+        reader.readAsDataURL(file)
+      }
+    },
+    removeSelectedFile() {
+      this.selectedFile = null
+      this.selectedFilePreview = null
+      this.extractedText = ''
+      this.contentToAnalyze = ''
+      this.inputError = '' // Clear any error messages
+      
+      // Reset file input so the same file can be selected again
+      if (this.$refs.fileInput) {
+        this.$refs.fileInput.value = ''
+      }
+    },
+    async extractTextFromImage(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        // Show processing in UI
+        this.inputError = "Processing image...please wait"
+        
+        // Using same fetch pattern for consistency
+        const response = await fetch('http://localhost:8000/extract-text/', {
+          method: 'POST',
+          body: formData,
+          // No additional headers or credentials for FormData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('OCR error response:', errorText);
+          throw new Error('OCR failed: ' + (response.status || 'unknown error'));
+        }
+
+        const data = await response.json();
+        console.log('OCR response:', data);
+        
+        // Handle empty text or error
+        if (data.error) {
+          this.inputError = `Error extracting text: ${data.error}`;
+          return "";
+        }
+        
+        if (!data.text || data.text.trim() === "") {
+          this.inputError = "No readable text detected in the image. Please try another image or enter text manually.";
+          return "";
+        }
+        
+        // Store extracted text but don't show in input field
+        this.extractedText = data.text;
+        return data.text;
+      } catch (err) {
+        console.error('OCR error:', err);
+        this.inputError = 'Failed to extract text from image. Please try another image or enter text manually.';
+        return "";
+      } finally {
+        // Clear processing message
+        if (this.inputError === "Processing image...please wait") {
+          this.inputError = '';
+        }
       }
     },
     async analyzeContent() {
-      // Clear previous errors and results
-      this.inputError = ''
-      this.analysisComplete = false
-      
-      // Validate input
-      if (!this.contentToAnalyze.trim()) {
-        this.inputError = 'Please enter text to analyze'
-        return
-      }
-      
-      this.isAnalyzing = true
-      
-      if (this.activeTab === 'cyberbullying') {
-        try {
-          // Using Google's Perspective API for cyberbullying detection
-          const response = await this.analyzeCyberbullying(this.contentToAnalyze)
-          
-          // Process the results
-          this.processCyberbullyingResults(response)
-          
-        } catch (error) {
-          console.error('Error analyzing content:', error)
-          this.inputError = `Error analyzing content: ${error.message || 'Please try again'}`
-          this.analysisComplete = false
-        } finally {
-          this.isAnalyzing = false
-        }
-      } else {
-        // For grooming, we'll continue using the mock analysis
-        this.resultType = 'grooming'
-        this.riskLevel = 'high' // always high risk, because this is a mock analysis
-        this.analysisComplete = true
-        this.isAnalyzing = false
+      this.inputError = '';
+      this.analysisComplete = false;
+      this.isAnalyzing = true;
+
+      try {
+        let textToAnalyze = '';
         
-        // Scroll to results
-        this.scrollToResults()
+        // Decide which text to analyze
+        if (this.selectedFile && (!this.contentToAnalyze || this.contentToAnalyze === "Processing image text...")) {
+          // Use extracted text if available, otherwise extract it
+          if (this.extractedText) {
+            textToAnalyze = this.extractedText;
+          } else {
+            textToAnalyze = await this.extractTextFromImage(this.selectedFile);
+          }
+        } else {
+          textToAnalyze = this.contentToAnalyze.trim();
+        }
+
+        // If no text to analyze, show error
+        if (!textToAnalyze) {
+          this.inputError = 'Please enter text or upload an image to analyze.';
+          this.isAnalyzing = false;
+          return;
+        }
+
+        // Use the text for analysis but don't show in input field
+        // Instead store it for displaying in results
+        this.displayContent = textToAnalyze;
+        
+        const analysisResult =
+          this.activeTab === 'cyberbullying'
+            ? await this.analyzeCyberbullying(textToAnalyze)
+            : await this.analyzeGrooming(textToAnalyze);
+
+        this.activeTab === 'cyberbullying'
+          ? this.processCyberbullyingResults(analysisResult)
+          : this.processGroomingResults(analysisResult);
+          
+        // Reset file upload and text input after successful analysis
+        if (this.analysisComplete) {
+          // Clear text input
+          this.contentToAnalyze = '';
+          
+          // Reset file if uploaded
+          if (this.selectedFile) {
+            this.selectedFile = null;
+            this.selectedFilePreview = null;
+            this.extractedText = '';
+            
+            // Reset file input element
+            if (this.$refs.fileInput) {
+              this.$refs.fileInput.value = '';
+            }
+          }
+        }
+      } catch (err) {
+        this.inputError = err.message || 'Something went wrong.';
+      } finally {
+        this.isAnalyzing = false;
       }
     },
-    
     async analyzeCyberbullying(text) {
       // use the api key from the environment variable
       const apiKey = process.env.VUE_APP_PERSPECTIVE_API_KEY || this.perspectiveApiKey;
@@ -586,29 +736,29 @@ export default {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Origin': window.location.origin // 添加 Origin 头，可能对某些 CORS 情况有帮助
+              'Origin': window.location.origin // Add Origin header, may help with some CORS situations
             },
             body: JSON.stringify(requestBody),
-            mode: 'cors' // 明确使用 CORS 模式
+            mode: 'cors' // Explicitly use CORS mode
           });
           
           if (!response.ok) {
             if (response.status === 400) {
-              // 如果是 400 错误，通常是请求格式问题
+              // If it's a 400 error, usually it's a request format issue
               const errorData = await response.json();
               console.error('API Request Error:', errorData);
               throw new Error(`API request error: ${errorData.error?.message || 'Invalid request format'}`);
             } else if (response.status === 403) {
-              // 如果是 403 错误，通常是 API 密钥问题
+              // If it's a 403 error, usually it's an API key issue
               throw new Error('API key error: Invalid or unauthorized API key');
             } else if (response.status === 429) {
-              // 速率限制
+              // Rate limit
               throw new Error('API rate limit exceeded: Please try again later');
             } else if (response.status === 0 || response.status === 520) {
-              // CORS 或网络错误
+              // CORS or network error
               throw new Error('Network error: CORS issue or service unavailable');
             } else {
-              // 其他错误
+              // Other errors
               const errorText = await response.text();
               console.error('API Error:', response.status, errorText);
               throw new Error(`API error (${response.status}): Please try again later`);
@@ -621,7 +771,7 @@ export default {
         } catch (fetchError) {
           console.error('Fetch error:', fetchError);
           
-          // 捕获网络错误，使用备用分析
+          // Catch network errors, use fallback analysis
           console.log('Switching to fallback analysis method due to API error');
           return this.fallbackAnalyzeText(text);
         }
@@ -631,12 +781,12 @@ export default {
       }
     },
     
-    // 判断是否应该使用备用分析方法
+    // Determine if fallback analysis method should be used
     shouldUseFallbackAnalysis(text) {
-      // 这里可以添加一些逻辑来决定是否使用备用分析
-      // 例如，API 密钥无效，或者是在开发环境中
+      // You can add some logic here to decide whether to use fallback analysis
+      // For example, invalid API key, or in development environment
       
-      // 如果这是一个明显的测试请求，使用备用方法
+      // If this is an obvious test request, use fallback method
       if (text.toLowerCase().includes('test') && text.length < 10) {
         return true;
       }
@@ -644,11 +794,11 @@ export default {
       return false;
     },
     
-    // 备用文本分析方法，在 API 不可用时使用
+    // Fallback text analysis method, used when API is unavailable
     fallbackAnalyzeText(text) {
       console.log('Using fallback text analysis');
       
-      // 简单的基于关键词的分析
+      // Simple keyword-based analysis
       const toxicWords = [
         'hate', 'stupid', 'idiot', 'dumb', 'ugly', 'kill', 'die', 'loser', 
         'pathetic', 'retard', 'jerk', 'moron', 'fat', 'bitch', 'bastard', 'crap'
@@ -657,17 +807,17 @@ export default {
       const lowerText = text.toLowerCase();
       let toxicScore = 0;
       
-      // 计算有毒词汇的出现次数
+      // Count occurrences of toxic words
       toxicWords.forEach(word => {
         if (lowerText.includes(word)) {
-          toxicScore += 0.2; // 每个有毒词增加 0.2 分
+          toxicScore += 0.2; // Each toxic word adds 0.2 points
         }
       });
       
-      // 限制最高分为 1
+      // Cap maximum score at 1
       toxicScore = Math.min(toxicScore, 1);
       
-      // 构造一个类似 Perspective API 的响应
+      // Construct a response similar to Perspective API
       return {
         attributeScores: {
           TOXICITY: {
@@ -750,7 +900,204 @@ export default {
     
     downloadReport() {
       // This would be implemented with a PDF generation library
-      alert(`Downloading ${this.riskLevel === 'safe' ? 'Safety' : 'Analysis'} Report for ${this.activeTab} check`)
+      let reportType = this.riskLevel === 'safe' ? 'Safety' : 'Analysis';
+      let checkType = this.activeTab === 'cyberbullying' ? 'Cyberbullying' : 'Grooming';
+      let riskLevel = '';
+      
+      if (this.activeTab === 'grooming') {
+        if (this.riskLevel === 'high') {
+          riskLevel = 'DANGER';
+        } else if (this.riskLevel === 'medium') {
+          riskLevel = 'CAUTION';
+        } else {
+          riskLevel = 'SAFE';
+        }
+        
+        reportType = `${riskLevel} ${reportType}`;
+      }
+      
+      alert(`Downloading ${reportType} Report for ${checkType} check (Score: ${Math.round(this.bullyingScore * 100)}%)`);
+    },
+
+    // Add these new methods for grooming detection
+    async analyzeGrooming(text) {
+      // If API is known to be unavailable, use fallback immediately
+      if (!this.isGroomingApiAvailable) {
+        console.log('Grooming API known to be unavailable, using fallback immediately')
+        return this.fallbackGroomingAnalysis(text)
+      }
+      
+      try {
+        // Call FastAPI backend
+        const apiUrl = this.groomingApiUrl
+        
+        console.log('Sending request to Grooming API:', apiUrl)
+        console.log('Request text (first 50 chars):', text.substring(0, 50))
+        
+        // Add timeout to the fetch request
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        try {
+          // Simplified fetch configuration for CORS
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text }),
+            signal: controller.signal
+          });
+          
+          clearTimeout(timeoutId); // Clear the timeout
+          
+          if (!response.ok) {
+            console.error('API error:', response.status, response.statusText);
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            
+            // Mark API as unavailable for future requests if it's a server error
+            if (response.status >= 500) {
+              this.isGroomingApiAvailable = false;
+              console.warn('Marking API as unavailable due to server error');
+            }
+            
+            throw new Error(`API error: ${response.status} ${response.statusText}`);
+          }
+          
+          const data = await response.json();
+          console.log('Grooming API response:', data);
+          
+          // If we get here, the API is definitely available
+          this.isGroomingApiAvailable = true;
+          
+          return data;
+        } catch (fetchError) {
+          clearTimeout(timeoutId); // Ensure timeout is cleared
+          
+          if (fetchError.name === 'AbortError') {
+            console.error('API request timed out');
+            throw new Error('API request timed out. Please try again.');
+          }
+          
+          throw fetchError; // Re-throw for the outer catch
+        }
+      } catch (error) {
+        console.error('Error in grooming analysis:', error);
+        
+        // Try to check if it's a model-specific error
+        if (error.message && error.message.includes('Model prediction failed')) {
+          console.warn('Using fallback due to model prediction error');
+        }
+        
+        // Fallback to mock analysis if API call fails
+        const fallbackResult = this.fallbackGroomingAnalysis(text);
+        console.log('Using fallback analysis:', fallbackResult);
+        return fallbackResult;
+      }
+    },
+
+    // Fallback method if API is unavailable
+    fallbackGroomingAnalysis(text) {
+      console.log('Using fallback grooming analysis')
+      
+      // Simple keyword-based analysis
+      const concerningKeywords = [
+        'secret', 'private', 'alone', 'meet', 'older', 'trust me', 'don\'t tell', 
+        'just between us', 'special friend', 'pictures', 'camera', 'send photo',
+        'age', 'parents', 'address', 'location', 'school'
+      ]
+      
+      let score = 0
+      const lowerText = text.toLowerCase()
+      
+      concerningKeywords.forEach(keyword => {
+        if (lowerText.includes(keyword.toLowerCase())) {
+          score += 0.1 // Each keyword adds 0.1 to the score
+        }
+      })
+      
+      // Cap at 1.0
+      score = Math.min(score, 1.0)
+      
+      let label, color
+      if (score < 0.35) {
+        label = "SAFE"
+        color = "green"
+      } else if (score < 0.70) {
+        label = "CAUTION"
+        color = "orange"
+      } else {
+        label = "DANGER"
+        color = "red"
+      }
+      
+      return {
+        score: score.toFixed(2),
+        label,
+        color
+      }
+    },
+
+    processGroomingResults(response) {
+      console.log('Processing grooming results:', response)
+      
+      // Check for error in response
+      if (response.error) {
+        console.error('API returned error:', response.error)
+        throw new Error(response.error)
+      }
+      
+      // Extract data from response - ensure values are properly parsed
+      const score = typeof response.score === 'string' 
+        ? parseFloat(response.score) 
+        : response.score || 0
+        
+      const label = response.label || 'SAFE'
+      
+      console.log(`Processed score: ${score}, label: ${label}`)
+      
+      // Map API response to UI risk levels
+      if (label === "DANGER") {
+        this.riskLevel = 'high'
+      } else if (label === "CAUTION") {
+        this.riskLevel = 'medium'
+      } else if (label === "SAFE" && score > 0.1) {
+        this.riskLevel = 'low'
+      } else {
+        this.riskLevel = 'safe'
+      }
+      
+      // Store score for display - convert to 0-1 range if needed
+      this.bullyingScore = score <= 1 ? score : score/100
+      
+      // Set result type and completion
+      this.resultType = 'grooming'
+      this.analysisComplete = true
+      
+      // Scroll to results
+      this.scrollToResults()
+    },
+  },
+  async created() {
+    // Check if grooming API is available
+    try {
+      const testResponse = await fetch(this.groomingApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: 'API availability test' })
+      });
+      
+      this.isGroomingApiAvailable = testResponse.ok;
+      console.log('Grooming API is', this.isGroomingApiAvailable ? 'available' : 'unavailable');
+      
+      if (testResponse.ok) {
+        const data = await testResponse.json();
+        console.log('API test response:', data);
+      }
+    } catch (error) {
+      console.warn('Grooming API check failed:', error);
+      this.isGroomingApiAvailable = false;
     }
   }
 }
@@ -792,6 +1139,11 @@ export default {
   box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
 }
 
+/* Image upload and preview styles */
+.image-upload-container {
+  position: relative;
+}
+
 .image-upload-btn {
   border: 1px dashed rgba(99, 102, 241, 0.3);
   background-color: rgba(99, 102, 241, 0.05);
@@ -804,6 +1156,79 @@ export default {
 .image-upload-btn:hover {
   border-color: rgba(99, 102, 241, 0.5);
   background-color: rgba(99, 102, 241, 0.1);
+}
+
+.selected-file-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.image-preview-wrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: visible;
+  margin: 4px;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  background-color: #f8fafc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.custom-remove-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid #6366F1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.custom-remove-btn:hover {
+  background-color: #EEF2FF;
+  transform: scale(1.1);
+}
+
+.close-icon {
+  font-size: 14px;
+  line-height: 0;
+  color: #6366F1;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.file-name {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .check-btn {
@@ -1068,6 +1493,29 @@ export default {
   
   .download-btn {
     min-width: 200px;
+  }
+  
+  /* Improved mobile experience for file upload */
+  .image-preview-wrapper {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .custom-remove-btn {
+    width: 22px;
+    height: 22px;
+    top: -8px;
+    right: -8px;
+    border-width: 2px;
+  }
+  
+  .close-icon {
+    font-size: 16px;
+  }
+  
+  .file-name {
+    max-width: 80px;
+    font-size: 9px;
   }
 }
 
