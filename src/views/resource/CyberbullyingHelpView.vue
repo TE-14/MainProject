@@ -1,9 +1,6 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-
-      <!-- 添加过渡面板作为第一屏 -->
-
       <section class="section intro-section">
         <div class="full-screen-panel cyberbullying-panel">
           <div class="panel-overlay"></div>
