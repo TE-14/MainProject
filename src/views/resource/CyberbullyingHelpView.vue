@@ -1,9 +1,6 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-
-      <!-- 添加过渡面板作为第一屏 -->
-
       <section class="section intro-section">
         <div class="full-screen-panel cyberbullying-panel">
           <div class="panel-overlay"></div>
@@ -77,15 +74,18 @@
               <v-card-text>
                 <div class="support-contacts">
                   <p class="mb-3">Speaking up is a sign of strength. Reach out to:</p>
-                  <v-btn prepend-icon="mdi-account-group" block>
-                    Parent or Teacher
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-school" block>
-                    School Counselor
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-account" block>
-                    Trusted Friend
-                  </v-btn>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-account-group</v-icon>
+                    <span>Parent or Teacher</span>
+                  </div>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-school</v-icon>
+                    <span>School Counselor</span>
+                  </div>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-account</v-icon>
+                    <span>Trusted Friend</span>
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -112,10 +112,6 @@
                   <li><strong>eSafety Commissioner</strong></li>
                   <li><strong>School Counselors</strong></li>
                 </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn" href="https://apps.yourtown.com.au/apps/webcounselling/live/chat/chatLogin.php?id=1636642018&KHL=1" target="_blank">
-                  <v-icon size="small" icon="mdi-web" class="mr-1"></v-icon>
-                  <span>Online Chat</span>
-                </v-btn>
               </v-card-text>
             </v-card>
 
@@ -131,10 +127,12 @@
                   <li>Stalking behavior</li>
                   <li>Physical threats</li>
                 </ul>
-                <v-btn size="small" color="error" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-phone" class="mr-1"></v-icon>
-                  <span>Emergency: 000</span>
-                </v-btn>
+                <button class="helpline-button-container" @click="showPhoneSimulation">
+                  <span class="helpline-icon">
+                    <v-icon icon="mdi-phone" size="small" color="indigo"></v-icon>
+                  </span>
+                  <span class="helpline-text">Kids Helpline: 1800 55 1800</span>
+                </button>
               </v-card-text>
             </v-card>
 
@@ -189,6 +187,56 @@
         @click="scrollToSection(index)"
       ></div>
     </div>
+
+    <!-- Phone Call Simulation Dialog -->
+    <v-dialog v-model="phoneDialog" max-width="400" persistent>
+      <v-card class="phone-simulation-card">
+        <v-card-title class="phone-simulation-header">
+          <v-icon icon="mdi-phone" size="large" color="green" class="mr-2"></v-icon>
+          Calling Kids Helpline
+        </v-card-title>
+        
+        <v-card-text class="phone-simulation-body">
+          <div class="phone-status" :class="{'calling': phoneStatus === 'calling', 'connected': phoneStatus === 'connected'}">
+            {{ phoneStatusText }}
+          </div>
+          <div v-if="phoneStatus === 'connected'" class="phone-info mt-4">
+            <p>You're now connected to Kids Helpline.</p>
+            <p class="mt-2">A trained counsellor is ready to help with your cyberbullying concern.</p>
+            <p class="mt-2">Kids Helpline provides free, private and confidential phone counselling service for young people aged 5 to 25.</p>
+          </div>
+          <div v-if="phoneStatus === 'ended'" class="phone-ended mt-4">
+            <p>Call ended.</p>
+            <p class="mt-2">Remember, Kids Helpline (1800 55 1800) is available 24/7 whenever you need to talk.</p>
+          </div>
+          
+          <!-- Custom Action Buttons -->
+          <div class="custom-actions">
+            <button 
+              v-if="phoneStatus !== 'ended'" 
+              @click="endCall"
+              @mousedown="endCall"
+              @touchstart="endCall" 
+              class="custom-button end-call-button"
+            >
+              <span class="button-icon">
+                <v-icon>mdi-phone-hangup</v-icon>
+              </span>
+              END CALL
+            </button>
+            <button 
+              v-else 
+              @click="closePhoneDialog"
+              @mousedown="closePhoneDialog"
+              @touchstart="closePhoneDialog" 
+              class="custom-button close-button"
+            >
+              Close
+            </button>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -210,20 +258,34 @@ export default defineComponent({
       lastScrollTime: 0,
       scrollCooldown: 1000, // 1 second cooldown
       showReturnHint: false,
-      returnHintOpacity: 0
+      returnHintOpacity: 0,
+      // Phone simulation states
+      phoneDialog: false,
+      phoneStatus: 'calling',
+      phoneTimer: null
     };
   },
   computed: {
     totalSections() {
-
       return 3; // 现在有三个部分
-
     },
     getTransformStyle() {
       return {
         transform: `translateX(-${this.currentSection * (100 / this.totalSections)}%)`,
       };
     },
+    phoneStatusText() {
+      switch(this.phoneStatus) {
+        case 'calling':
+          return 'Calling... 1800 55 1800';
+        case 'connected':
+          return 'Connected';
+        case 'ended':
+          return 'Call Ended';
+        default:
+          return '';
+      }
+    }
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
@@ -231,6 +293,9 @@ export default defineComponent({
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    if (this.phoneTimer) {
+      clearTimeout(this.phoneTimer);
+    }
   },
   methods: {
     handleResize() {
@@ -246,20 +311,16 @@ export default defineComponent({
       }
       
       if (event.deltaY > this.scrollThreshold) {
-
         // Scroll down
-
         if (this.currentSection < this.totalSections - 1) {
           this.currentSection++;
           this.lastScrollTime = now;
         } else {
-
           // When scrolling down in the last section, return to the main resources page
           this.returnToResources();
         }
       } else if (event.deltaY < -this.scrollThreshold) {
         // Scroll up
-
         if (this.currentSection > 0) {
           this.currentSection--;
           this.lastScrollTime = now;
@@ -276,11 +337,37 @@ export default defineComponent({
       this.router.push({ name: 'resources' });
     },
     returnToMainView() {
-
       // 使用更直接的方式返回主页面
-
       window.location.href = '/resources';
     },
+    // Phone simulation methods
+    showPhoneSimulation() {
+      this.phoneDialog = true;
+      this.phoneStatus = 'calling';
+      
+      // Simulate connecting after 2 seconds
+      this.phoneTimer = setTimeout(() => {
+        this.phoneStatus = 'connected';
+      }, 2000);
+    },
+    endCall() {
+      console.log('END CALL BUTTON CLICKED');
+      alert('End call button clicked!');  // 添加一个明显的弹窗确认点击
+      this.phoneStatus = 'ended';
+      if (this.phoneTimer) {
+        clearTimeout(this.phoneTimer);
+        this.phoneTimer = null;
+      }
+    },
+    closePhoneDialog() {
+      console.log('CLOSE DIALOG BUTTON CLICKED');
+      alert('Close dialog button clicked!');  // 添加一个明显的弹窗确认点击
+      this.phoneDialog = false;
+      // Reset for next time
+      setTimeout(() => {
+        this.phoneStatus = 'calling';
+      }, 300);
+    }
   },
 });
 </script>
@@ -787,6 +874,48 @@ export default defineComponent({
   width: 92% !important;
 }
 
+/* New styles for support options */
+.support-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: rgba(240, 240, 250, 0.6);
+  border-radius: 8px;
+  width: 90%;
+  transition: background-color 0.2s ease;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  border-left: 3px solid rgba(99, 102, 241, 0.2);
+}
+
+.support-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.support-icon {
+  color: #6366f1;
+  margin-right: 12px;
+  font-size: 20px;
+  opacity: 0.8;
+  position: relative;
+}
+
+.support-option span {
+  color: #374151;
+  font-weight: 500;
+  font-size: 14px;
+  position: relative;
+}
+
 .support-contacts {
   display: flex !important;
   flex-direction: column !important;
@@ -967,5 +1096,269 @@ li:last-child {
   margin-bottom: 0.8rem;
   color: #4682b4;
   text-align: center;
+}
+
+.phone-simulation-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.phone-simulation-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.phone-simulation-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  color: #2a6099;
+  position: relative;
+}
+
+.phone-simulation-header .v-icon {
+  animation: gentle-pulse 2s infinite alternate;
+}
+
+@keyframes gentle-pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+.phone-simulation-body {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.phone-status {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.phone-status.calling {
+  color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.1);
+  animation: pulse 1.5s infinite;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.phone-status.connected {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.phone-info {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgba(59, 130, 246, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left;
+  border-left: 3px solid #3b82f6;
+}
+
+.phone-ended {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgba(239, 68, 68, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left;
+  border-left: 3px solid #ef4444;
+}
+
+.phone-actions {
+  position: relative;
+  z-index: 5;
+  padding: 16px 0;
+}
+
+.helpline-button-container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 20px;
+  background-color: rgba(99, 102, 241, 0.15);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  font-family: inherit;
+  text-align: left;
+}
+
+.helpline-button-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.helpline-button-container:hover::before {
+  opacity: 1;
+}
+
+.helpline-button-container:hover {
+  background-color: rgba(99, 102, 241, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.helpline-button-container:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.helpline-icon {
+  margin-right: 12px;
+  color: #6366f1 !important;
+  font-size: 22px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.helpline-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.end-call-button, .close-button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  user-select: none;
+  height: 48px !important;
+  font-weight: bold !important;
+  letter-spacing: 1px !important;
+  margin: 0 16px !important;
+  position: relative;
+  z-index: 10;
+}
+
+.end-call-button:active, .close-button:active {
+  transform: scale(0.98) !important;
+}
+
+:deep(.v-card-actions) {
+  pointer-events: auto !important;
+}
+
+:deep(.v-btn--disabled) {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+:deep(.v-dialog--active) {
+  z-index: 1000 !important;
+}
+
+:deep(.v-overlay__content) {
+  pointer-events: auto !important;
+}
+
+:deep(.v-btn) {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.custom-actions {
+  margin-top: 24px;
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.custom-button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.end-call-button {
+  background-color: #ef4444;
+  color: white;
+}
+
+.end-call-button:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.25);
+}
+
+.close-button {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.25);
+}
+
+.button-icon {
+  margin-right: 8px;
 }
 </style> 
