@@ -37,7 +37,7 @@ export default {
               <div style="margin-bottom: 30px; padding: 15px; background-color: #F0FDF4; border-left: 4px solid #22C55E; border-radius: 8px;">
                 <div style="display: flex; align-items: center;">
                   <div style="flex-grow: 1">
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #15803D;">Content Appears Safe</div>
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #15803D;">Safe Content</div>
                     <div style="font-size: 14px; color: #4B5563;">
                       No significant risk factors were detected in the analyzed content. Continue practicing safe online behavior.
                     </div>
@@ -45,21 +45,21 @@ export default {
                 </div>
               </div>
             ` : data.riskLevel === 'high' ? `
-              <div style="margin-bottom: 30px; padding: 15px; background-color: ${data.checkType === 'Cyberbullying' ? '#FFF7E0' : '#FEE2E2'}; border-left: 4px solid ${data.checkType === 'Cyberbullying' ? '#F59E0B' : '#EF4444'}; border-radius: 8px;">
+              <div style="margin-bottom: 30px; padding: 15px; background-color: ${data.checkType === 'Cyberbullying' ? '#FEE2E2' : '#FEE2E2'}; border-left: 4px solid ${data.checkType === 'Cyberbullying' ? '#EF4444' : '#EF4444'}; border-radius: 8px;">
                 <div style="display: flex; align-items: center;">
                   <div style="flex-grow: 1">
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">
-                      ${data.checkType === 'Cyberbullying' ? 'Cyberbullying Detected' : 'High Risk of Grooming Detected'}
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #B91C1C;">
+                      ${data.checkType === 'Cyberbullying' ? 'High Risk - Cyberbullying Detected' : 'High Risk - Grooming Detected'}
                     </div>
                     <div style="font-size: 14px; color: #4B5563;">
                       ${data.checkType === 'Cyberbullying'
-                        ? 'This content shows characteristics of cyberbullying because it contains hostile language targeting personal traits. Such language can cause emotional harm and create a hostile online environment.'
-                        : 'This content shows strong indicators of potential grooming behavior. The language patterns and approach are consistent with methods used by predators to establish inappropriate relationships.'
+                        ? 'This content shows strong characteristics of cyberbullying, containing hostile language or personal attacks. Such content can cause significant emotional harm.'
+                        : 'This content shows strong indicators of potential grooming behavior. The patterns are consistent with methods used to establish inappropriate relationships.'
                       }
                     </div>
                     <div style="margin-top: 12px;">
                       <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Risk Score: ${data.score}%</div>
-                      <div style="background-color: ${data.checkType === 'Cyberbullying' ? '#F59E0B' : '#EF4444'}; height: 8px; width: ${data.score}%; border-radius: 4px;"></div>
+                      <div style="background-color: #EF4444; height: 8px; width: ${data.score}%; border-radius: 4px;"></div>
                     </div>
                   </div>
                 </div>
@@ -68,9 +68,9 @@ export default {
               <div style="margin-bottom: 30px; padding: 15px; background-color: #FFF3E0; border-left: 4px solid #FB8C00; border-radius: 8px;">
                 <div style="display: flex; align-items: center;">
                   <div style="flex-grow: 1">
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Moderate Risk Detected</div>
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #B45309;">Medium Risk Detected</div>
                     <div style="font-size: 14px; color: #4B5563;">
-                      This content contains language that could be considered inappropriate or mildly harmful. While not severe, such content may still negatively impact others.
+                      This content contains potentially concerning language or behavior that could be inappropriate or harmful. While not severe, it requires attention.
                     </div>
                     <div style="margin-top: 12px;">
                       <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Risk Score: ${data.score}%</div>
@@ -79,17 +79,28 @@ export default {
                   </div>
                 </div>
               </div>
-            ` : `
+            ` : data.riskLevel === 'low' ? `
               <div style="margin-bottom: 30px; padding: 15px; background-color: #E3F2FD; border-left: 4px solid #1E88E5; border-radius: 8px;">
                 <div style="display: flex; align-items: center;">
                   <div style="flex-grow: 1">
-                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">Low Risk Detected</div>
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #1565C0;">Low Risk Detected</div>
                     <div style="font-size: 14px; color: #4B5563;">
-                      This content contains some concerning elements, but they are minimal. The language is largely appropriate but has some minor issues worth noting.
+                      This content contains minor concerning elements. While generally acceptable, there are some aspects that warrant attention.
                     </div>
                     <div style="margin-top: 12px;">
                       <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Risk Score: ${data.score}%</div>
                       <div style="background-color: #1E88E5; height: 8px; width: ${data.score}%; border-radius: 4px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ` : `
+              <div style="margin-bottom: 30px; padding: 15px; background-color: #F0FDF4; border-left: 4px solid #22C55E; border-radius: 8px;">
+                <div style="display: flex; align-items: center;">
+                  <div style="flex-grow: 1">
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px; color: #15803D;">Unknown Risk Level</div>
+                    <div style="font-size: 14px; color: #4B5563;">
+                      The risk level could not be determined. Please review the content carefully.
                     </div>
                   </div>
                 </div>
