@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ResourceView from '../views/ResourceView.vue'
 import CyberbullyingHelpView from '../views/resource/CyberbullyingHelpView.vue'
 import GroomingHelpView from '../views/resource/GroomingHelpView.vue'
+import SafetyCheckView from '../views/SafetyCheckView.vue'
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -58,6 +59,14 @@ const router = createRouter({
       path: '/scenario',
       name: 'scenario',
       component: () => import('../views/Scenario.vue')
+    },
+    {
+      path: '/safety-check',
+      name: 'safety-check',
+      component: SafetyCheckView,
+      meta: {
+        title: 'Online Safety Analyzer'
+      }
     }
   ],
   scrollBehavior() {
