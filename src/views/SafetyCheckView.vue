@@ -243,7 +243,7 @@
           
           <div class="report-item">
             <div class="report-label">Analyzed Content:</div>
-            <div class="report-value">{{ displayContent || 'n/a' }}</div>
+            <div class="report-value">{{ maskedContent(displayContent) || 'n/a' }}</div>
           </div>
           
           <div class="report-item">
@@ -542,8 +542,19 @@ export default {
       }
     },
     clearError() {
+      // Clear error message
       if (this.inputError) {
         this.inputError = '';
+      }
+      // Also clear analysis result and related state when user starts new input
+      if (this.analysisComplete) {
+        this.analysisComplete = false;
+        this.bullyingScore = 0;
+        this.riskLevel = 'safe';
+        this.resultType = this.activeTab;
+        this.displayContent = '';
+        // Optionally clear extractedText if switching from image to text
+        // this.extractedText = '';
       }
     },
     setActiveTab(tab) {
@@ -553,6 +564,14 @@ export default {
       this.contentToAnalyze = '' // Clear input text when switching tabs
     },
     triggerFileUpload() {
+      // Clear analysis result and related state when uploading a new image
+      if (this.analysisComplete) {
+        this.analysisComplete = false;
+        this.bullyingScore = 0;
+        this.riskLevel = 'safe';
+        this.resultType = this.activeTab;
+        this.displayContent = '';
+      }
       this.$refs.fileInput.click()
     },
     handleFileUpload(event) {
@@ -1077,6 +1096,11 @@ export default {
       
       // Scroll to results
       this.scrollToResults()
+    },
+    // Mask the analyzed content with asterisks, preserving line breaks
+    maskedContent(content) {
+      if (!content) return '';
+      return content.replace(/[^\n]/g, '*');
     },
   },
   async created() {
