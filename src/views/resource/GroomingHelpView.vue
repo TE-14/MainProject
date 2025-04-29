@@ -67,12 +67,13 @@
                 Save the Evidence
               </v-card-title>
               <v-card-text>
+                <p>Save the Evidence</p>
                 <p>It can help you later.</p>
                 <p>Even if you're unsure, don't delete messages. Save screenshots, usernames, and chat history. This evidence can help if you decide to report — and protect others, too.</p>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-content-save" class="mr-1"></v-icon>
-                  <span>How to Save Evidence</span>
-                </v-btn>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                  <span>How to save evidence</span>
+                </div>
               </v-card-text>
             </v-card>
           </div>
@@ -98,10 +99,10 @@
                   <li><strong>headspace Melbourne</strong> (Youth Mental Health)</li>
                   <li>headspace.org.au/headspace-centres/melbourne</li>
                 </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-map-marker" class="mr-1"></v-icon>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                   <span>Find Local Support</span>
-                </v-btn>
+                </div>
               </v-card-text>
             </v-card>
 
@@ -111,17 +112,20 @@
                 National Resources
               </v-card-title>
               <v-card-text>
-                <div class="support-contacts">
-                  <v-btn prepend-icon="mdi-phone" block>
+                <ul class="support-list">
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                     Kids Helpline: 1800 55 1800
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-web" block>
+                  </li>
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                     eSafety Commissioner
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-web" block>
+                  </li>
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                     www.esafety.gov.au
-                  </v-btn>
-                </div>
+                  </li>
+                </ul>
               </v-card-text>
             </v-card>
 
@@ -135,10 +139,10 @@
                   <p class="quote">"Speaking up is a sign of strength — and you're not alone."</p>
                 </div>
                 <p class="mt-3">People are ready to help. Taking the first step to talk to someone may feel difficult, but professionals understand what you're going through and can provide the support you need.</p>
-                <v-btn size="small" color="secondary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                   <span>Find Help</span>
-                </v-btn>
+                </div>
               </v-card-text>
             </v-card>
           </div>
@@ -925,5 +929,29 @@ li:last-child {
 .v-card-text li {
   margin-bottom: 0.8rem;
   line-height: 1.5;
+}
+
+.support-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.support-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  background: rgba(133, 104, 201, 0.05);
+  border-radius: 8px;
+  color: #483d8b;
+  font-weight: 500;
+}
+
+.support-list .v-icon {
+  margin-right: 0.5rem;
+  color: #483d8b;
 }
 </style> 

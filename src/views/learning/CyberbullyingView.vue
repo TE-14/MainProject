@@ -26,7 +26,7 @@
         <v-row justify="center" class="mt-8">
           <!-- Card 2 - Who gets cyberbullied the most? -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
+            <div class="flip-card" @click="flipCard(2)" :class="{ 'is-flipped': activeCard === 2 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="error" class="mb-4">mdi-account-group-outline</v-icon>
@@ -43,7 +43,7 @@
 
           <!-- Card 3 - Does gender affect cyberbullying? -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
+            <div class="flip-card" @click="flipCard(3)" :class="{ 'is-flipped': activeCard === 3 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="info" class="mb-4">mdi-gender-male-female</v-icon>
@@ -59,7 +59,7 @@
           </v-col>
 
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
+            <div class="flip-card" @click="flipCard(4)" :class="{ 'is-flipped': activeCard === 4 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="warning" class="mb-4">mdi-message-alert-outline</v-icon>
@@ -76,7 +76,7 @@
 
           <!-- Card 5 - Mental Health Impact -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
+            <div class="flip-card" @click="flipCard(5)" :class="{ 'is-flipped': activeCard === 5 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="deep-purple" class="mb-4">mdi-brain</v-icon>
@@ -93,7 +93,7 @@
 
           <!-- Card 6 - Prevention Strategies -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
+            <div class="flip-card" @click="flipCard(6)" :class="{ 'is-flipped': activeCard === 6 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="success" class="mb-4">mdi-shield-check</v-icon>
@@ -116,7 +116,7 @@
 
           <!-- Card 7 - Types of Cyberbullying -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card7Flipped = !card7Flipped" :class="{ 'is-flipped': card7Flipped }">
+            <div class="flip-card" @click="flipCard(7)" :class="{ 'is-flipped': activeCard === 7 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="orange" class="mb-4">mdi-chat-alert-outline</v-icon>
@@ -132,7 +132,7 @@
           </v-col>
 
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card8Flipped = !card8Flipped" :class="{ 'is-flipped': card8Flipped }">
+            <div class="flip-card" @click="flipCard(8)" :class="{ 'is-flipped': activeCard === 8 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="red-darken-2" class="mb-4">mdi-hand-back-right</v-icon>
@@ -148,7 +148,7 @@
           </v-col>
 
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card10Flipped = !card10Flipped" :class="{ 'is-flipped': card10Flipped }">
+            <div class="flip-card" @click="flipCard(10)" :class="{ 'is-flipped': activeCard === 10 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="teal" class="mb-4">mdi-account-child-outline</v-icon>
@@ -165,7 +165,7 @@
 
           <!-- Card 11 - Emotional Impact -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card11Flipped = !card11Flipped" :class="{ 'is-flipped': card11Flipped }">
+            <div class="flip-card" @click="flipCard(11)" :class="{ 'is-flipped': activeCard === 11 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="pink" class="mb-4">mdi-heart-broken-outline</v-icon>
@@ -181,7 +181,7 @@
           </v-col>
 
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card12Flipped = !card12Flipped" :class="{ 'is-flipped': card12Flipped }">
+            <div class="flip-card" @click="flipCard(12)" :class="{ 'is-flipped': activeCard === 12 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="indigo" class="mb-4">mdi-gavel</v-icon>
@@ -204,7 +204,7 @@
 
           <!-- Card 15 - Building Digital Citizenship -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card15Flipped = !card15Flipped" :class="{ 'is-flipped': card15Flipped }">
+            <div class="flip-card" @click="flipCard(15)" :class="{ 'is-flipped': activeCard === 15 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="green" class="mb-4">mdi-handshake</v-icon>
@@ -242,20 +242,99 @@ export default {
   name: 'CyberbullyingView',
   data() {
     return {
-      card2Flipped: false,
-      card3Flipped: false,
-      card4Flipped: false,
-      card5Flipped: false,
-      card6Flipped: false,
-      card7Flipped: false,
-      card8Flipped: false,
-      card10Flipped: false,
-      card11Flipped: false,
-      card12Flipped: false,
-      card15Flipped: false,     
+      activeCard: null,
+      cards: [
+        {
+          id: 2,
+          title: 'Who gets cyberbullied the most?',
+          content: 'Teenagers aged 16 to 17 report the highest levels of online victimization in recent studies — especially those using many platforms.',
+          isFlipped: false
+        },
+        {
+          id: 3,
+          title: 'Does gender affect cyberbullying?',
+          content: 'Cyberbullying affects everyone, but sometimes in different ways. Some data shows males report slightly higher victimization, but girls are more likely to experience emotional forms like exclusion or rumor spreading.',
+          isFlipped: false
+        },
+        {
+          id: 4,
+          title: 'What is trolling?',
+          content: 'Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it\'s meant to upset someone, it\'s not funny — it\'s bullying.',
+          isFlipped: false
+        },
+        {
+          id: 5,
+          title: 'Mental Health Impact',
+          content: 'Yes. Victims of cyberbullying often feel anxious, depressed, lonely, or angry. It can affect sleep, self-worth, and how safe you feel online — even offline, too.',
+          isFlipped: false
+        },
+        {
+          id: 6,
+          title: 'Prevention Strategies',
+          content: 'Use privacy settings, think before you post, don\'t share passwords, block or report bullies, keep proof if something goes wrong.',
+          isFlipped: false
+        },
+        {
+          id: 7,
+          title: 'Types of Cyberbullying',
+          content: 'Yes — in many places, things like online threats, harassment, and defamation break the law. Even if it feels like "just online stuff," cyberbullying can lead to serious consequences.',
+          isFlipped: false
+        },
+        {
+          id: 8,
+          title: 'Can impulsive behavior lead to bullying?',
+          content: 'Yes. Teens who act without thinking — especially when angry or bored — are more likely to lash out online. That impulsive post or comment? It can become cyberbullying.',
+          isFlipped: false
+        },
+        {
+          id: 10,
+          title: 'Is ignoring the bully the best option?',
+          content: 'Sometimes. Ignoring can stop the bully from getting attention, but it doesn\'t always work. If it keeps happening, block them, report the behavior, and talk to someone you trust.',
+          isFlipped: false
+        },
+        {
+          id: 11,
+          title: 'Emotional Impact',
+          content: 'Jokes can still hurt. If someone feels humiliated or targeted, it might be bullying. Intent doesn\'t matter as much as impact — be kind and think before posting.',
+          isFlipped: false
+        },
+        {
+          id: 12,
+          title: 'How can I help a friend who\'s being bullied online?',
+          content: 'Listen without judgment, encourage them to save proof, help them report it, remind them it\'s not their fault, suggest talking to a trusted adult or school counselor.',
+          isFlipped: false
+        },
+        {
+          id: 15,
+          title: 'Building Digital Citizenship',
+          content: 'Many teens stay silent due to shame, fear, or not wanting to get others in trouble. But speaking up helps protect you and others.',
+          isFlipped: false
+        }
+      ]
     }
   },
   methods: {
+    flipCard(cardId) {
+      if (this.activeCard === cardId) {
+        this.activeCard = null;
+        this.cards = this.cards.map(card => ({
+          ...card,
+          isFlipped: false
+        }));
+        return;
+      }
+
+      this.cards = this.cards.map(card => ({
+        ...card,
+        isFlipped: false
+      }));
+
+      const cardIndex = this.cards.findIndex(card => card.id === cardId);
+      if (cardIndex !== -1) {
+        this.cards[cardIndex].isFlipped = true;
+        this.activeCard = cardId;
+      }
+    },
     goToNextPage() {
       this.$router.push('/cyberbullyingscenario')
     }

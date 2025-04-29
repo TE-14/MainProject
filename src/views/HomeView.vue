@@ -124,8 +124,8 @@
                     Learn More
                   </v-btn>
                 </div>
-                <p class="text-body-1 mb-6">
-                  In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
+                <p class="description">
+                  Cyberbullying has become a serious issue in the digital age. Perpetrators use online anonymity to harass others through verbal attacks and threats, causing psychological harm and affecting victims' daily lives.
                 </p>
               </div>
             </v-col>
@@ -159,8 +159,8 @@
                   Learn More
                 </v-btn>
               </div>
-              <p class="text-body-1 mb-6">
-                Online grooming is a serious threat in today's digital world. Predators use social media and online platforms to build relationships with young people, often pretending to be someone they're not. They gradually gain trust through manipulation and deception, potentially leading to emotional harm or dangerous situations. The tactics used by online predators are becoming more sophisticated, making it crucial to stay informed and vigilant about online interactions.
+              <p class="description">
+                Online grooming is a significant threat in today's digital world. Predators use social media platforms to target young people through fake identities and deception, potentially leading to dangerous situations.
               </p>
             </div>
           </div>
