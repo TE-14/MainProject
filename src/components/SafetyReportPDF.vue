@@ -28,7 +28,7 @@ export default {
       try {
         this.isGeneratingPDF = true;
         
-        // 构建PDF内容
+        // Create PDF content
         const content = `
           <div style="font-family: Arial, sans-serif; padding: 20px;">
             <h1 style="color: #4F46E5; text-align: center; margin-bottom: 30px;">Online Safety Analysis Report</h1>
@@ -271,7 +271,7 @@ export default {
           </div>
         `
 
-        // PDF配置选项
+        // PDF configuration options
         const options = {
           margin: 10,
           filename: `${data.checkType}_safety_report_${new Date().toISOString().split('T')[0]}.pdf`,
@@ -280,7 +280,7 @@ export default {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         }
 
-        // 生成PDF
+        // Generate PDF
         await html2pdf().from(content).set(options).save()
       } catch (error) {
         console.error('Error generating PDF:', error)

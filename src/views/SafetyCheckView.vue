@@ -1,7 +1,7 @@
 <template>
   <div class="global-container">
     <div class="safety-check-container">
-      <!-- 添加PDF组件 -->
+      <!-- Add PDF component -->
       <SafetyReportPDF ref="safetyReportPDF" />
       
       <!-- Header -->
@@ -74,6 +74,9 @@
                 </button>
               </div>
               <span class="text-caption file-name">{{ selectedFile.name }}</span>
+              <div v-if="isExtractingText" class="d-flex justify-center align-center mt-2">
+                <v-progress-circular indeterminate color="primary" size="22" />
+              </div>
             </div>
             <span v-if="selectedFile && !extractedText" class="text-caption mr-auto"></span>
             <v-spacer v-if="!selectedFile"></v-spacer>
@@ -509,6 +512,14 @@
           </v-btn>
         </div>
       </div>
+
+      <transition name="fade">
+        <div v-if="analysisComplete && !hasScrolled" class="scroll-indicator" @click="scrollToResults">
+          <div class="scroll-indicator-content">
+            <v-icon>mdi-arrow-down</v-icon>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -538,7 +549,9 @@ export default {
       riskLevel: 'safe', // 'high', 'medium', 'low', 'safe'
       groomingApiUrl: apiConfig.grooming.url,
       isGroomingApiAvailable: false,
-      displayContent: '' // New property to store content for display
+      displayContent: '', // New property to store content for display
+      isExtractingText: false, // New: show spinner when extracting text from image
+      hasScrolled: false
     }
   },
   computed: {
@@ -721,6 +734,22 @@ export default {
     }
   },
   methods: {
+    // Add scroll event listener when component is mounted
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    // Remove the scroll event listener when component is destroyed
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.handleScroll);
+    },
+    // Handle scroll events
+    handleScroll() {
+      if (window.scrollY > 300 && this.analysisComplete) {
+        this.hasScrolled = true;
+      } else if (window.scrollY < 100) {
+        this.hasScrolled = false;
+      }
+    },
     async testApiConnection() {
       try {
         console.log('Testing Grooming API connection...')
@@ -755,8 +784,29 @@ export default {
       this.analysisComplete = false // Hide results when switching tabs
       this.inputError = ''
       this.contentToAnalyze = '' // Clear input text when switching tabs
+      
+      // Clear uploaded file when switching tabs
+      this.selectedFile = null
+      this.selectedFilePreview = null
+      this.extractedText = ''
+      
+      // Reset file input element
+      if (this.$refs.fileInput) {
+        this.$refs.fileInput.value = ''
+      }
     },
     triggerFileUpload() {
+      // 清空之前的分析结果
+      this.analysisComplete = false
+      this.bullyingScore = 0
+      this.riskLevel = 'safe'
+      this.displayContent = ''
+      
+      // 重置已有的图片（如果存在）
+      if (this.selectedFile) {
+        this.removeSelectedFile()
+      }
+      
       this.$refs.fileInput.click()
     },
     handleFileUpload(event) {
@@ -784,6 +834,12 @@ export default {
       this.contentToAnalyze = ''
       this.inputError = '' // Clear any error messages
       
+      // 清空分析结果
+      this.analysisComplete = false
+      this.bullyingScore = 0
+      this.riskLevel = 'safe'
+      this.displayContent = ''
+      
       // Reset file input so the same file can be selected again
       if (this.$refs.fileInput) {
         this.$refs.fileInput.value = ''
@@ -794,9 +850,8 @@ export default {
       formData.append('file', file);
 
       try {
-        // Show processing in UI
-        this.inputError = "Processing image...please wait"
-        
+        // Show spinner while extracting text
+        this.isExtractingText = true;
         // Using same fetch pattern for consistency
         const response = await fetch('http://localhost:8000/extract-text/', {
           method: 'POST',
@@ -832,10 +887,8 @@ export default {
         this.inputError = 'Failed to extract text from image. Please try another image or enter text manually.';
         return "";
       } finally {
-        // Clear processing message
-        if (this.inputError === "Processing image...please wait") {
-          this.inputError = '';
-        }
+        // Hide spinner after extraction
+        this.isExtractingText = false;
       }
     },
     async analyzeContent() {
@@ -1078,17 +1131,17 @@ export default {
       this.resultType = 'cyberbullying'
       this.analysisComplete = true
       
-      // Scroll to results
-      this.scrollToResults()
+      // Reset scroll tracking when new results are available
+      this.hasScrolled = false
     },
     
     scrollToResults() {
-      setTimeout(() => {
-        const resultsEl = document.querySelector('.alert-message')
-        if (resultsEl) {
-          resultsEl.scrollIntoView({ behavior: 'smooth' })
-        }
-      }, 100)
+      const resultsEl = document.querySelector('.alert-message');
+      if (resultsEl) {
+        resultsEl.scrollIntoView({ behavior: 'smooth' });
+      }
+      // Mark as scrolled
+      this.hasScrolled = true;
     },
     
     formatDate(date) {
@@ -1103,7 +1156,7 @@ export default {
     },
     
     downloadReport() {
-      // 调用PDF组件的生成方法
+      // Call the PDF component's generation method
       this.$refs.safetyReportPDF.generatePDF({
         reportType: this.riskLevel === 'safe' ? 'Safety' : 'Analysis',
         checkType: this.activeTab === 'cyberbullying' ? 'Cyberbullying' : 'Grooming',
@@ -1273,8 +1326,8 @@ export default {
       this.resultType = 'grooming'
       this.analysisComplete = true
       
-      // Scroll to results
-      this.scrollToResults()
+      // Reset scroll tracking when new results are available
+      this.hasScrolled = false
     },
   },
   async created() {
@@ -1828,5 +1881,47 @@ export default {
   border: 1px solid #E5E7EB;
   border-radius: 8px;
   overflow: hidden;
+}
+
+/* Scroll indicator styles */
+.scroll-indicator {
+  position: fixed;
+  bottom: 80px; /* Moved higher to avoid being covered */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  background-color: rgba(99, 102, 241, 0.75);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 999; /* Ensure it's above all other elements */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.scroll-indicator:hover {
+  background-color: rgba(99, 102, 241, 0.9);
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-indicator-content {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+/* Transition for fade in/out */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
 }
 </style> 
