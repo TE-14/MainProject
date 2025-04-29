@@ -157,24 +157,117 @@ export default {
               </ul>
             </div>
 
-            ${data.strategies && data.strategies.length > 0 ? `
-              <h2 style="color: #4F46E5; font-size: 20px; font-weight: 700; margin-bottom: 15px; margin-top: 32px;">
-                ${data.strategiesTitle}
+            <!-- Risks and Protective Strategies Section -->
+            <div style="margin-bottom: 30px;">
+              <h2 style="color: #4F46E5; margin-bottom: 15px;">
+                ${data.checkType === 'Cyberbullying' ? 'Cyberbullying Risks and Protective Strategies' : 'Online Grooming Risks and Protective Strategies'}
               </h2>
-              <ol style="padding-left: 20px; margin: 0;">
-                ${data.strategies.map(item => `
-                  <li style="margin-bottom: 18px;">
-                    <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px;">${item.title}</div>
-                    <div style="font-size: 13px; color: #374151; margin-bottom: 2px; margin-left: 18px;">${item.desc}</div>
-                    <div style="font-size: 12px; color: #374151; margin-bottom: 2px; margin-left: 18px;"><b>Action:</b> <i>${item.action}</i></div>
-                    <div style="font-size: 12px; color: #888; margin-left: 18px;">
-                      <b>Source:</b> ${item.source}
-                      <a href="${item.sourceUrl}" style="color: #6366f1; margin-left: 8px; text-decoration: underline;">View Source</a>
-                    </div>
-                  </li>
-                `).join('')}
-              </ol>
-            ` : ''}
+              ${data.checkType === 'Cyberbullying' ? `
+                <!-- Cyberbullying Strategies -->
+                <div style="margin-bottom: 20px;">
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Understand the Forms of Cyberbullying</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Recognize different forms of cyberbullying, such as harassment, impersonation, and social exclusion, to act early and effectively.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Discuss different types of cyberbullying with teens and how to respond safely.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Cyberbullying Research Center, "Preventing Cyberbullying: Top Ten Tips for Teens", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Save Evidence and Report It</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Document incidents by saving screenshots, chat logs, and timestamps to report through proper channels.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Teach young users how to gather evidence safely before blocking an aggressor.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: UNICEF, "How to Stop Cyberbullying", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Avoid Emotional Posting</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Posting while angry or upset can escalate conflicts and cause regret. Encourage pausing before posting.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Introduce a "cool-down rule" before posting sensitive or emotional content online.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Cyberbullying Research Center, "Standing Up to Cyberbullying: Tips for Teens", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Recognize Warning Signs</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Signs of cyberbullying include frequent use of negative predictive text, hostile emojis, or abrupt changes in online behavior.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Monitor digital interactions and encourage open conversations when warning signs appear.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: The Sun, "Signs Your Child Is a Cyberbullying Victim", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Protect Your Passwords</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Sharing passwords even with trusted friends can lead to misuse or identity theft.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Emphasize the importance of keeping passwords confidential and changing them regularly.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Cyberbullying Research Center, "Password Safety: Top Ten Tips for Teens", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Encourage Open Communication</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Maintaining open lines of communication helps young people feel safe to report online issues without fear.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Create a trusted environment where teens know they can seek help when needed.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: National Crime Prevention Council, "Cyberbullying Tips for Teens", 2017</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Use Social Media Privacy Settings</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Setting stricter privacy controls helps limit unwanted interactions and exposure to risks.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Regularly review and adjust privacy settings on all social media platforms.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: StopBullying.gov, "How to Prevent Cyberbullying", 2024</em></div>
+                  </div>
+                </div>
+              ` : `
+                <!-- Grooming Strategies -->
+                <div style="margin-bottom: 20px;">
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Educate About Online Grooming Risks</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Children must understand the dangers of sharing personal information online and how grooming works.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Use age-appropriate examples to explain grooming tactics and risks.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Internet Matters, "Protect Your Child from Online Grooming", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Encourage Reporting Suspicious Behavior</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Children should be empowered to report any suspicious online approach to parents or trusted adults.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Make it clear that reporting strange behavior is safe and encouraged.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: NSPCC, "Online Grooming - Keep Your Child Safe", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Set and Regularly Review Privacy Settings</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Regularly updating device privacy settings helps prevent contact from strangers.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Review privacy settings together with children at regular intervals.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Netsafe, "Grooming - Online Abuse and Harassment", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Avoid Private or Inappropriate Online Conversations</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Private chats can be a grooming risk. Teach children to be cautious and recognize inappropriate approaches.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Encourage children to leave any conversation that feels uncomfortable.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Childline, "Online Grooming Safety Advice", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Establish Internet Usage Rules</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Setting clear boundaries around device use helps reduce exposure to unsafe environments.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Develop family internet usage agreements, including time limits and approved platforms.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: The Children's Society, "Preventing Child Sexual Exploitation: Online Safety", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Warn Against Manipulative Behavior</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Strangers offering gifts or constant attention online may be attempting grooming tactics.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Teach children that genuine friendships do not involve secret gifts or pressure.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: Safe Austin, "What is Grooming: Online Safety for Kids", 2024</em></div>
+                  </div>
+
+                  <div style="margin-bottom: 20px; padding-bottom: 15px;">
+                    <div style="font-weight: 600; color: #374151; margin-bottom: 8px;">Maintain Regular Online Check-ins</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;">Frequent discussions about online activity help detect issues early and foster trust.</div>
+                    <div style="color: #4B5563; margin-bottom: 8px;"><strong>Action:</strong> Ask about online experiences during regular family conversations.</div>
+                    <div style="color: #6B7280; font-size: 12px;"><em>Source: FBI Safe Online Surfing Program, "SOS - Safe Online Surfing", 2024</em></div>
+                  </div>
+                </div>
+              `}
+            </div>
           </div>
         `
 
