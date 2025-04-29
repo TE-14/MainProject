@@ -274,28 +274,225 @@
           </ul>
         </v-card>
         
-        <!-- Related Articles -->
+        <!-- Cyberbullying/Grooming Risks and Protective Strategies -->
         <v-card class="result-card mb-6" elevation="1">
-          <h3 class="card-header">Related Articles</h3>
-          <div 
-            v-for="(article, index) in currentRelatedArticles" 
-            :key="index"
-            class="related-article"
-          >
-            <a href="#" class="article-link">{{ article.title }}</a>
-            <div class="article-meta">{{ article.source }} · {{ article.date }}</div>
-          </div>
-        </v-card>
-        
-        <!-- Helpful Resources -->
-        <v-card class="result-card mb-6" elevation="1">
-          <h3 class="card-header">Helpful Resources</h3>
-          <div 
-            v-for="(resource, index) in currentHelpfulResources" 
-            :key="index"
-            class="resource-item"
-          >
-            <a href="#" class="resource-link">{{ resource }}</a>
+          <h3 class="card-header">{{ activeTab === 'cyberbullying' ? 'Cyberbullying Risks and Protective Strategies' : 'Online Grooming Risks and Protective Strategies' }}</h3>
+          <div class="strategy-list">
+            <template v-if="activeTab === 'cyberbullying'">
+              <!-- Cyberbullying Strategies -->
+              <!-- Strategy 1 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Understand the Forms of Cyberbullying</div>
+                <div class="strategy-description">
+                  Recognize different forms of cyberbullying, such as harassment, impersonation, and social exclusion, to act early and effectively.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Discuss different types of cyberbullying with teens and how to respond safely.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Cyberbullying Research Center, "Preventing Cyberbullying: Top Ten Tips for Teens", 2024</em>
+                  <a href="https://cyberbullying.org/preventing-cyberbullying-top-ten-tips-for-teens" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 2 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Save Evidence and Report It</div>
+                <div class="strategy-description">
+                  Document incidents by saving screenshots, chat logs, and timestamps to report through proper channels.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Teach young users how to gather evidence safely before blocking an aggressor.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: UNICEF, "How to Stop Cyberbullying", 2024</em>
+                  <a href="https://www.unicef.org/end-violence/how-to-stop-cyberbullying" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 3 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Avoid Emotional Posting</div>
+                <div class="strategy-description">
+                  Posting while angry or upset can escalate conflicts and cause regret. Encourage pausing before posting.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Introduce a "cool-down rule" before posting sensitive or emotional content online.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Cyberbullying Research Center, "Standing Up to Cyberbullying: Tips for Teens", 2024</em>
+                  <a href="https://cyberbullying.org/standing-up-to-cyberbullying" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 4 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Recognize Warning Signs</div>
+                <div class="strategy-description">
+                  Signs of cyberbullying include frequent use of negative predictive text, hostile emojis, or abrupt changes in online behavior.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Monitor digital interactions and encourage open conversations when warning signs appear.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: The Sun, "Signs Your Child Is a Cyberbullying Victim", 2024</em>
+                  <a href="https://www.thesun.co.uk/tech/cyberbullying-signs" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 5 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Protect Your Passwords</div>
+                <div class="strategy-description">
+                  Sharing passwords even with trusted friends can lead to misuse or identity theft.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Emphasize the importance of keeping passwords confidential and changing them regularly.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Cyberbullying Research Center, "Password Safety: Top Ten Tips for Teens", 2024</em>
+                  <a href="https://cyberbullying.org/password-safety" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 6 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Encourage Open Communication</div>
+                <div class="strategy-description">
+                  Maintaining open lines of communication helps young people feel safe to report online issues without fear.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Create a trusted environment where teens know they can seek help when needed.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: National Crime Prevention Council, "Cyberbullying Tips for Teens", 2017</em>
+                  <a href="https://www.ncpc.org/resources/cyberbullying" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 7 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Use Social Media Privacy Settings</div>
+                <div class="strategy-description">
+                  Setting stricter privacy controls helps limit unwanted interactions and exposure to risks.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Regularly review and adjust privacy settings on all social media platforms.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: StopBullying.gov, "How to Prevent Cyberbullying", 2024</em>
+                  <a href="https://www.stopbullying.gov/cyberbullying/prevention" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+            </template>
+
+            <template v-else>
+              <!-- Grooming Strategies -->
+              <!-- Strategy 1 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Educate About Online Grooming Risks</div>
+                <div class="strategy-description">
+                  Children must understand the dangers of sharing personal information online and how grooming works.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Use age-appropriate examples to explain grooming tactics and risks.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Internet Matters, "Protect Your Child from Online Grooming", 2024</em>
+                  <a href="https://www.internetmatters.org/issues/online-grooming" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 2 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Encourage Reporting Suspicious Behavior</div>
+                <div class="strategy-description">
+                  Children should be empowered to report any suspicious online approach to parents or trusted adults.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Make it clear that reporting strange behavior is safe and encouraged.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: NSPCC, "Online Grooming - Keep Your Child Safe", 2024</em>
+                  <a href="https://www.nspcc.org.uk/keeping-children-safe/online-safety/online-grooming" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 3 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Set and Regularly Review Privacy Settings</div>
+                <div class="strategy-description">
+                  Regularly updating device privacy settings helps prevent contact from strangers.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Review privacy settings together with children at regular intervals.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Netsafe, "Grooming - Online Abuse and Harassment", 2024</em>
+                  <a href="https://www.netsafe.org.nz/grooming" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 4 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Avoid Private or Inappropriate Online Conversations</div>
+                <div class="strategy-description">
+                  Private chats can be a grooming risk. Teach children to be cautious and recognize inappropriate approaches.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Encourage children to leave any conversation that feels uncomfortable.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Childline, "Online Grooming Safety Advice", 2024</em>
+                  <a href="https://www.childline.org.uk/info-advice/bullying-abuse-safety/online-mobile-safety/online-grooming" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 5 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Establish Internet Usage Rules</div>
+                <div class="strategy-description">
+                  Setting clear boundaries around device use helps reduce exposure to unsafe environments.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Develop family internet usage agreements, including time limits and approved platforms.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: The Children's Society, "Preventing Child Sexual Exploitation: Online Safety", 2024</em>
+                  <a href="https://www.childrenssociety.org.uk/what-we-do/our-work/child-criminal-exploitation-and-county-lines/online-safety" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 6 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Warn Against Manipulative Behavior</div>
+                <div class="strategy-description">
+                  Strangers offering gifts or constant attention online may be attempting grooming tactics.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Teach children that genuine friendships do not involve secret gifts or pressure.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: Safe Austin, "What is Grooming: Online Safety for Kids", 2024</em>
+                  <a href="https://www.safeaustin.org/our-services/prevention-and-education/online-safety" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+
+              <!-- Strategy 7 -->
+              <div class="strategy-item">
+                <div class="strategy-title">Maintain Regular Online Check-ins</div>
+                <div class="strategy-description">
+                  Frequent discussions about online activity help detect issues early and foster trust.
+                </div>
+                <div class="strategy-action">
+                  <strong>Action:</strong> Ask about online experiences during regular family conversations.
+                </div>
+                <div class="strategy-source">
+                  <em>Source: FBI Safe Online Surfing Program, "SOS - Safe Online Surfing", 2024</em>
+                  <a href="https://sos.fbi.gov" target="_blank" class="source-link">View Source</a>
+                </div>
+              </div>
+            </template>
           </div>
         </v-card>
         
@@ -1562,5 +1759,48 @@ export default {
 .risk-level-badge.safe {
   background-color: #D1FAE5;
   color: #065F46;
+}
+
+.strategy-list {
+  padding: 0;
+}
+.strategy-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+.strategy-item:last-child {
+  border-bottom: none;
+}
+.strategy-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+.strategy-description {
+  font-size: 14px;
+  color: #4B5563;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.strategy-action {
+  font-size: 14px;
+  color: #4B5563;
+  margin-bottom: 8px;
+}
+.strategy-source {
+  font-size: 12px;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.source-link {
+  color: #2563EB;
+  text-decoration: none;
+  font-size: 12px;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style> 
