@@ -26,7 +26,7 @@
         <v-row justify="center" class="mt-8">
           <!-- Card 1 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card1Flipped = !card1Flipped" :class="{ 'is-flipped': card1Flipped }">
+            <div class="flip-card" @click="flipCard(1)" :class="{ 'is-flipped': activeCard === 1 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="primary" class="mb-4">mdi-help-circle</v-icon>
@@ -43,7 +43,7 @@
 
           <!-- Card 2 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card2Flipped = !card2Flipped" :class="{ 'is-flipped': card2Flipped }">
+            <div class="flip-card" @click="flipCard(2)" :class="{ 'is-flipped': activeCard === 2 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="error" class="mb-4">mdi-account-group</v-icon>
@@ -60,7 +60,7 @@
 
           <!-- Card 3 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card3Flipped = !card3Flipped" :class="{ 'is-flipped': card3Flipped }">
+            <div class="flip-card" @click="flipCard(3)" :class="{ 'is-flipped': activeCard === 3 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="warning" class="mb-4">mdi-gauge-low</v-icon>
@@ -83,7 +83,7 @@
 
           <!-- Card 4 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card4Flipped = !card4Flipped" :class="{ 'is-flipped': card4Flipped }">
+            <div class="flip-card" @click="flipCard(4)" :class="{ 'is-flipped': activeCard === 4 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="success" class="mb-4">mdi-shield-check</v-icon>
@@ -106,7 +106,7 @@
 
           <!-- Card 5 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card5Flipped = !card5Flipped" :class="{ 'is-flipped': card5Flipped }">
+            <div class="flip-card" @click="flipCard(5)" :class="{ 'is-flipped': activeCard === 5 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="info" class="mb-4">mdi-school</v-icon>
@@ -129,7 +129,7 @@
 
           <!-- Card 6 -->
           <v-col cols="12" md="4" class="d-flex justify-center mb-6">
-            <div class="flip-card" @click="card6Flipped = !card6Flipped" :class="{ 'is-flipped': card6Flipped }">
+            <div class="flip-card" @click="flipCard(6)" :class="{ 'is-flipped': activeCard === 6 }">
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <v-icon size="48" color="deep-purple" class="mb-4">mdi-heart-pulse</v-icon>
@@ -233,12 +233,45 @@ export default {
   name: 'GroomingView',
   data() {
     return {
-      card1Flipped: false,
-      card2Flipped: false,
-      card3Flipped: false,
-      card4Flipped: false,
-      card5Flipped: false,
-      card6Flipped: false,
+      activeCard: null,
+      cards: [
+        {
+          id: 1,
+          title: 'What is online grooming?',
+          content: 'Online grooming is when someone (often an adult) tries to gain the trust of a child or teen online to exploit or abuse them later. They might act friendly, send gifts, or pretend to be someone else to build a relationship.',
+          isFlipped: false
+        },
+        {
+          id: 2,
+          title: 'How do groomers contact teens?',
+          content: 'Groomers use platforms like social media, gaming chats, forums, or direct messages. They may lie about their age or identity to get close to their targets and often move the conversation to private messaging quickly.',
+          isFlipped: false
+        },
+        {
+          id: 3,
+          title: 'What tactics do groomers use?',
+          content: 'Flattery and compliments, gifting money or game credits, asking to keep conversations secret, pretending to share similar interests, making the victim feel special or understood.',
+          isFlipped: false
+        },
+        {
+          id: 4,
+          title: 'How can I protect myself?',
+          content: 'Don\'t share personal info online, keep social media private, be cautious of online strangers, never agree to meet someone you\'ve only met online, tell a trusted adult if something feels wrong.',
+          isFlipped: false
+        },
+        {
+          id: 5,
+          title: 'How can parents and schools help?',
+          content: 'Teach safe online habits early, monitor digital behavior and apps, encourage open communication, set boundaries for screen time and contacts, stay informed about new online risks.',
+          isFlipped: false
+        },
+        {
+          id: 6,
+          title: 'What are the long-term effects of online grooming?',
+          content: 'Online grooming can lead to serious emotional and psychological consequences, including anxiety, depression, trust issues, and trauma. Victims may feel ashamed or blame themselves. Early support and intervention are key to recovery.',
+          isFlipped: false
+        }
+      ],
       newsArticles: [],
       loadingNews: false,
       error: null
@@ -274,6 +307,27 @@ export default {
     },
     openArticle(url) {
       window.open(url, '_blank');
+    },
+    flipCard(cardId) {
+      if (this.activeCard === cardId) {
+        this.activeCard = null;
+        this.cards = this.cards.map(card => ({
+          ...card,
+          isFlipped: false
+        }));
+        return;
+      }
+
+      this.cards = this.cards.map(card => ({
+        ...card,
+        isFlipped: false
+      }));
+
+      const cardIndex = this.cards.findIndex(card => card.id === cardId);
+      if (cardIndex !== -1) {
+        this.cards[cardIndex].isFlipped = true;
+        this.activeCard = cardId;
+      }
     }
   },
   mounted() {
