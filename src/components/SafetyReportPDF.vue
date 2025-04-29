@@ -156,6 +156,25 @@ export default {
                 `).join('')}
               </ul>
             </div>
+
+            ${data.strategies && data.strategies.length > 0 ? `
+              <h2 style="color: #4F46E5; font-size: 20px; font-weight: 700; margin-bottom: 15px; margin-top: 32px;">
+                ${data.strategiesTitle}
+              </h2>
+              <ol style="padding-left: 20px; margin: 0;">
+                ${data.strategies.map(item => `
+                  <li style="margin-bottom: 18px;">
+                    <div style="font-size: 14px; font-weight: 500; margin-bottom: 4px;">${item.title}</div>
+                    <div style="font-size: 13px; color: #374151; margin-bottom: 2px; margin-left: 18px;">${item.desc}</div>
+                    <div style="font-size: 12px; color: #374151; margin-bottom: 2px; margin-left: 18px;"><b>Action:</b> <i>${item.action}</i></div>
+                    <div style="font-size: 12px; color: #888; margin-left: 18px;">
+                      <b>Source:</b> ${item.source}
+                      <a href="${item.sourceUrl}" style="color: #6366f1; margin-left: 8px; text-decoration: underline;">View Source</a>
+                    </div>
+                  </li>
+                `).join('')}
+              </ol>
+            ` : ''}
           </div>
         `
 
