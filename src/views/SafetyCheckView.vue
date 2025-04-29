@@ -278,7 +278,7 @@
         <v-card class="result-card mb-6" elevation="1">
           <h3 class="card-header">{{ activeTab === 'cyberbullying' ? 'Cyberbullying Risks and Protective Strategies' : 'Online Grooming Risks and Protective Strategies' }}</h3>
           <div class="strategy-list">
-            <template v-if="activeTab === 'cyberbullying'">
+            <div v-if="activeTab === 'cyberbullying'">
               <!-- Cyberbullying Strategies -->
               <!-- Strategy 1 -->
               <div class="strategy-item">
@@ -384,9 +384,9 @@
                   <a href="https://www.stopbullying.gov/cyberbullying/prevention" target="_blank" class="source-link">View Source</a>
                 </div>
               </div>
-            </template>
+            </div>
 
-            <template v-else>
+            <div v-else>
               <!-- Grooming Strategies -->
               <!-- Strategy 1 -->
               <div class="strategy-item">
@@ -492,7 +492,7 @@
                   <a href="https://sos.fbi.gov" target="_blank" class="source-link">View Source</a>
                 </div>
               </div>
-            </template>
+            </div>
           </div>
         </v-card>
         
@@ -1762,45 +1762,71 @@ export default {
 }
 
 .strategy-list {
-  padding: 0;
+  padding: 20px;
 }
+
 .strategy-item {
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #E5E7EB;
 }
+
 .strategy-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
   border-bottom: none;
 }
+
 .strategy-title {
-  font-size: 16px;
   font-weight: 600;
   color: #374151;
   margin-bottom: 8px;
+  font-size: 16px;
 }
+
 .strategy-description {
-  font-size: 14px;
   color: #4B5563;
   margin-bottom: 8px;
+  font-size: 14px;
   line-height: 1.5;
 }
+
 .strategy-action {
-  font-size: 14px;
   color: #4B5563;
   margin-bottom: 8px;
+  font-size: 14px;
 }
+
 .strategy-source {
-  font-size: 12px;
   color: #6B7280;
+  font-size: 12px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
 }
+
 .source-link {
-  color: #2563EB;
+  color: #4F46E5;
+  margin-left: 10px;
   text-decoration: none;
   font-size: 12px;
   &:hover {
     text-decoration: underline;
   }
+}
+
+.card-header {
+  padding: 16px 20px;
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.result-card {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
 }
 </style> 
