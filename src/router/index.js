@@ -76,7 +76,17 @@ const router = createRouter({
       meta: {
         title: 'Mini Games'
       }
-    }
+    },
+    {
+      path: '/minigames/cyberbullying',
+      name: 'cyberbullying',
+      component: () => import('../views/minigames/CyberbullyingView.vue')
+    },
+    {
+      path: '/minigames/grooming',
+      name: 'CyberDecisionSnake',
+      component: () => import('../views/minigames/CyberDecisionSnake.vue')
+    },
   ],
   scrollBehavior() {
     return { top: 0 }  // 强制滚动到顶部
