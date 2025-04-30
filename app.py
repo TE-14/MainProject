@@ -29,42 +29,39 @@ app.add_middleware(
     allow_headers=["Content-Type", "Accept", "Authorization"],
 )
 
-# === OCR Setup ===
-# Initialize with English, and specify GPU usage if available
-ocr_reader = easyocr.Reader(['en'], gpu=torch.cuda.is_available())
+# === Initialize OCR reader once ===
+reader = easyocr.Reader(['en'])
 
-# === Grammar Correction Setup ===
-grammar_corrector = hf_pipeline("text2text-generation", model="vennify/t5-base-grammar-correction")
+# === Helper Functions ===
 
-def clean_ocr_text(lines):
-    """
-    Remove time-like values from OCR output (e.g., 14:06, 12.45)
-    """
-    time_pattern = re.compile(r'\b\d{1,2}[:.]\d{2}\b', re.IGNORECASE)
-    return [line for line in lines if not time_pattern.search(line)]
+def remove_timestamps(text):
+    # Split into lines
+    lines = text.splitlines()
+    cleaned_lines = []
+    for line in lines:
+        # Remove line if it matches something like "15.38", "9:12", etc. (even with small words after)
+        if re.match(r'^\s*\d{1,2}[.:*]\d{2}(?:\s*\w*)?\s*$', line.strip()):
+            continue
+        cleaned_lines.append(line)
+    return '\n'.join(cleaned_lines)
 
-def correct_text(text):
-    """
-    Run grammar correction on OCR output.
-    """
-    try:
-        # Skip grammar correction if text is empty or too short
-        if not text or len(text.strip()) < 5:
-            print(f"Text too short for grammar correction: '{text}'")
-            return text
-            
-        print(f"Running grammar correction on text: '{text[:50]}...'")
-        result = grammar_corrector(text, max_length=256, do_sample=False)
-        corrected = result[0]['generated_text'].strip()
-        print(f"Grammar correction result: '{corrected[:50]}...'")
-        return corrected
-    except Exception as e:
-        print(f"Error in grammar correction: {str(e)}")
-        # Return original text if grammar correction fails
-        return text
+def remove_inline_timestamps(text):
+    # Remove 3 or 4 digit numbers that are directly attached to letters (no space)
+    cleaned_text = re.sub(r'(?<=[a-zA-Z])\d{3,4}(?=\s|$)', '', text)
+    return cleaned_text
+
+def remove_lines_with_leading_numbers(text):
+    cleaned_lines = []
+    for line in text.splitlines():
+        line = line.strip()
+        # If line starts with a 3-4 digit number (e.g., 1344 vi)
+        line = re.sub(r'^\d{3,4}\s*', '', line)
+        if line:  # keep only if something remains
+            cleaned_lines.append(line)
+    return '\n'.join(cleaned_lines)
 
 def fix_common_ocr_misreads(line):
-    line = line.replace("'","'").replace("'","'").replace("`","'")
+    line = line.replace("’", "'").replace("‘", "'").replace("`", "'")
     line = re.sub(r"\bTve\b", "I've", line)
     line = re.sub(r"\bTll\b", "I'll", line)
     line = re.sub(r"\bTm\b", "I'm", line)
@@ -73,103 +70,57 @@ def fix_common_ocr_misreads(line):
     line = re.sub(r"\bl'm\b", "I'm", line)
     return line
 
-# Add image preprocessing function
-def preprocess_image(img):
-    """
-    Preprocess image to improve OCR results
-    """
-    # Convert to grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    # Apply adaptive thresholding
-    thresh = cv2.adaptiveThreshold(
-        gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-        cv2.THRESH_BINARY, 11, 2
-    )
-    
-    # Apply some blur to reduce noise
-    blur = cv2.GaussianBlur(thresh, (3, 3), 0)
-    
-    # Apply dilation to make text more visible
-    kernel = np.ones((1, 1), np.uint8)
-    dilated = cv2.dilate(blur, kernel, iterations=1)
-    
-    return dilated
+def enhance_image_resolution(image_np, scale_factor=2.0):
+    height, width = image_np.shape[:2]
+    new_height, new_width = int(height * scale_factor), int(width * scale_factor)
+    resized_img = cv2.resize(image_np, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+    return resized_img
+
+def extract_text_with_easyocr(image_np):
+    results = reader.readtext(image_np)
+    results.sort(key=lambda x: (x[0][0][1] + x[0][2][1]) / 2)
+    extracted_texts = [text for bbox, text, conf in results if conf > 0.2]
+    return '\n'.join(extracted_texts)
+
+# === API Endpoint ===
 
 @app.post("/extract-text/")
-async def extract_text(file: UploadFile = File(...)):
-    temp_filename = f"temp_{uuid.uuid4().hex}.jpg"
-    enhanced_filename = f"enhanced_{uuid.uuid4().hex}.jpg"
-    
+async def extract_text_api(file: UploadFile = File(...), scale_factor: float = 2.0):
     try:
-        # Save uploaded file
-        with open(temp_filename, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        # Read file bytes
+        contents = await file.read()
 
-        # Read image
-        img = cv2.imread(temp_filename)
-        if img is None:
-            return {"error": "Could not read image file", "text": ""}
-        
-        # Get original image dimensions for debugging
-        original_height, original_width = img.shape[:2]
-        print(f"Original image dimensions: {original_width}x{original_height}")
-            
-        # Enhance resolution (scale up)
-        img_resized = cv2.resize(img, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
-        
-        # Try different preprocessing approaches
-        preprocessed = preprocess_image(img_resized)
-        
-        # Save enhanced image for debugging
-        cv2.imwrite(enhanced_filename, preprocessed)
-        print(f"Saved enhanced image to {enhanced_filename}")
+        # Try opening with PIL
+        try:
+            image = Image.open(io.BytesIO(contents)).convert("RGB")
+        except Exception as e:
+            return JSONResponse(status_code=400, content={"error": f"Invalid image file: {str(e)}"})
 
-        # Try OCR on both original and preprocessed images
-        print(f"Running OCR on original image...")
-        results_original = ocr_reader.readtext(img_resized)
-        print(f"OCR results count (original): {len(results_original)}")
+        # Convert to OpenCV format
+        image_np = np.array(image)
+        image_np = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
+
+        # Enhance resolution
+        enhanced_image = enhance_image_resolution(image_np, scale_factor)
+
+        # Extract text
+        extracted_text = extract_text_with_easyocr(enhanced_image)
+
+        # Correct Extracted Text
+        corrected_text = remove_timestamps(extracted_text)
+        print(corrected_text)
         
-        print(f"Running OCR on preprocessed image...")
-        results_preprocessed = ocr_reader.readtext(preprocessed)
-        print(f"OCR results count (preprocessed): {len(results_preprocessed)}")
+        # Then remove inline timestamps
+        inlinecorrected_text = remove_lines_with_leading_numbers(corrected_text)
+
+        # Correct Extracted Text
+        final_text = fix_common_ocr_misreads(inlinecorrected_text)
         
-        # Use whichever gave more results
-        if len(results_preprocessed) > len(results_original):
-            print("Using preprocessed image results")
-            results = results_preprocessed
-        else:
-            print("Using original image results")
-            results = results_original
-        
-        # Extract text with confidence > 0.2
-        raw_lines = [text for _, text, conf in results if conf > 0.2]
-        print(f"Raw lines after confidence filter: {len(raw_lines)}")
-        print(f"Raw text: {raw_lines}")
-
-        # If no text was detected, return early
-        if not raw_lines:
-            print("No text detected in image")
-            return {"text": ""}
-
-        # Remove time-like values
-        filtered_lines = clean_ocr_text(raw_lines)
-        extracted_text = "\n".join(filtered_lines)
-        print(f"Extracted text: '{extracted_text}'")
-
-        # Grammar correction - only if we have enough text
-        if len(extracted_text.strip()) > 5:
-            corrected_text = correct_text(extracted_text)
-            final_corrected_text = fix_common_ocr_misreads(corrected_text)
-        else:
-            print("Text too short for corrections, using raw text")
-            final_corrected_text = extracted_text
-
-        print(f"Final text: '{final_corrected_text}'")
-        return { "text": final_corrected_text }
+        return JSONResponse(content={"text": final_text})
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Server error: {str(e)}"})
+
 
 # === Grooming Detection Setup ===
 model = DistilBertForSequenceClassification.from_pretrained("./grooming_model")
