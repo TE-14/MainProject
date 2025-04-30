@@ -177,7 +177,7 @@ export default {
   height: auto !important;
   min-height: 58px !important;
   padding: 12px 20px !important;
-  background-color: #00A86B !important;
+  background-color: #e0e0e0 !important;
   border-radius: 4px !important;
   transition: all 0.2s ease;
   display: flex;
