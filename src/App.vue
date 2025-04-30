@@ -71,6 +71,15 @@
           <v-icon start class="mr-2">mdi-account-group</v-icon>
           SCENARIO
         </v-btn>
+
+        <v-btn
+          to="/mini-games"
+          :class="['nav-btn mx-2', $route.path === '/mini-games' || $route.path.includes('mini-games') ? 'nav-btn-active' : '']"
+          elevation="0"
+        >
+          <v-icon start class="mr-2">mdi-account-group</v-icon>
+          MINI-GAMES
+        </v-btn>
       </div>
     </v-app-bar>
 
