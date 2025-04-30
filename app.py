@@ -1,10 +1,16 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import easyocr
 import cv2
 import numpy as np
+<<<<<<< Updated upstream
+=======
+import easyocr
+import io
+>>>>>>> Stashed changes
 from PIL import Image
 import io
 import re
@@ -120,7 +126,10 @@ async def extract_text_api(file: UploadFile = File(...), scale_factor: float = 2
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Server error: {str(e)}"})
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 
 # === Grooming Detection Setup ===
