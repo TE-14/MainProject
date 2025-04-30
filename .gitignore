@@ -41,3 +41,20 @@ coverage/
 # Build files
 dist/
 coverage/
+
+# Python virtual environment
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Model files
+grooming_model/
+grooming_model/model.safetensors
+grooming_model/checkpoint-*/
+*.pt
+*.bin
+*.safetensors
+*.pth
+*.onnx
+*.dylib

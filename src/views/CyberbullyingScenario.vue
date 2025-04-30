@@ -210,7 +210,8 @@ import scenario1Text2 from '@/assets/images/cb_tc2.jpg';
 import scenario1Image2 from '@/assets/images/CB1_distressed_allison.jpg';
 import scenario1Text3 from '@/assets/images/cb_tc3.jpg';
 import scenario1Image3 from '@/assets/images/CB1_stressed_allison.jpg';
-//import scenario1Image4 from '@/assets/images/scenario3.jpg';
+import scenario1Image4 from '@/assets/images/CB1_neutral_allison.jpg';
+import end_card from '@/assets/images/end_card.jpg';
 // Add any other images you need for your scenarios here
 
 // Image map for resolving paths
@@ -221,10 +222,8 @@ const imageMap = {
   'CB1_distressed_allison.jpg': scenario1Image2,
   'cb_tc3.jpg': scenario1Text3,
   'CB1_stressed_allison.jpg': scenario1Image3,
-  //'scenario3.jpg': scenario1Image4,
-  //'text_chain1.jpg': scenario1Text1,
-  //'text_chain2.jpg': scenario1Text2,
-  //'end_card.jpg': scenario1Image4
+  'CB1_neutral_allison.jpg': scenario1Image4,
+  'end_card.jpg': end_card
 };
 
 export default {
@@ -312,7 +311,7 @@ export default {
         this.correctAnswers++;
       }
       
-      // You could also update the end card statistics here
+      // Update the end card statistics here
       if (this.scenario.parts) {
         const endCardIndex = this.scenario.parts.findIndex(part => part.type === 'end');
         if (endCardIndex !== -1 && this.scenario.parts[endCardIndex].statistics) {

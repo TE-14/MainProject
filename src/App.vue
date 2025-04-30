@@ -55,11 +55,20 @@
         </v-btn>
 
         <v-btn
-          to="/scenario"
-          :class="['nav-btn mx-2', $route.path === '/scenario' ? 'nav-btn-active' : '']"
+          to="/safety-check"
+          :class="['nav-btn mx-2', $route.path === '/safety-check' ? 'nav-btn-active' : '']"
           elevation="0"
         >
           <v-icon start class="mr-2">mdi-shield-alert</v-icon>
+          SAFETY CHECK
+        </v-btn>
+
+        <v-btn
+          to="/scenario"
+          :class="['nav-btn mx-2', $route.path === '/scenario' || $route.path.includes('scenario') ? 'nav-btn-active' : '']"
+          elevation="0"
+        >
+          <v-icon start class="mr-2">mdi-account-group</v-icon>
           SCENARIO
         </v-btn>
       </div>
@@ -79,9 +88,36 @@
       <span class="text-caption text-medium-emphasis">Empowering digital citizens, creating a secure online world.</span>
       <v-spacer></v-spacer>
       <div class="social-links">
-        <v-btn icon="mdi-twitter" variant="text" class="mx-1"></v-btn>
-        <v-btn icon="mdi-github" variant="text" class="mx-1"></v-btn>
-        <v-btn icon="mdi-linkedin" variant="text" class="mx-1"></v-btn>
+        <v-btn 
+          icon="mdi-twitter" 
+          variant="text" 
+          class="mx-1"
+          href="https://twitter.com" 
+          target="_blank"
+          rel="noopener noreferrer"
+          :ripple="false"
+          title="Visit Twitter"
+        ></v-btn>
+        <v-btn 
+          icon="mdi-github" 
+          variant="text" 
+          class="mx-1"
+          href="https://github.com" 
+          target="_blank"
+          rel="noopener noreferrer"
+          :ripple="false"
+          title="Visit GitHub"
+        ></v-btn>
+        <v-btn 
+          icon="mdi-linkedin" 
+          variant="text" 
+          class="mx-1"
+          href="https://linkedin.com" 
+          target="_blank"
+          rel="noopener noreferrer"
+          :ripple="false"
+          title="Visit LinkedIn"
+        ></v-btn>
       </div>
     </v-footer>
   </v-app>
@@ -425,6 +461,33 @@ html, body {
     padding: 0.5rem;
     margin: 0.5rem;
   }
+}
+
+/* Social links in footer */
+.social-links {
+  display: flex;
+}
+
+.social-links .v-btn {
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.social-links .v-btn:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.social-links .v-btn[icon="mdi-twitter"]:hover {
+  color: #1DA1F2 !important;
+}
+
+.social-links .v-btn[icon="mdi-github"]:hover {
+  color: #333333 !important;
+}
+
+.social-links .v-btn[icon="mdi-linkedin"]:hover {
+  color: #0077B5 !important;
 }
 
 /* 响应式图片 */

@@ -1,17 +1,17 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-
-      <!-- 添加过渡面板作为第一屏 -->
-
       <section class="section intro-section">
         <div class="full-screen-panel cyberbullying-panel">
           <div class="panel-overlay"></div>
           <div class="panel-content">
             <h1 class="panel-title">Cyberbullying</h1>
-            <p class="panel-description">
-              Learn to identify, protect yourself, and respond to cyberbullying.
-            </p>
+            <div class="banner-message">
+              <h2 class="banner-headline">Are you experiencing cyberbullying?</h2>
+              <p class="banner-text">
+                You're not alone and it's not your fault. Cyberbullying can happen to anyone, and it can be painful, confusing, and overwhelming. But there is help, and there are steps you can take right now.
+              </p>
+            </div>
             <div class="scroll-hint">
               <span>Scroll to explore</span>
               <div class="scroll-arrow-container">
@@ -26,42 +26,39 @@
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
-            <div class="title">Understanding Cyberbullying</div>
-            <div class="category">Warning Signs & Protection</div>
+            <div class="title">Take a deep breath</div>
+            <div class="category">Let's walk through this together</div>
           </div>
           <div class="resource-grid">
 
-            <!-- Keep the simplified content structure -->
-
-
             <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
-                Warning Signs
+                Document Everything
               </v-card-title>
               <v-card-text>
                 <div class="warning-message">
-                  <v-icon class="warning-icon" icon="mdi-alert-circle"></v-icon>
-                  <div>Look out for:</div>
+                  <v-icon class="warning-icon" icon="mdi-file-document"></v-icon>
+                  <div>Evidence is important</div>
                 </div>
                 <ul class="mt-4">
-                  <li>Repeated mean messages</li>
-                  <li>Negative comments on posts</li>
-                  <li>Fake accounts or impersonation</li>
-                  <li>Sharing private information</li>
+                  <li>Take screenshots of harmful messages</li>
+                  <li>Save abusive texts or emails</li>
+                  <li>Record dates and times of incidents</li>
+                  <li>This can help if you report later</li>
                 </ul>
               </v-card-text>
             </v-card>
 
             <v-card class="resource-card help-card">
               <v-card-title>
-                How to Protect Yourself
+                Block and Report
               </v-card-title>
               <v-card-text>
                 <ul>
-                  <li><strong>Privacy Settings:</strong> Adjust your accounts</li>
-                  <li><strong>Block Feature:</strong> Use it on social media</li>
-                  <li><strong>Save Evidence:</strong> Screenshots of bullying</li>
-                  <li><strong>Tell Someone:</strong> Talk to a trusted adult</li>
+                  <li><strong>Block the bully</strong> on all platforms</li>
+                  <li><strong>Report abusive content</strong> to the platform</li>
+                  <li><strong>Use privacy settings</strong> to control who contacts you</li>
+                  <li><strong>You deserve</strong> to feel safe online</li>
                 </ul>
                 <v-btn size="small" color="primary" class="mt-4 action-btn">
                   <v-icon size="small" icon="mdi-shield" class="mr-1"></v-icon>
@@ -72,19 +69,23 @@
 
             <v-card class="resource-card support-card">
               <v-card-title>
-                Get Help Now
+                Talk to Someone
               </v-card-title>
               <v-card-text>
                 <div class="support-contacts">
-                  <v-btn prepend-icon="mdi-phone" block>
-                    Kids Helpline: 1800 55 1800
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-web" block>
-                    eSafety Commissioner
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-account-group" block>
-                    School Counselor
-                  </v-btn>
+                  <p class="mb-3">Speaking up is a sign of strength. Reach out to:</p>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-account-group</v-icon>
+                    <span>Parent or Teacher</span>
+                  </div>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-school</v-icon>
+                    <span>School Counselor</span>
+                  </div>
+                  <div class="support-option">
+                    <v-icon class="support-icon">mdi-account</v-icon>
+                    <span>Trusted Friend</span>
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -92,67 +93,59 @@
         </div>
       </section>
 
-      <!-- The existing second screen becomes the third screen -->
-
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
-            <div class="title">What to Do If You're Being Cyberbullied</div>
-            <div class="category">Steps to Take</div>
+            <div class="title">Know Your Rights and Options</div>
+            <div class="category">Help is Available</div>
           </div>
           <div class="resource-grid">
-            <v-card class="resource-card">
-              <v-card-title>
-                Immediate Actions
-              </v-card-title>
-              <v-card-text>
-                <ol>
-                  <li><strong>Don't respond</strong> to the bully</li>
-                  <li><strong>Block the person</strong> on social media</li>
-                  <li><strong>Save the evidence</strong> - screenshots</li>
-                  <li><strong>Report to the platform</strong></li>
-                </ol>
-                <div class="remember-tip">
-                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                  <span>Not your fault</span>
-                </div>
-              </v-card-text>
-            </v-card>
-
-            <v-card class="resource-card">
-              <v-card-title>
-                Mental Health
-              </v-card-title>
-              <v-card-text>
-                <ul>
-                  <li><strong>Talk to Someone</strong> you trust</li>
-                  <li><strong>Self-Care</strong> is important</li>
-                  <li><strong>Disconnect</strong> when needed</li>
-                  <li><strong>Focus</strong> on positive activities</li>
-                </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-heart" class="mr-1"></v-icon>
-                  <span>Self-Care</span>
-                </v-btn>
-              </v-card-text>
-            </v-card>
-
             <v-card class="resource-card">
               <v-card-title>
                 Support Resources
               </v-card-title>
               <v-card-text>
-                <p>Help is available:</p>
+                <p>Professional help is available:</p>
                 <ul class="mt-2">
-                  <li>Kids Helpline</li>
-                  <li>eSafety Commissioner</li>
-                  <li>School Counselors</li>
-                  <li>Parents and Teachers</li>
+                  <li><strong>Kids Helpline:</strong> 1800 55 1800</li>
+                  <li><strong>Online Chat:</strong> yourtown.com.au/webcounselling</li>
+                  <li><strong>eSafety Commissioner</strong></li>
+                  <li><strong>School Counselors</strong></li>
                 </ul>
-                <v-btn size="small" color="secondary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
-                  <span>Find Help</span>
-                </v-btn>
+              </v-card-text>
+            </v-card>
+
+            <v-card class="resource-card">
+              <v-card-title>
+                Serious Situations
+              </v-card-title>
+              <v-card-text>
+                <p>When things feel serious, involve the police:</p>
+                <ul>
+                  <li>Threats or intimidation</li>
+                  <li>Sharing explicit images</li>
+                  <li>Stalking behavior</li>
+                  <li>Physical threats</li>
+                </ul>
+              </v-card-text>
+            </v-card>
+
+            <v-card class="resource-card">
+              <v-card-title>
+                You Matter
+              </v-card-title>
+              <v-card-text>
+                <p class="mb-3">You are not defined by someone else's cruelty.</p>
+                <ul>
+                  <li>You are valued and important</li>
+                  <li>You deserve kindness, online and offline</li>
+                  <li>Help is available</li>
+                  <li>Healing is possible</li>
+                </ul>
+                <div class="remember-tip">
+                  <v-icon size="small" icon="mdi-heart" class="mr-1"></v-icon>
+                  <span>Stay strong</span>
+                </div>
               </v-card-text>
             </v-card>
           </div>
@@ -214,15 +207,13 @@ export default defineComponent({
   },
   computed: {
     totalSections() {
-
-      return 3; // 现在有三个部分
-
+      return 3;
     },
     getTransformStyle() {
       return {
         transform: `translateX(-${this.currentSection * (100 / this.totalSections)}%)`,
       };
-    },
+    }
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
@@ -245,20 +236,16 @@ export default defineComponent({
       }
       
       if (event.deltaY > this.scrollThreshold) {
-
         // Scroll down
-
         if (this.currentSection < this.totalSections - 1) {
           this.currentSection++;
           this.lastScrollTime = now;
         } else {
-
           // When scrolling down in the last section, return to the main resources page
           this.returnToResources();
         }
       } else if (event.deltaY < -this.scrollThreshold) {
         // Scroll up
-
         if (this.currentSection > 0) {
           this.currentSection--;
           this.lastScrollTime = now;
@@ -275,11 +262,8 @@ export default defineComponent({
       this.router.push({ name: 'resources' });
     },
     returnToMainView() {
-
-      // 使用更直接的方式返回主页面
-
       window.location.href = '/resources';
-    },
+    }
   },
 });
 </script>
@@ -700,64 +684,144 @@ export default defineComponent({
   transform: scaleY(0.5);
 }
 
-/* 修改按钮样式 - 更精致 */
-:deep(.v-btn) {
-  background: linear-gradient(135deg, #4682b4, #0f2942) !important;
-  color: white !important;
+/* 默认按钮样式 - 更柔和 */
+:deep(.v-btn:not(.support-contacts .v-btn)) {
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
   border: none !important;
   border-radius: 8px !important;
   height: auto !important;
-  padding: 8px 16px !important;
-  font-size: 0.9rem !important;
-  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 0 3px 8px rgba(70, 130, 180, 0.25) !important;
-  transition: all 0.2s ease !important;
-}
-
-:deep(.v-btn:hover) {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.3) !important;
-  background: linear-gradient(135deg, #5793c5, #1a3a6c) !important;
-}
-
-:deep(.v-btn.v-btn--color-primary) {
-  background: linear-gradient(135deg, #4682b4, #0f2942) !important;
-}
-
-:deep(.v-btn.v-btn--color-secondary) {
-  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-}
-
-:deep(.v-btn.v-btn--color-error) {
-  background: linear-gradient(135deg, #4682b4, #2b5797) !important;
-}
-
-/* 操作按钮样式 */
-.action-btn {
-  padding: 6px 12px !important;
-  font-size: 0.8rem !important;
-  font-weight: 500 !important;
-  border-radius: 6px !important;
-  display: inline-flex !important;
+  box-shadow: none !important;
+  transition: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 8px auto !important;
+  display: flex !important;
+  justify-content: center !important;
   align-items: center !important;
-  width: auto !important;
-  margin-left: auto !important;
+  text-align: center !important;
+  opacity: 0.85 !important;
+}
+
+/* 操作按钮样式 - 更柔和 */
+.action-btn {
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 16px auto !important;
   letter-spacing: 0.03em !important;
   text-transform: none !important;
-  box-shadow: 0 2px 5px rgba(70, 130, 180, 0.2) !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
+  border: none !important;
+  opacity: 0.85 !important;
 }
 
 .action-btn .v-icon {
-  font-size: 14px !important;
+  font-size: 16px !important;
+  opacity: 0.8;
+  margin-right: 8px !important;
 }
 
-.action-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 3px 8px rgba(70, 130, 180, 0.25) !important;
+/* Talk to Someone 卡片的按钮样式保持不变 */
+.support-contacts .v-btn {
+  width: 90% !important;
+  height: 42px !important;
+  border-radius: 21px !important;
+  margin-bottom: 0.8rem !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.5px !important;
+  font-weight: 500 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 24px !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  box-shadow: 0 2px 8px rgba(133, 104, 201, 0.15) !important;
+  background: linear-gradient(120deg, rgba(133, 104, 201, 0.85), rgba(79, 70, 229, 0.85)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(5px) !important;
+  transition: all 0.2s ease !important;
+  color: white !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
-/* Remember提示样式 */
+.support-contacts .v-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.25) !important;
+  background: linear-gradient(120deg, rgba(133, 104, 201, 0.9), rgba(79, 70, 229, 0.9)) !important;
+  width: 92% !important;
+}
+
+/* New styles for support options */
+.support-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: rgba(240, 240, 250, 0.6);
+  border-radius: 8px;
+  width: 90%;
+  transition: background-color 0.2s ease;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  border-left: 3px solid rgba(99, 102, 241, 0.2);
+}
+
+.support-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.support-icon {
+  color: #6366f1;
+  margin-right: 12px;
+  font-size: 20px;
+  opacity: 0.8;
+  position: relative;
+}
+
+.support-option span {
+  color: #374151;
+  font-weight: 500;
+  font-size: 14px;
+  position: relative;
+}
+
+.support-contacts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 16px !important;
+}
+
 .remember-tip {
   display: inline-flex;
   align-items: center;
@@ -813,91 +877,24 @@ export default defineComponent({
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 0.8rem !important;
-  overflow-y: auto;
-}
-
-.support-contacts {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding: 1rem 0;
-}
-
-/* 修改联系人按钮样式 - 更精致 */
-.support-contacts .v-btn {
-  width: 80% !important;
-  height: 36px !important;
-  border-radius: 18px !important;
-  margin-bottom: 0.7rem !important;
-  font-size: 0.85rem !important;
-  letter-spacing: 0.5px !important;
-  font-weight: 500 !important;
-  display: flex !important;
-  align-items: center !important;
   justify-content: flex-start !important;
-  padding-left: 1rem !important;
-  white-space: nowrap !important;
-  text-overflow: ellipsis !important;
-  box-shadow: 0 2px 8px rgba(70, 130, 180, 0.15) !important;
-  background: linear-gradient(120deg, rgba(70, 130, 180, 0.85), rgba(37, 99, 235, 0.85)) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  backdrop-filter: blur(5px) !important;
-  transition: all 0.2s ease !important;
+  align-items: flex-start !important;
+  padding: 1.5rem !important;
+  overflow-y: auto;
+  text-align: left;
+  height: 100%;
 }
 
-.support-contacts .v-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.25) !important;
-  background: linear-gradient(120deg, rgba(70, 130, 180, 0.9), rgba(37, 99, 235, 0.9)) !important;
-  width: 83% !important;
+.v-card-text ul {
+  text-align: left;
+  margin: 0;
+  padding-left: 1.5rem;
 }
 
-.support-contacts .v-btn:last-child {
-  margin-bottom: 0 !important;
-}
-
-.support-card {
-  overflow: hidden;
-  position: relative;
-}
-
-.support-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.v-card-text p {
+  text-align: left;
+  margin-bottom: 1rem;
   width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, rgba(137, 180, 217, 0.1), transparent 70%);
-  z-index: 0;
-}
-
-/* Update Get Support card content */
-.support-card .v-card-text {
-  padding: 0 !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-}
-
-.support-card .v-card-title {
-  background: none !important;
-  color: #4682b4 !important;
-  -webkit-text-fill-color: #4682b4 !important;
-  text-align: center !important;
-  justify-content: center !important;
-  font-size: 1.3rem !important;
-  padding: 1.2rem 1rem 0.8rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  filter: drop-shadow(0 0 5px rgba(70, 130, 180, 0.3)) !important;
 }
 
 .return-to-main-hint {
@@ -969,5 +966,46 @@ li {
 
 li:last-child {
   margin-bottom: 0;
+}
+
+/* Add new banner styles to match GroomingHelpView */
+.banner-message {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+}
+
+.banner-headline {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.encouragement-message {
+  background: rgba(70, 130, 180, 0.1);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(70, 130, 180, 0.2);
+}
+
+.quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #4682b4;
+  text-align: center;
 }
 </style> 

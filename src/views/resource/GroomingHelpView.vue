@@ -1,15 +1,18 @@
 <template>
   <div class="resource-container" @wheel="handleScroll" ref="container">
     <div class="sections-wrapper" :style="getTransformStyle">
-      <!-- 添加过渡面板作为第一屏 -->
+      <!-- First screen: Main intro panel -->
       <section class="section intro-section">
         <div class="full-screen-panel grooming-panel">
           <div class="panel-overlay"></div>
           <div class="panel-content">
             <h1 class="panel-title">Online Grooming</h1>
-            <p class="panel-description">
-              Learn to identify, prevent and respond to online grooming.
-            </p>
+            <div class="banner-message">
+              <h2 class="banner-headline">Something feels off? Trust that feeling.</h2>
+              <p class="banner-text">
+                Online grooming often starts with friendly messages — but if someone pushes personal questions, asks for photos, or wants to keep your chat secret, pause and trust your instincts. Healthy connections never rely on secrecy or pressure.
+              </p>
+            </div>
             <div class="scroll-hint">
               <span>Scroll to explore</span>
               <div class="scroll-arrow-container">
@@ -20,7 +23,7 @@
         </div>
       </section>
 
-      <!-- 现有的第一屏变成第二屏 -->
+      <!-- Second screen: Understanding section -->
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
@@ -28,59 +31,48 @@
             <div class="category">Warning Signs & Prevention</div>
           </div>
           <div class="resource-grid">
-            <!-- First Card: What to Watch Out For -->
+            <!-- First Card: Warning Signs -->
             <v-card class="resource-card warning-card">
               <v-card-title class="warning-title">
-                What to Watch Out For
+                Recognize the Red Flags
               </v-card-title>
               <v-card-text>
                 <div class="warning-message">
                   <v-icon class="warning-icon" icon="mdi-alert-circle"></v-icon>
-                  <div>Warning signs:</div>
+                  <div>Trust your instincts</div>
                 </div>
-                <ul class="mt-4">
-                  <li>Strangers contacting you online</li>
-                  <li>Asking personal questions</li>
-                  <li>Unexpected gifts or money</li>
-                  <li>Keeping relationships secret</li>
-                </ul>
+                <p class="mt-2">Real friends don't ask for secrets, pics, or silence.</p>
+                <p>If someone wants you to send private images, meet in person, or stay quiet — that's manipulation, not friendship. You always have the right to say no, and no one should make you feel bad for doing so.</p>
               </v-card-text>
             </v-card>
 
-            <!-- Second Card: How to Protect Yourself -->
+            <!-- Second Card: Not Your Fault -->
             <v-card class="resource-card help-card">
               <v-card-title>
-                How to Protect Yourself
+                It's Not Your Fault
               </v-card-title>
               <v-card-text>
-                <ul>
-                  <li><strong>Privacy Settings:</strong> Keep accounts private</li>
-                  <li><strong>Friend Requests:</strong> Only accept from people you know</li>
-                  <li><strong>Trust Your Instincts:</strong> If it feels wrong, it is</li>
-                  <li><strong>Tell Someone:</strong> Talk to a trusted adult</li>
-                </ul>
-                <v-btn block color="primary" class="mt-4">
-                  Learn More
-                </v-btn>
+                <p>You're not alone — and this is not your fault.</p>
+                <p>Groomers often make young people feel isolated or responsible. But their behavior is the problem, not yours. Talk to someone you trust — a teacher, parent, or counselor. You deserve support, and help is always available.</p>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                  <span>You deserve support</span>
+                </div>
               </v-card-text>
             </v-card>
 
-            <!-- Third Card: Get Support -->
-            <v-card class="resource-card support-card">
+            <!-- Third Card: Evidence -->
+            <v-card class="resource-card">
               <v-card-title>
-                Get Support Now
+                Save the Evidence
               </v-card-title>
               <v-card-text>
-                <div class="support-contacts">
-                  <v-btn prepend-icon="mdi-phone" block>
-                    Kids Helpline: 1800 55 1800
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-web" block>
-                    eSafety Commissioner
-                  </v-btn>
-                  <v-btn prepend-icon="mdi-police-badge" block>
-                    Police: 000 (Emergency)
-                  </v-btn>
+                <p>Save the Evidence</p>
+                <p>It can help you later.</p>
+                <p>Even if you're unsure, don't delete messages. Save screenshots, usernames, and chat history. This evidence can help if you decide to report — and protect others, too.</p>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                  <span>How to save evidence</span>
                 </div>
               </v-card-text>
             </v-card>
@@ -88,69 +80,69 @@
         </div>
       </section>
 
-      <!-- 现有的第二屏变成第三屏 -->
+      <!-- Third screen: Support Resources -->
       <section class="section">
         <div class="content-wrapper">
           <div class="text-content">
-            <div class="title">What to Do If You're Being Groomed</div>
-            <div class="category">Immediate Actions</div>
+            <div class="title">Reach Out For Help</div>
+            <div class="category">Support Resources</div>
           </div>
           <div class="resource-grid">
-            <!-- Action Steps Card -->
+            <!-- Local Services Card -->
             <v-card class="resource-card">
               <v-card-title>
-                Steps to Take
+                Local Support Services
               </v-card-title>
               <v-card-text>
-                <ol>
-                  <li><strong>Stop all contact</strong> immediately</li>
-                  <li><strong>Save evidence</strong> - screenshots, messages</li>
-                  <li><strong>Block the person</strong> on all platforms</li>
-                  <li><strong>Tell a trusted adult</strong></li>
-                </ol>
-                <div class="remember-tip">
+                <p>You can contact local services confidentially:</p>
+                <ul class="mt-2">
+                  <li><strong>headspace Melbourne</strong> (Youth Mental Health)</li>
+                  <li>headspace.org.au/headspace-centres/melbourne</li>
+                </ul>
+                <div class="remember-tip mt-3">
                   <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                  <span>Not your fault</span>
+                  <span>Find Local Support</span>
                 </div>
               </v-card-text>
             </v-card>
 
-            <!-- Resources Card -->
-            <v-card class="resource-card">
+            <!-- National Resources Card -->
+            <v-card class="resource-card support-card">
               <v-card-title>
-                Helpful Resources
+                National Resources
               </v-card-title>
               <v-card-text>
-                <ul>
-                  <li><strong>eSafety Guide</strong></li>
-                  <li><strong>Kids Helpline</strong></li>
-                  <li><strong>ReachOut</strong></li>
-                  <li><strong>Youth Support Services</strong></li>
+                <ul class="support-list">
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                    Kids Helpline: 1800 55 1800
+                  </li>
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                    eSafety Commissioner
+                  </li>
+                  <li>
+                    <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
+                    www.esafety.gov.au
+                  </li>
                 </ul>
-                <v-btn size="small" color="primary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-download" class="mr-1"></v-icon>
-                  <span>Guide</span>
-                </v-btn>
               </v-card-text>
             </v-card>
 
-            <!-- Support Card -->
+            <!-- Encouragement Card -->
             <v-card class="resource-card">
               <v-card-title>
-                Talk to Someone
+                Remember
               </v-card-title>
               <v-card-text>
-                <p>Professional support is available:</p>
-                <ul class="mt-2">
-                  <li>School counselors</li>
-                  <li>Mental health professionals</li>
-                  <li>Community centers</li>
-                  <li>Youth services</li>
-                </ul>
-                <v-btn size="small" color="secondary" class="mt-4 action-btn">
-                  <v-icon size="small" icon="mdi-account-search" class="mr-1"></v-icon>
+                <div class="encouragement-message">
+                  <p class="quote">"Speaking up is a sign of strength — and you're not alone."</p>
+                </div>
+                <p class="mt-3">People are ready to help. Taking the first step to talk to someone may feel difficult, but professionals understand what you're going through and can provide the support you need.</p>
+                <div class="remember-tip mt-3">
+                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
                   <span>Find Help</span>
-                </v-btn>
+                </div>
               </v-card-text>
             </v-card>
           </div>
@@ -158,24 +150,19 @@
       </section>
     </div>
 
-
     <!-- Return to main page hint -->
-
     <div v-if="currentSection === 2" class="return-to-main-hint">
       <v-icon class="bounce-arrow" icon="mdi-chevron-down" size="large" color="white"></v-icon>
       <div class="hint-text">Scroll down to return</div>
     </div>
 
-
     <!-- Return button -->
-
     <div class="return-button" @click="returnToResources">
       <v-icon icon="mdi-chevron-left"></v-icon>
       <span>Back</span>
     </div>
 
     <!-- Page indicators -->
-
     <div class="page-indicators">
       <div
         v-for="(_, index) in Array(totalSections)"
@@ -216,7 +203,7 @@ export default defineComponent({
   },
   computed: {
     totalSections() {
-      return 3; // 现在有三个部分
+      return 3;
     },
     getTransformStyle() {
       return {
@@ -453,7 +440,7 @@ export default defineComponent({
   transform-style: preserve-3d;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
-  color: #1a1035;
+  color: #0c2c4d;
   display: flex;
   flex-direction: column;
 }
@@ -684,167 +671,73 @@ export default defineComponent({
   transform: scaleY(0.5);
 }
 
-/* 修改按钮样式 - 更精致 */
-:deep(.v-btn) {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-  color: white !important;
+/* 默认按钮样式 - 更柔和 */
+:deep(.v-btn:not(.support-contacts .v-btn)) {
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
   border: none !important;
   border-radius: 8px !important;
   height: auto !important;
-  padding: 8px 16px !important;
-  font-size: 0.9rem !important;
-  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
   letter-spacing: 0.5px !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-  transition: all 0.2s ease !important;
-}
-
-:deep(.v-btn:hover) {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
-  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
-}
-
-:deep(.v-btn.v-btn--color-primary) {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-}
-
-:deep(.v-btn.v-btn--color-secondary) {
-  background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
-}
-
-:deep(.v-btn.v-btn--color-error) {
-  background: linear-gradient(135deg, #7b68ee, #483d8b) !important;
-}
-
-
-/* 新的操作按钮样式 */
-
-.action-btn {
-  padding: 6px 12px !important;
-  font-size: 0.8rem !important;
-  font-weight: 500 !important;
-  border-radius: 6px !important;
-  display: inline-flex !important;
+  box-shadow: none !important;
+  transition: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 8px auto !important;
+  display: flex !important;
+  justify-content: center !important;
   align-items: center !important;
-  width: auto !important;
-  margin-left: auto !important;
+  text-align: center !important;
+  opacity: 0.85 !important;
+}
+
+/* 操作按钮样式 - 更柔和 */
+.action-btn {
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 400 !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 16px auto !important;
   letter-spacing: 0.03em !important;
   text-transform: none !important;
-  box-shadow: 0 2px 5px rgba(133, 104, 201, 0.2) !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+  cursor: default !important;
+  background: rgba(133, 104, 201, 0.05) !important;
+  color: #483d8b !important;
+  border: none !important;
+  opacity: 0.85 !important;
 }
 
 .action-btn .v-icon {
-  font-size: 14px !important;
+  font-size: 16px !important;
+  opacity: 0.8;
+  margin-right: 8px !important;
 }
 
-.action-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-}
-
-
-/* Remember tip style */
-
-.remember-tip {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 1rem;
-  padding: 4px 10px;
-  background-color: rgba(254, 202, 202, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 6px;
-  color: #ef4444;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.remember-tip .v-icon {
-  color: #ef4444;
-  margin-right: 4px;
-}
-
-:deep(.v-alert.v-alert--type-error) {
-  background-color: rgba(99, 102, 241, 0.1) !important;
-  color: #4f46e5 !important;
-  border-color: #6366f1 !important;
-  border-radius: 8px !important;
-  font-size: 0.9rem !important;
-}
-
-:deep(.v-alert.v-alert--type-error .v-alert-title) {
-  color: #4f46e5 !important;
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-}
-
-.emergency-btn {
-  background: linear-gradient(135deg, #8568c9, #2b0b3f) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  margin-top: 1rem !important;
-  padding: 8px 16px !important;
-  box-shadow: 0 3px 8px rgba(133, 104, 201, 0.25) !important;
-}
-
-.emergency-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(133, 104, 201, 0.3) !important;
-  background: linear-gradient(135deg, #9074d0, #3c1c5b) !important;
-}
-
-/* Modify warning message style */
-
-.warning-message {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid #6366f1;
-  border-radius: 8px;
-  color: #4f46e5;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.warning-icon {
-  color: #6366f1;
-  font-size: 20px;
-}
-
-.v-card-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0.8rem !important;
-  overflow-y: auto;
-}
-
-.support-contacts {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding: 1rem 0;
-}
-
-/* 修改联系人按钮样式 - 更精致 */
+/* National Resources 卡片的按钮样式保持不变 */
 .support-contacts .v-btn {
-  width: 80% !important;
-  height: 36px !important;
-  border-radius: 18px !important;
-  margin-bottom: 0.7rem !important;
-  font-size: 0.85rem !important;
+  width: 90% !important;
+  height: 42px !important;
+  border-radius: 21px !important;
+  margin-bottom: 0.8rem !important;
+  font-size: 0.95rem !important;
   letter-spacing: 0.5px !important;
   font-weight: 500 !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  padding-left: 1rem !important;
+  justify-content: center !important;
+  padding: 0 24px !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
   box-shadow: 0 2px 8px rgba(133, 104, 201, 0.15) !important;
@@ -852,56 +745,26 @@ export default defineComponent({
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   backdrop-filter: blur(5px) !important;
   transition: all 0.2s ease !important;
+  color: white !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 .support-contacts .v-btn:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 4px 12px rgba(133, 104, 201, 0.25) !important;
   background: linear-gradient(120deg, rgba(133, 104, 201, 0.9), rgba(79, 70, 229, 0.9)) !important;
-  width: 83% !important;
+  width: 92% !important;
 }
 
-.support-contacts .v-btn:last-child {
-  margin-bottom: 0 !important;
-}
-
-.support-card {
-  overflow: hidden;
-  position: relative;
-}
-
-.support-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top right, rgba(157, 137, 217, 0.1), transparent 70%);
-  z-index: 0;
-}
-
-/* Update Get Support card content */
-.support-card .v-card-text {
-  padding: 0 !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-}
-
-.support-card .v-card-title {
-  background: none !important;
-  color: #7D5FD3 !important;
-  -webkit-text-fill-color: #7D5FD3 !important;
-  text-align: center !important;
+.support-contacts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
   justify-content: center !important;
-  font-size: 1.3rem !important;
-  padding: 1.2rem 1rem 0.8rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  filter: drop-shadow(0 0 5px rgba(125, 95, 211, 0.3)) !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 16px !important;
 }
 
 .return-to-main-hint {
@@ -975,5 +838,120 @@ li {
 
 li:last-child {
   margin-bottom: 0;
+}
+
+/* Add new banner styles */
+.banner-message {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+}
+
+.banner-headline {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.encouragement-message {
+  background: rgba(125, 95, 211, 0.1);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(125, 95, 211, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quote {
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #7D5FD3;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* 为 Remember 卡片中的段落添加特殊样式 */
+.resource-card:has(.encouragement-message) .v-card-text p:not(.quote) {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: #2c1810;
+}
+
+/* 专门为 Remember 卡片添加的样式 */
+.resource-card:has(.encouragement-message) {
+  min-height: 400px !important;
+  height: auto !important;
+}
+
+.resource-card:has(.encouragement-message) .v-card-text {
+  padding: 1rem !important;
+  overflow-y: auto !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 调整按钮位置 */
+.resource-card:has(.encouragement-message) .action-btn {
+  margin-top: 0.5rem !important;
+  align-self: flex-end;
+}
+
+.v-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  padding: 1rem !important;
+  overflow-y: auto;
+}
+
+.v-card-text ul {
+  margin: 0.8rem 0;
+}
+
+.v-card-text li {
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+.support-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.support-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  background: rgba(133, 104, 201, 0.05);
+  border-radius: 8px;
+  color: #483d8b;
+  font-weight: 500;
+}
+
+.support-list .v-icon {
+  margin-right: 0.5rem;
+  color: #483d8b;
 }
 </style> 

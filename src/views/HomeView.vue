@@ -35,7 +35,7 @@
         <div class="statistics-section text-center">
           <h3 class="text-h5 font-weight-bold mb-8">Warning Data in the Digital Age</h3>
           <p class="text-subtitle-1 text-grey-darken-1 mb-12">
-            These statistics remind us that cybersecurity cannot be ignored
+            Cyberbullying is a significant concern among Australian teenagers, with recent data highlighting its prevalence and impact:
           </p>
           
           <v-row>
@@ -44,10 +44,10 @@
                 <div class="stat-icon mb-4">
                   <v-icon size="32" color="primary">mdi-account-alert</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">37%</div>
-                <div class="stat-label text-grey-darken-1">Youth Experience Cyberbullying</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">44%</div>
+                <div class="stat-label text-grey-darken-1">Negative Online Experiences</div>
                 <div class="stat-description text-caption text-grey">
-                  From global youth survey data
+                  Including 15% receiving threats
                 </div>
               </v-card>
             </v-col>
@@ -55,12 +55,12 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-emoticon-sad</v-icon>
+                  <v-icon size="32" color="primary">mdi-account-child</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">64%</div>
-                <div class="stat-label text-grey-darken-1">Victims Face Mental Health Issues</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">12-13</div>
+                <div class="stat-label text-grey-darken-1">Most Vulnerable Age</div>
                 <div class="stat-description text-caption text-grey">
-                  Including anxiety and depression
+                  Over 1/3 of victims in this age group
                 </div>
               </v-card>
             </v-col>
@@ -68,12 +68,12 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-account-multiple-alert</v-icon>
+                  <v-icon size="32" color="primary">mdi-account-group</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">85%</div>
-                <div class="stat-label text-grey-darken-1">Scammers Use Fake Identities</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">Both</div>
+                <div class="stat-label text-grey-darken-1">Genders Affected</div>
                 <div class="stat-description text-caption text-grey">
-                  Analysis of social media fraud cases
+                  Males report slightly higher rates
                 </div>
               </v-card>
             </v-col>
@@ -81,16 +81,19 @@
             <v-col cols="12" sm="6" md="3">
               <v-card class="stat-card" elevation="0">
                 <div class="stat-icon mb-4">
-                  <v-icon size="32" color="primary">mdi-currency-usd-off</v-icon>
+                  <v-icon size="32" color="primary">mdi-apps</v-icon>
                 </div>
-                <div class="stat-number text-h4 font-weight-bold mb-2">4.7B</div>
-                <div class="stat-label text-grey-darken-1">Annual Online Fraud Losses</div>
+                <div class="stat-number text-h4 font-weight-bold mb-2">6+</div>
+                <div class="stat-label text-grey-darken-1">Social Media Risk</div>
                 <div class="stat-description text-caption text-grey">
-                  Global social media fraud amount
+                  Platforms increase cyberbullying risk
                 </div>
               </v-card>
             </v-col>
           </v-row>
+          <p class="text-subtitle-1 text-grey-darken-1 mt-12">
+            These statistics underscore the urgent need for awareness and proactive measures to combat cyberbullying among Australian youth.
+          </p>
         </div>
       </v-container>
     </section>
@@ -121,8 +124,8 @@
                     Learn More
                   </v-btn>
                 </div>
-                <p class="text-body-1 mb-6">
-                  In the digital age, cyberbullying has become a serious social issue. Perpetrators take advantage of internet anonymity and virality to harass and harm others through verbal attacks, rumors, defamation, and personal threats. This behavior not only causes severe psychological trauma to victims but also affects their normal study, work, and social life, potentially leading to more serious consequences. Anyone can become a victim of cyberbullying, making awareness and prevention crucial.
+                <p class="description">
+                  Cyberbullying has become a serious issue in the digital age. Perpetrators use online anonymity to harass others through verbal attacks and threats, causing psychological harm and affecting victims' daily lives.
                 </p>
               </div>
             </v-col>
@@ -134,36 +137,33 @@
 
         <!-- Online Grooming Section -->
         <div class="content-block">
-          <v-row align="center">
-            <v-col cols="12" md="6" order="1">
-              <v-img
-                src="@/assets/images/catfishing.jpg"
-                class="rounded-lg"
-                height="400"
-                cover
-              ></v-img>
-            </v-col>
-            <v-col cols="12" md="6" order="2">
-              <div class="content-text pl-md-8">
-                <div class="d-flex align-center mb-6">
-                  <h3 class="content-title mb-0">Online Grooming</h3>
-                  <v-btn
-                    class="ml-4"
-                    color="primary"
-                    variant="outlined"
-                    :to="'/learning/phishing'"
-                    size="small"
-                  >
-                    <v-icon start>mdi-arrow-right</v-icon>
-                    Learn More
-                  </v-btn>
-                </div>
-                <p class="text-body-1 mb-6">
-                  Online grooming is a serious threat in today's digital world. Predators use social media and online platforms to build relationships with young people, often pretending to be someone they're not. They gradually gain trust through manipulation and deception, potentially leading to emotional harm or dangerous situations. The tactics used by online predators are becoming more sophisticated, making it crucial to stay informed and vigilant about online interactions.
-                </p>
+          <div class="grooming-section">
+            <div class="grooming-img-container">
+              <img
+                :src="require('@/assets/images/WhatsApp Image 2025-04-10 at 21.14.30.jpeg')"
+                alt="Online Grooming"
+                class="grooming-img"
+              />
+            </div>
+            <div class="grooming-content">
+              <div class="d-flex align-center mb-6">
+                <h3 class="content-title mb-0">Online Grooming</h3>
+                <v-btn
+                  class="ml-4"
+                  color="primary"
+                  variant="outlined"
+                  :to="'/learning/grooming'"
+                  size="small"
+                >
+                  <v-icon start>mdi-arrow-right</v-icon>
+                  Learn More
+                </v-btn>
               </div>
-            </v-col>
-          </v-row>
+              <p class="description">
+                Online grooming is a significant threat in today's digital world. Predators use social media platforms to target young people through fake identities and deception, potentially leading to dangerous situations.
+              </p>
+            </div>
+          </div>
         </div>
       </v-container>
     </section>
@@ -625,10 +625,6 @@ section.py-16 .v-container {
   margin-bottom: 2rem !important;
 }
 
-.v-img {
-  height: 250px !important;
-}
-
 .start-btn {
   background: white !important;
   color: #6366f1 !important;
@@ -670,5 +666,47 @@ section.py-16 .v-container {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.grooming-img-container {
+  flex: 0 0 500px;
+  width: 500px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.grooming-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.grooming-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1280px;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.grooming-content {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+@media (max-width: 960px) {
+  .grooming-section {
+    flex-direction: column;
+  }
+  
+  .grooming-img {
+    width: 100%;
+    flex: none;
+  }
 }
 </style> 
