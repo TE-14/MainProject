@@ -55,7 +55,7 @@
                 </li>
               </ul>
               <v-btn
-                :to="'/learning/cyberbullying'"
+                :to="'/minigames/cyberbullying'"
                 color="deep-purple"
                 class="mt-4 learn-btn"
                 elevation="0"
@@ -100,7 +100,7 @@
                 </li>
               </ul>
               <v-btn
-                :to="'/learning/grooming'"
+                :to="'/minigames/grooming'"
                 color="info"
                 class="mt-4 learn-btn"
                 elevation="0"

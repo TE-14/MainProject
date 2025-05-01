@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLLAMA Test - Module Support</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #status {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        #log {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: monospace;
+            background-color: #f9f9f9;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        #progressFill {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 4px;
+            width: 0%;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .config-section {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .path-input {
+            width: 80%;
+            margin-right: 10px;
+        }
+        .result-box {
+            margin-top: 5px;
+            padding: 5px;
+            font-size: 14px;
+        }
+        .error {
+            color: #d9534f;
+        }
+        .success {
+            color: #5cb85c;
+        }
+    </style>
+</head>
+<body>
+    <h1>WLLAMA Test - Module Support</h1>
+    <div id="status">Status: Ready to Begin</div>
+    
+    <div class="config-section">
+        <h3>Configuration</h3>
+        <div>
+            <label for="wasmPath">WASM Path:</label>
+            <input type="text" id="wasmPath" class="path-input" value="/wllama/single-thread/wllama.wasm" placeholder="Path to your WASM file">
+            <button id="checkWasmButton">Check</button>
+            <div id="wasmCheckResult" class="result-box"></div>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <label for="jsPath">WLLAMA JS Path:</label>
+            <input type="text" id="jsPath" class="path-input" value="/wllama/index.js" placeholder="Path to WLLAMA JS file">
+            <button id="checkJsButton">Check</button>
+            <div id="jsCheckResult" class="result-box"></div>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <label for="modelPath">Model Path:</label>
+            <input type="text" id="modelPath" class="path-input" value="/llama-3.2-1b-instruct-q4_k_m" placeholder="Path to your model file">
+            <button id="checkModelButton">Check</button>
+            <div id="modelCheckResult" class="result-box"></div>
+        </div>
+    </div>
+    
+    <div id="controls">
+        <button id="initButton">1. Initialize WLLAMA</button>
+        <button id="loadModelButton" disabled>2. Load Model</button>
+        <div id="progressBar">
+            <div id="progressFill">0%</div>
+        </div>
+        
+        <div id="generateSection" style="display: none; margin-top: 20px;">
+            <h3>Text Generation</h3>
+            <input type="text" id="promptInput" placeholder="Enter prompt for generation...">
+            <button id="generateButton">Generate Text</button>
+        </div>
+    </div>
+    
+    <h3>Log</h3>
+    <div id="log"></div>
+
+    <script type="module">
+        let wllama = null;
+        let modelLoaded = false;
+        
+        // Log function to display messages on page
+        function log(message) {
+            const logElem = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logElem.appendChild(entry);
+            logElem.scrollTop = logElem.scrollHeight;
+            console.log(message);
+        }
+
+        // Update status display
+        function updateStatus(message) {
+            document.getElementById('status').textContent = `Status: ${message}`;
+            log(message);
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            
+            progressBar.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressFill.textContent = `${percent}%`;
+        }
+        
+        // Check if path is valid
+        async function checkPath(url, resultElementId) {
+            const resultElem = document.getElementById(resultElementId);
+            
+            try {
+                log(`Checking path: ${url}`);
+                
+                // Try to fetch the file headers
+                const response = await fetch(url, {
+                    method: 'HEAD'
+                });
+                
+                if (response.ok) {
+                    const contentType = response.headers.get('Content-Type');
+                    const contentLength = response.headers.get('Content-Length');
+                    
+                    resultElem.textContent = `✓ File found (${contentType || 'unknown type'}, ${formatBytes(parseInt(contentLength || '0'))})`;
+                    resultElem.className = 'result-box success';
+                    
+                    log(`File accessible. Content-Type: ${contentType || 'unknown'}, Size: ${formatBytes(parseInt(contentLength || '0'))}`);
+                    return true;
+                } else {
+                    resultElem.textContent = `✗ Error: ${response.status} ${response.statusText}`;
+                    resultElem.className = 'result-box error';
+                    
+                    log(`Error accessing file: ${response.status} ${response.statusText}`);
+                    return false;
+                }
+            } catch (error) {
+                resultElem.textContent = `✗ Error: ${error.message}`;
+                resultElem.className = 'result-box error';
+                
+                log(`Error checking path: ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Check WASM file
+        async function checkWasmFile() {
+            const wasmPath = document.getElementById('wasmPath').value.trim();
+            if (!wasmPath) {
+                document.getElementById('wasmCheckResult').textContent = 'Please enter a WASM path';
+                document.getElementById('wasmCheckResult').className = 'result-box error';
+                return false;
+            }
+            
+            // First check if the file exists
+            const exists = await checkPath(wasmPath, 'wasmCheckResult');
+            if (!exists) return false;
+            
+            try {
+                // Now check if it's a valid WASM file by examining the header
+                const response = await fetch(wasmPath);
+                const buffer = await response.arrayBuffer();
+                const bytes = new Uint8Array(buffer).slice(0, 8);
+                
+                // WASM magic bytes: 0x00, 0x61, 0x73, 0x6D (followed by version 0x01, 0x00, 0x00, 0x00)
+                const wasmMagic = [0x00, 0x61, 0x73, 0x6D, 0x01, 0x00, 0x00, 0x00];
+                const headerHex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                
+                log(`WASM header: ${headerHex}`);
+                
+                const isValidWasm = wasmMagic.every((byte, i) => bytes[i] === byte);
+                
+                if (isValidWasm) {
+                    document.getElementById('wasmCheckResult').textContent = `✓ Valid WASM file with correct header`;
+                    document.getElementById('wasmCheckResult').className = 'result-box success';
+                    log(`WASM file has valid header`);
+                    return true;
+                } else {
+                    document.getElementById('wasmCheckResult').textContent = `✗ Not a valid WASM file - invalid header`;
+                    document.getElementById('wasmCheckResult').className = 'result-box error';
+                    log(`WASM file has invalid header. Expected: 00 61 73 6d 01 00 00 00, Found: ${headerHex}`);
+                    return false;
+                }
+            } catch (error) {
+                document.getElementById('wasmCheckResult').textContent = `✗ Error checking WASM header: ${error.message}`;
+                document.getElementById('wasmCheckResult').className = 'result-box error';
+                log(`Error checking WASM header: ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Check JS file
+        async function checkJsFile() {
+            const jsPath = document.getElementById('jsPath').value.trim();
+            if (!jsPath) {
+                document.getElementById('jsCheckResult').textContent = 'Please enter a JS path';
+                document.getElementById('jsCheckResult').className = 'result-box error';
+                return false;
+            }
+            
+            // Check if the file exists
+            const exists = await checkPath(jsPath, 'jsCheckResult');
+            if (!exists) return false;
+            
+            try {
+                // Fetch the first part of the file to see if it looks like JS
+                const response = await fetch(jsPath);
+                const text = await response.text();
+                
+                // Log the first 200 characters to see what kind of file it is
+                const preview = text.slice(0, 200).replace(/\n/g, ' ');
+                log(`JS file preview: ${preview}...`);
+                
+                document.getElementById('jsCheckResult').textContent = `✓ JS file found and looks valid`;
+                document.getElementById('jsCheckResult').className = 'result-box success';
+                return true;
+            } catch (error) {
+                document.getElementById('jsCheckResult').textContent = `✗ Error checking JS content: ${error.message}`;
+                document.getElementById('jsCheckResult').className = 'result-box error';
+                log(`Error checking JS content: ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Check model file
+        async function checkModelFile() {
+            const modelPath = document.getElementById('modelPath').value.trim();
+            if (!modelPath) {
+                document.getElementById('modelCheckResult').textContent = 'Please enter a model path';
+                document.getElementById('modelCheckResult').className = 'result-box error';
+                return false;
+            }
+            
+            // First check if the file exists
+            const exists = await checkPath(modelPath, 'modelCheckResult');
+            if (!exists) return false;
+            
+            try {
+                // Now check if it's a valid GGUF file by examining the header
+                const response = await fetch(modelPath, {
+                    headers: {
+                        'Range': 'bytes=0-15' // Only get the first 16 bytes for efficiency
+                    }
+                });
+                
+                const buffer = await response.arrayBuffer();
+                const bytes = new Uint8Array(buffer);
+                
+                // GGUF magic bytes: "GGUF" in ASCII (0x47, 0x47, 0x55, 0x46)
+                const ggufMagic = [0x47, 0x47, 0x55, 0x46]; // "GGUF" in ASCII
+                const headerHex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                const headerText = String.fromCharCode(...bytes.filter(b => b >= 32 && b < 127));
+                
+                log(`Model header hex: ${headerHex}`);
+                log(`Model header text: ${headerText}`);
+                
+                const hasGgufMagic = ggufMagic.every((byte, i) => bytes[i] === byte);
+                
+                if (hasGgufMagic) {
+                    document.getElementById('modelCheckResult').textContent = `✓ Valid GGUF model file with correct header`;
+                    document.getElementById('modelCheckResult').className = 'result-box success';
+                    log(`Model file has valid GGUF header`);
+                    return true;
+                } else {
+                    document.getElementById('modelCheckResult').textContent = `✗ Not a valid GGUF file - invalid header`;
+                    document.getElementById('modelCheckResult').className = 'result-box error';
+                    log(`Model file has invalid header. Expected: 47 47 55 46 (GGUF), Found: ${headerHex}`);
+                    return false;
+                }
+            } catch (error) {
+                document.getElementById('modelCheckResult').textContent = `✗ Error checking model header: ${error.message}`;
+                document.getElementById('modelCheckResult').className = 'result-box error';
+                log(`Error checking model header: ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Format bytes to human-readable format
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+        
+        // Load WLLAMA script using dynamic ESM import
+        async function loadWllamaModule() {
+            const jsPath = document.getElementById('jsPath').value.trim();
+            
+            try {
+                log(`Loading WLLAMA script as module from: ${jsPath}`);
+                
+                // Dynamically import the module
+                const module = await import(jsPath);
+                
+                log(`Module loaded. Available exports: ${Object.keys(module).join(', ')}`);
+                
+                // If there's a Wllama export, use that
+                if (module.Wllama) {
+                    log('Found Wllama export in module');
+                    return module.Wllama;
+                } 
+                // If there's a default export, use that
+                else if (module.default) {
+                    log('Found default export in module');
+                    return module.default;
+                }
+                // Otherwise, try to find anything that might be the WLLAMA class
+                else {
+                    log('No obvious WLLAMA class found in module, searching...');
+                    
+                    for (const key in module) {
+                        const exported = module[key];
+                        if (typeof exported === 'function' && 
+                            exported.prototype && 
+                            (typeof exported.prototype.loadModel === 'function' || 
+                             typeof exported.prototype.createCompletion === 'function')) {
+                            log(`Found potential WLLAMA class in export: ${key}`);
+                            return exported;
+                        }
+                    }
+                    
+                    throw new Error('Could not find WLLAMA class in module');
+                }
+            } catch (importError) {
+                log(`Error importing module: ${importError.message}`);
+                log(`Trying fallback loading method...`);
+                
+                // Try traditional script loading as fallback
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = jsPath;
+                    script.type = 'application/javascript';
+                    
+                    script.onload = () => {
+                        log('Script loaded via traditional method');
+                        
+                        // Check if Wllama was added to window
+                        if (window.Wllama) {
+                            log('Found window.Wllama');
+                            resolve(window.Wllama);
+                        } else {
+                            // Look for any wllama-like object
+                            log('Wllama not found in global scope, searching...');
+                            for (const key in window) {
+                                try {
+                                    const obj = window[key];
+                                    if (typeof obj === 'function' && 
+                                        obj.prototype && 
+                                        (typeof obj.prototype.loadModel === 'function' || 
+                                         typeof obj.prototype.createCompletion === 'function')) {
+                                        log(`Found potential WLLAMA class as window.${key}`);
+                                        resolve(obj);
+                                        return;
+                                    }
+                                } catch (e) {
+                                    // Ignore errors examining objects
+                                }
+                            }
+                            
+                            reject(new Error('Could not find WLLAMA class in global scope'));
+                        }
+                    };
+                    
+                    script.onerror = (e) => {
+                        reject(new Error(`Failed to load script: ${e.message || 'unknown error'}`));
+                    };
+                    
+                    document.head.appendChild(script);
+                });
+            }
+        }
+
+        // Initialize WLLAMA
+        async function initializeWllama() {
+            try {
+                updateStatus('Initializing WLLAMA...');
+                document.getElementById('initButton').disabled = true;
+                
+                // First verify files exist and are valid
+                const wasmValid = await checkWasmFile();
+                const jsValid = await checkJsFile();
+                
+                if (!wasmValid || !jsValid) {
+                    throw new Error('WASM or JS file check failed. Please check the paths and files.');
+                }
+                
+                // Get WASM and JS paths
+                const wasmPath = document.getElementById('wasmPath').value.trim();
+                
+                // Load the WLLAMA class
+                const WllamaClass = await loadWllamaModule();
+                
+                if (!WllamaClass) {
+                    throw new Error('Failed to load WLLAMA class');
+                }
+                
+                log(`WllamaClass prototype methods: ${Object.getOwnPropertyNames(WllamaClass.prototype).join(', ')}`);
+                
+                updateStatus('WLLAMA class loaded, creating instance...');
+                
+                // Configure path to WebAssembly file
+                const CONFIG_PATHS = {
+                    'single-thread/wllama.wasm': wasmPath
+                };
+                
+                log(`Using WASM path: ${JSON.stringify(CONFIG_PATHS)}`);
+                
+                // Create WLLAMA instance
+                wllama = new WllamaClass(CONFIG_PATHS, {
+                    threads: 'single',
+                    cacheManager: null
+                });
+                
+                updateStatus('WLLAMA initialized successfully!');
+                
+                // Verify the instance has the expected methods
+                log(`WLLAMA instance methods: ${Object.getOwnPropertyNames(Object.getPrototypeOf(wllama)).join(', ')}`);
+                
+                if (typeof wllama.loadModel !== 'function') {
+                    throw new Error('WLLAMA instance does not have loadModel method');
+                }
+                
+                if (typeof wllama.createCompletion !== 'function') {
+                    throw new Error('WLLAMA instance does not have createCompletion method');
+                }
+                
+                log(`WLLAMA instance created with required methods`);
+                
+                // Enable model loading button
+                document.getElementById('loadModelButton').disabled = false;
+                
+                return true;
+            } catch (error) {
+                updateStatus(`Error during initialization: ${error.message}`);
+                log(`Error stack: ${error.stack || 'No stack trace available'}`);
+                document.getElementById('initButton').disabled = false;
+                return false;
+            }
+        }
+        
+        // Load model
+        async function loadModel() {
+            if (!wllama) {
+                updateStatus('Error: WLLAMA not initialized');
+                return false;
+            }
+            
+            const modelPath = document.getElementById('modelPath').value.trim();
+            if (!modelPath) {
+                updateStatus('Error: Please enter a model path');
+                return false;
+            }
+            
+            try {
+                // First verify model file exists and is valid
+                const modelValid = await checkModelFile();
+                
+                if (!modelValid) {
+                    throw new Error('Model file check failed. Please check the path and file.');
+                }
+                
+                updateStatus('Loading model...');
+                document.getElementById('loadModelButton').disabled = true;
+                
+                log(`Fetching model from ${modelPath}`);
+                updateProgress(0);
+                
+                // Fetch the model - show verbose logging
+                log(`Starting fetch request for model...`);
+                const response = await fetch(modelPath);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                log(`Fetch response received. Status: ${response.status}`);
+                log(`Response headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()))}`);
+                
+                const contentLength = response.headers.get('Content-Length');
+                const totalBytes = contentLength ? parseInt(contentLength) : 0;
+                
+                log(`Total model size: ${formatBytes(totalBytes)}`);
+                
+                // Read the model data in chunks
+                const reader = response.body.getReader();
+                const chunks = [];
+                let loadedBytes = 0;
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) {
+                        break;
+                    }
+                    
+                    chunks.push(value);
+                    loadedBytes += value.length;
+                    
+                    // Update progress
+                    if (totalBytes) {
+                        const percent = Math.round((loadedBytes / totalBytes) * 100);
+                        updateProgress(percent);
+                        
+                        // Don't log too frequently to avoid overwhelming the log
+                        if (percent % 10 === 0 || percent === 100) {
+                            log(`Downloaded ${formatBytes(loadedBytes)} (${percent}%)`);
+                        }
+                    }
+                }
+                
+                updateStatus('Processing model data...');
+                
+                // Combine all chunks into a single ArrayBuffer
+                const modelSize = chunks.reduce((total, chunk) => total + chunk.length, 0);
+                const modelData = new Uint8Array(modelSize);
+                
+                let offset = 0;
+                for (const chunk of chunks) {
+                    modelData.set(chunk, offset);
+                    offset += chunk.length;
+                }
+                
+                log(`Model data processed, size: ${formatBytes(modelSize)}`);
+                
+                // Final check on the model data header
+                const header = modelData.slice(0, 16);
+                const headerHex = Array.from(header).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                log(`Model data header: ${headerHex}`);
+                
+                updateStatus('Loading model into WLLAMA...');
+                
+                // Load the model with debug logging
+                try {
+                    log(`Calling wllama.loadModel with Blob of size ${modelData.length} bytes`);
+                    
+                    // Double-check that loadModel exists
+                    if (typeof wllama.loadModel !== 'function') {
+                        throw new Error(`wllama.loadModel is not a function. Available methods: ${Object.getOwnPropertyNames(Object.getPrototypeOf(wllama)).join(', ')}`);
+                    }
+                    
+                    await wllama.loadModel([new Blob([modelData])], {
+                        n_ctx: 512  // Smaller context size for faster inference
+                    });
+                    
+                    updateStatus('Model loaded successfully!');
+                    modelLoaded = true;
+                    
+                    // Show generation controls
+                    document.getElementById('generateSection').style.display = 'block';
+                    
+                    return true;
+                } catch (loadError) {
+                    log(`ERROR in loadModel: ${loadError.message}`);
+                    log(`Load Error Stack: ${loadError.stack || 'No stack trace available'}`);
+                    throw loadError;
+                }
+            } catch (error) {
+                updateStatus(`Error loading model: ${error.message}`);
+                log(`Error stack: ${error.stack || 'No stack trace available'}`);
+                document.getElementById('loadModelButton').disabled = false;
+                return false;
+            }
+        }
+        
+        // Generate text
+        async function generateText() {
+            if (!wllama || !modelLoaded) {
+                updateStatus('Error: Model not loaded');
+                return;
+            }
+            
+            try {
+                const prompt = document.getElementById('promptInput').value.trim();
+                if (!prompt) {
+                    updateStatus('Please enter a prompt');
+                    return;
+                }
+                
+                updateStatus('Generating text...');
+                document.getElementById('generateButton').disabled = true;
+                
+                // Format the prompt - using system/user/assistant format which works with many models
+                const formattedPrompt = `<|system|>
+You are a helpful assistant.
+<|user|>
+${prompt}
+<|assistant|>`;
+                
+                log(`Prompt: ${prompt}`);
+                
+                // Generate text
+                const result = await wllama.createCompletion(formattedPrompt, {
+                    nPredict: 100,     // Generate up to 100 tokens
+                    temperature: 0.7,   // Moderate randomness
+                    top_p: 0.95,        // Nucleus sampling
+                    top_k: 40,          // Top-k sampling
+                    stop: ["<|user|>", "<|system|>"]  // Stop tokens
+                });
+                
+                updateStatus('Text generated successfully!');
+                log(`Generated: ${result}`);
+                
+                document.getElementById('generateButton').disabled = false;
+            } catch (error) {
+                updateStatus(`Error generating text: ${error.message}`);
+                log(`Error stack: ${error.stack || 'No stack trace available'}`);
+                document.getElementById('generateButton').disabled = false;
+            }
+        }
+
+        // Set up event listeners
+        document.getElementById('checkWasmButton').addEventListener('click', checkWasmFile);
+        document.getElementById('checkJsButton').addEventListener('click', checkJsFile);
+        document.getElementById('checkModelButton').addEventListener('click', checkModelFile);
+        document.getElementById('initButton').addEventListener('click', initializeWllama);
+        document.getElementById('loadModelButton').addEventListener('click', loadModel);
+        document.getElementById('generateButton').addEventListener('click', generateText);
+        document.getElementById('promptInput').addEventListener('keyup', event => {
+            if (event.key === 'Enter') {
+                generateText();
+            }
+        });
+        
+        // Initial log
+        log('Page loaded. First check your paths, then click "Initialize WLLAMA" to begin.');
+    </script>
+</body>
+</html>
