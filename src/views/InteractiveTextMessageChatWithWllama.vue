@@ -49,7 +49,7 @@
       :prompt="currentPrompt"
       :conversation-history="displayMessages"
       :ai-personality="characterSpecificPersonality"
-      :show-typing-indicator="true"
+      :show-typing-indicator="false"
       :show-model-status="showModelStatus"
     />
   </div>
