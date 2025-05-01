@@ -16,23 +16,40 @@
         </div>
         </div>
   
-      <div v-if="cards.length === 0" class="results-container">
-        <h2 class="results-title">All messages reviewed!</h2>
-        <div class="score-container">
-          <div class="score">
-            <span class="score-label">Correct Responses:</span>
-            <span class="score-value">{{ correctSwipes }}</span>
+        <div v-if="cards.length === 0" class="results-container">
+          <h2 class="results-title">All messages reviewed!</h2>
+          
+          <div class="score-container">
+            <div class="score">
+              <span class="score-label">Correct Responses:</span>
+              <span class="score-value">{{ correctSwipes }}</span>
+            </div>
+            <div class="score">
+              <span class="score-label">Total Messages:</span>
+              <span class="score-value">{{ totalCards }}</span>
+            </div>
+            <div class="score">
+              <span class="score-label">Accuracy:</span>
+              <span class="score-value">{{ accuracyPercentage }}%</span>
+            </div>
           </div>
-          <div class="score">
-            <span class="score-label">Total Messages:</span>
-            <span class="score-value">{{ totalCards }}</span>
+          
+          <div class="cybersafety-message">
+            <p>Remember, you have control over your digital interactions. If you encounter cyberbullying:</p>
+            <div class="slogan">
+              <span>"About to shout, swipe out!"</span>
+            </div>
+            <p>Take a step back, talk to someone you trust, and report harmful behavior.</p>
           </div>
-          <div class="score">
-            <span class="score-label">Accuracy:</span>
-            <span class="score-value">{{ accuracyPercentage }}%</span>
-          </div>
+          
+          <button class="reset-button" @click="resetInteractive">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            Start Again
+          </button>
         </div>
-      </div>
   
       <div class="card-container">
         <SwipeCard
@@ -83,31 +100,6 @@
             />
           </div>
         </SwipeCard>
-      </div>
-      
-      <!-- Settings panel (can be toggled or hidden based on your UI) -->
-      <div class="settings-panel">
-        <div class="setting-item">
-          <input type="checkbox" id="use-wllama" v-model="useWllama">
-          <label for="use-wllama">Use AI Responses</label>
-        </div>
-        <div v-if="useWllama" class="setting-item">
-          <input type="checkbox" id="use-card-specific-personas" v-model="useCardSpecificPersonas" checked>
-          <label for="use-card-specific-personas">Use Character-Specific Personalities</label>
-        </div>
-        <div v-if="useWllama && !useCardSpecificPersonas" class="setting-item">
-          <label for="ai-personality">Override Personality:</label>
-          <select id="ai-personality" v-model="aiPersonality">
-            <option value="kenny">Kenny (Anime Bully)</option>
-            <option value="whaleed">Whaleed (Racist Bully)</option>
-            <option value="mallory">Mallory (Sophisticated Bully)</option>
-            <option value="helpful">Educational Advisor</option>
-          </select>
-        </div>
-        <div v-if="useWllama" class="setting-item">
-          <input type="checkbox" id="show-model-status" v-model="showModelStatus">
-          <label for="show-model-status">Show Model Status</label>
-        </div>
       </div>
     </div>
   </template>
@@ -218,6 +210,39 @@
         
         // Or if WllamaHandler is directly accessible:
         // this.$root.$emit('load-wllama-model')
+      },
+      resetInteractive() {
+        // Reset all scores and counters
+        this.leftSwipes = 0;
+        this.rightSwipes = 0;
+        this.totalCardsProcessed = 0;
+        this.selectedResponses = {};
+        this.cardKey = 0;
+        
+        // Reset the card stack by re-initializing cards array
+        this.cards = [
+          // Add cover card first (will be last in stack due to reverse())
+          { 
+            id: 'cover-card',
+            type: 'cover',
+            title: 'Cyberbullying Awareness',
+            description: 'In this interactive simulation, you will experience conversations that may contain cyberbullying. Your task is to identify harmful interactions and "exit" them by swiping LEFT toward the red CYBERBULLYING label. If you think the conversation is healthy, swipe RIGHT toward the green HEALTHY label. Learn to recognize and respond to online harassment through these realistic scenarios.',
+          },
+          ...interactiveConversations
+        ].reverse(); // Reverse for stack order (last item shown first)
+        
+        // Reset cover card state
+        this.isCoverCardSwiped = false;
+        
+        // If using AI, initiate loading on reset
+        if (this.useWllama) {
+          // Delay the AI loading until after the UI has updated
+          this.$nextTick(() => {
+            this.initiateAILoading();
+          });
+        }
+        
+        console.log('Interactive reset, new stack created with', this.cards.length, 'cards');
       }
     }
   }
@@ -311,7 +336,7 @@
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    width: 360px;
+    width: 400px; /* Increased from 360px */
     max-width: 90%;
     z-index: 3;
   }
@@ -327,7 +352,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    z-index: 10;
+    margin-bottom: 30px; /* Added margin between scores and message */
   }
   
   .score {
@@ -349,6 +374,72 @@
   .score-value {
     font-size: 20px;
     color: #333;
+  }
+  
+  /* New cybersafety message styling */
+  .cybersafety-message {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f7f9fc;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .cybersafety-message p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .slogan {
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Reset button styling */
+  .reset-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #4338ca;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(67, 56, 202, 0.3);
+  }
+  
+  .reset-button:hover {
+    background-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(67, 56, 202, 0.4);
+  }
+  
+  .reset-button svg {
+    animation: spin 1s linear infinite paused;
+  }
+  
+  .reset-button:hover svg {
+    animation-play-state: running;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
   
   .swipe-card {
@@ -375,7 +466,7 @@
     background: linear-gradient(135deg, #6366f1, #4338ca);
   }
   
-    .cover-content {
+  .cover-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -385,30 +476,59 @@
     text-align: center;
     padding: 30px;
     min-height: 450px;
-    }
-
-    .cover-content h1 {
+  }
+  
+  .cover-content h1 {
     font-size: 32px; /* Increased font size */
     margin-bottom: 24px;
     font-weight: bold;
-    }
-
-    .cover-content p {
+  }
+  
+  .cover-content p {
     font-size: 18px; /* Increased font size */
     margin-bottom: 30px;
     line-height: 1.6;
     max-width: 420px; /* Increased width for more text */
-    }
-
+  }
+  
+  /* Swipe directions visual cue */
+  .swipe-directions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+  }
+  
+  .swipe-direction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .swipe-direction-label {
+    font-size: 14px;
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+  
+  .swipe-direction-red {
+    color: #ff3b30;
+  }
+  
+  .swipe-direction-green {
+    color: #34c759;
+  }
   
   .swipe-instruction {
     display: flex;
     align-items: center;
     margin-top: 40px;
-    font-size: 18px;
+    font-size: 20px; /* Increased from 18px */
     background: rgba(255, 255, 255, 0.2);
-    padding: 10px 20px;
+    padding: 12px 24px; /* Increased padding */
     border-radius: 30px;
+    font-weight: bold;
   }
   
   .arrow-icon {
@@ -475,12 +595,27 @@
     }
     
     .arrow-label {
-      font-size: 28px;
+      font-size: 14px; /* Fixed from 28px to match desktop */
     }
     
     .swipe-card {
       width: 90%;
       max-width: 450px;
+    }
+    
+    .results-container {
+      width: 320px;
+      padding: 20px;
+    }
+    
+    .slogan {
+      font-size: 18px;
+      padding: 12px;
+    }
+    
+    .reset-button {
+      padding: 12px 20px;
+      font-size: 16px;
     }
   }
   </style>
