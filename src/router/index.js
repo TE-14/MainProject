@@ -5,7 +5,7 @@ import CyberbullyingHelpView from '../views/resource/CyberbullyingHelpView.vue'
 import GroomingHelpView from '../views/resource/GroomingHelpView.vue'
 import SafetyCheckView from '../views/SafetyCheckView.vue'
 import MiniGamesView from '../views/MiniGamesView.vue'
-import SwipeView from '../views/SwipeView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -71,18 +71,23 @@ const router = createRouter({
       }
     },
     {
-      path: '/swipe',
-      name: 'swipe',
-      component: SwipeView
-    },
-    {
       path: '/mini-games',
       name: 'mini-games',
       component: MiniGamesView,
       meta: {
         title: 'Mini Games'
       }
-    }
+    },
+    {
+      path: '/minigames/cyberbullying',
+      name: 'swipe',
+      component: () => import('../views/SwipeView.vue')
+    },
+    {
+      path: '/minigames/grooming',
+      name: 'CyberDecisionSnake',
+      component: () => import('../views/minigames/CyberDecisionSnake.vue')
+    },
   ],
   scrollBehavior() {
     return { top: 0 }  // 强制滚动到顶部
