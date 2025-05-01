@@ -6,6 +6,7 @@ import GroomingHelpView from '../views/resource/GroomingHelpView.vue'
 import SafetyCheckView from '../views/SafetyCheckView.vue'
 import MiniGamesView from '../views/MiniGamesView.vue'
 
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
@@ -79,8 +80,8 @@ const router = createRouter({
     },
     {
       path: '/minigames/cyberbullying',
-      name: 'cyberbullying',
-      component: () => import('../views/minigames/CyberbullyingView.vue')
+      name: 'swipe',
+      component: () => import('../views/SwipeView.vue')
     },
     {
       path: '/minigames/grooming',

@@ -206,7 +206,7 @@ export default {
 .choice-text {
   font-size: 0.95rem;
   line-height: 1.4;
-  color: white;
+  color: black;
   font-weight: 400;
   word-wrap: break-word;
   white-space: normal;

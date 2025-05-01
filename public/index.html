@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- These meta tags are important for multi-threading to work correctly -->
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+    <script>
+      // This object will hold the exports from wllama/index.js
+      window.__WLLAMA_EXPORTS__ = {};
+    </script>
+    <script type="module">
+        // Import everything from the wllama script and attach it to the window object
+        import * as wllamaModule from '/wllama/index.js';
+        window.__WLLAMA_EXPORTS__ = wllamaModule;
+        console.log('Wllama module loaded statically into window.__WLLAMA_EXPORTS__');
+    </script>
   </head>
   <body>
     <noscript>
