@@ -853,7 +853,8 @@ export default {
         // Show spinner while extracting text
         this.isExtractingText = true;
         // Using same fetch pattern for consistency
-        const response = await fetch('https://api.shieldskills.live/extract-text/', {
+        const response = await fetch('http://api.shieldskills.live/extract-text/', {
+
           method: 'POST',
           body: formData,
           // No additional headers or credentials for FormData
