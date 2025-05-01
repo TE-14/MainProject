@@ -5,6 +5,7 @@ import CyberbullyingHelpView from '../views/resource/CyberbullyingHelpView.vue'
 import GroomingHelpView from '../views/resource/GroomingHelpView.vue'
 import SafetyCheckView from '../views/SafetyCheckView.vue'
 import MiniGamesView from '../views/MiniGamesView.vue'
+import SwipeView from '../views/SwipeView.vue'
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -68,6 +69,11 @@ const router = createRouter({
       meta: {
         title: 'Online Safety Analyzer'
       }
+    },
+    {
+      path: '/swipe',
+      name: 'swipe',
+      component: SwipeView
     },
     {
       path: '/mini-games',
