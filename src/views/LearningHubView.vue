@@ -1,12 +1,12 @@
 <template>
-  <v-container class="resources-container py-16">
+  <v-container class="resources-container py-8">
     <!-- 顶部装饰元素 -->
     <div class="decoration-circle circle-1"></div>
     <div class="decoration-circle circle-2"></div>
     
     <!-- 页面标题部分 -->
     <v-row>
-      <v-col cols="12" class="text-center mb-12 position-relative">
+      <v-col cols="12" class="text-center mb-8 position-relative">
         <div class="title-badge mb-4">
           <v-icon color="white" size="24">mdi-shield-check</v-icon>
         </div>
@@ -25,18 +25,18 @@
     <v-row class="justify-center">
       <v-col cols="12" md="6" class="resource-col">
         <v-card class="resource-card h-100" :elevation="0">
-          <v-card-text class="pa-6">
-            <div class="resource-icon mb-6 cyberbullying-icon">
+          <v-card-text class="pa-5 d-flex flex-column card-content">
+            <div class="resource-icon mb-4 cyberbullying-icon">
               <v-icon size="32" color="#673AB7">mdi-message-alert</v-icon>
             </div>
             <div class="card-badge">Popular</div>
-            <h3 class="text-h5 font-weight-bold mb-4">
+            <h3 class="text-h5 font-weight-bold mb-3">
               <span class="title-text-purple">Cyberbullying</span> Prevention
             </h3>
-            <p class="text-body-1 mb-4">
+            <p class="text-body-1 mb-3">
               Learn how to identify and respond to cyberbullying behavior, creating a positive online environment. Including:
             </p>
-            <ul class="text-body-1 mb-6 feature-list">
+            <ul class="text-body-1 mb-4 feature-list">
               <li>
                 <v-icon small color="#673AB7" class="mr-2">mdi-check-circle</v-icon>
                 <span class="feature-text">Identify various forms of cyberbullying</span>
@@ -54,34 +54,36 @@
                 <span class="feature-text">Build healthy online relationships</span>
               </li>
             </ul>
-            <v-btn
-              :to="'/learning/cyberbullying'"
-              color="deep-purple"
-              class="mt-4 learn-btn"
-              elevation="0"
-              block
-            >
-              Start Learning
-              <v-icon end class="ml-2">mdi-arrow-right</v-icon>
-            </v-btn>
+            <div class="mt-auto">
+              <v-btn
+                :to="'/learning/cyberbullying'"
+                color="deep-purple"
+                class="mt-2 learn-btn"
+                elevation="0"
+                block
+              >
+                Start Learning
+                <v-icon end class="ml-2">mdi-arrow-right</v-icon>
+              </v-btn>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col cols="12" md="6" class="resource-col">
         <v-card class="resource-card h-100" :elevation="0">
-          <v-card-text class="pa-6">
-            <div class="resource-icon mb-6 catfishing-icon">
+          <v-card-text class="pa-5 d-flex flex-column card-content">
+            <div class="resource-icon mb-4 catfishing-icon">
               <v-icon size="32" color="#3b82f6">mdi-account-multiple</v-icon>
             </div>
             <div class="card-badge new">New Course</div>
-            <h3 class="text-h5 font-weight-bold mb-4">
+            <h3 class="text-h5 font-weight-bold mb-3">
               <span class="title-text-blue">Grooming</span> Protection
             </h3>
-            <p class="text-body-1 mb-4">
+            <p class="text-body-1 mb-3">
               Learn how to recognize and prevent online grooming to stay safe during digital interactions. Including:
             </p>
-            <ul class="text-body-1 mb-6 feature-list">
+            <ul class="text-body-1 mb-4 feature-list">
               <li>
                 <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
                 <span class="feature-text">Understand how online grooming begins and develops</span>
@@ -99,16 +101,18 @@
                 <span class="feature-text"> Stay safe while using social media and messaging apps</span>
               </li>
             </ul>
-            <v-btn
-              :to="'/learning/grooming'"
-              color="info"
-              class="mt-4 learn-btn"
-              elevation="0"
-              block
-            >
-              Start Learning
-              <v-icon end class="ml-2">mdi-arrow-right</v-icon>
-            </v-btn>
+            <div class="mt-auto">
+              <v-btn
+                :to="'/learning/grooming'"
+                color="info"
+                class="mt-2 learn-btn"
+                elevation="0"
+                block
+              >
+                Start Learning
+                <v-icon end class="ml-2">mdi-arrow-right</v-icon>
+              </v-btn>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -236,6 +240,15 @@ export default {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  display: flex;
+  height: 100%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px; /* 将高度从480px再减少到400px */
 }
 
 .resource-card::before {
@@ -340,12 +353,14 @@ export default {
 .feature-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 0.5rem; /* 减小下边距 */
+  min-height: 120px; /* 进一步减小列表最小高度 */
 }
 
 .feature-list li {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem; /* 减小列表项间距 */
   padding-left: 0;
 }
 
@@ -364,6 +379,10 @@ export default {
 
 .learn-btn:hover {
   transform: translateY(-2px);
+}
+
+.mt-auto {
+  margin-top: auto !important;
 }
 
 /* 动画 */
