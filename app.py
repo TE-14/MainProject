@@ -30,8 +30,12 @@ app.add_middleware(
         "http://127.0.0.1:8080",
         "http://shieldskills.live",
         "http://v1.shieldskills.live",
-        "http://v2.shieldskills.live"
+        "https://v2.shieldskills.live"
     ],
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Accept", "Authorization"],

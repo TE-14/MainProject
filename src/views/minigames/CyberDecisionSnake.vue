@@ -3,28 +3,40 @@
 
 <template>
   <div class="cyber-snake-game">
-    <!-- Get Ready Screen -->
-    <div v-if="gameState === 'ready'" class="game-screen ready-screen">
-  <transition name="fade-scale" mode="out-in">
-    <div :key="countdownNumber" class="countdown-number">
-      {{ countdownNumber }}
+    <!-- Global Countdown Overlay -->
+    <div v-if="isCountingDown" class="countdown-overlay">
+      <transition name="fade-scale" mode="out-in">
+        <div :key="countdownNumber" class="countdown-number">
+          {{ countdownNumber }}
+        </div>
+      </transition>
     </div>
-  </transition>
-</div>
+
+    <!-- Reading Question Overlay -->
+    <div v-if="isReadingQuestion" class="reading-overlay">
+      <div class="reading-container">
+        <h3>Read Carefully:</h3>
+        <div class="reading-text">{{ currentPractice.text }}</div>
+        <div class="timer-bar">
+          <div class="timer-progress" :style="{ width: readingTimerWidth + '%' }"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Start Screen -->
     <div v-else-if="gameState === 'start'" class="game-screen start-screen">
-      <h1>Cyber Decision Snake</h1>
+      <h1>Detective Maze</h1>
       <p>Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
       
       <div class="instructions">
         <h3>How to play:</h3>
         <ol>
-  <li>A scenario about online interactions will appear at the top of the screen</li>
-  <li>Use arrow keys or on-screen buttons to move your snake</li>
-  <li>Move toward the <span class="good-practice">✓</span> if it's a <strong>safe or smart choice</strong></li>
-  <li>Move toward the <span class="bad-practice">✗</span> if it's an <strong>unsafe or risky choice</strong></li>
-  <li>Learn to recognize signs of online grooming and protect yourself!</li>
-</ol>
+          <li>A scenario about online interactions will appear at the top of the screen</li>
+          <li>Use arrow keys or on-screen buttons to move your snake</li>
+          <li>Move toward the <span class="good-practice">✓</span> if it's a <strong>safe or smart choice</strong></li>
+          <li>Move toward the <span class="bad-practice">✗</span> if it's an <strong>unsafe or risky choice</strong></li>
+          <li>Learn to recognize signs of online grooming and protect yourself!</li>
+        </ol>
       </div>
       
       <div class="difficulty-select">
@@ -93,13 +105,6 @@
         </div>
       </div>
       
-      <div v-if="isCountingDown" class="countdown-overlay">
-  <transition name="fade-scale" mode="out-in">
-    <div :key="countdownNumber" class="countdown-number">
-      {{ countdownNumber }}
-    </div>
-  </transition>
-</div>
       <div class="game-controls">
         <button @click="move('up')" class="control-btn up-btn">↑</button>
         <div class="horizontal-controls">
@@ -189,54 +194,60 @@ export default {
       countdownNumber: 3,
       isCountingDown: false,
       
+      // New reading question states
+      isReadingQuestion: false,
+      readingTimerWidth: 100,
+      readingTimerInterval: null,
+      readingTime: 3000, // 3 seconds to read the question by default
+      
       // Database of cybersecurity practices
       practicesDatabase: [
         // Good practices
         {
-  text: "Tell a trusted adult if someone online asks for private photos",
-  isGood: true,
-  explanation: "Reporting to an adult helps keep you safe and stops the person from harming others."
-},
-{
-  text: "Avoid sharing your address or school name with strangers online",
-  isGood: true,
-  explanation: "This keeps you from being tracked or targeted in real life."
-},
-{
-  text: "Only add people you know in real life to your friend list",
-  isGood: true,
-  explanation: "Strangers pretending to be teens may have bad intentions."
-},
-{
-  text: "Block and report anyone who makes you uncomfortable online",
-  isGood: true,
-  explanation: "You have the right to feel safe and set boundaries."
-},
-{
-  text: "Use a nickname or screen name that doesn’t reveal your identity",
-  isGood: true,
-  explanation: "Keeping personal info private protects you from grooming attempts."
-},
-{
-  text: "Keep chatting with someone online even if they make weird comments",
-  isGood: false,
-  explanation: "If something feels off, it's okay to stop responding and tell someone you trust."
-},
-{
-  text: "Send pictures to someone online to prove you're real",
-  isGood: false,
-  explanation: "Groomers often ask for photos as a form of manipulation—never send them."
-},
-{
-  text: "Share your daily routine with someone you met in a game",
-  isGood: false,
-  explanation: "This can give away too much about where you are and when you're vulnerable."
-},
-{
-  text: "Believe someone is a teenager just because they say so online",
-  isGood: false,
-  explanation: "People can easily lie about their age",}
-
+          text: "Tell a trusted adult if someone online asks for private photos",
+          isGood: true,
+          explanation: "Reporting to an adult helps keep you safe and stops the person from harming others."
+        },
+        {
+          text: "Avoid sharing your address or school name with strangers online",
+          isGood: true,
+          explanation: "This keeps you from being tracked or targeted in real life."
+        },
+        {
+          text: "Only add people you know in real life to your friend list",
+          isGood: true,
+          explanation: "Strangers pretending to be teens may have bad intentions."
+        },
+        {
+          text: "Block and report anyone who makes you uncomfortable online",
+          isGood: true,
+          explanation: "You have the right to feel safe and set boundaries."
+        },
+        {
+          text: "Use a nickname or screen name that doesn't reveal your identity",
+          isGood: true,
+          explanation: "Keeping personal info private protects you from grooming attempts."
+        },
+        {
+          text: "Keep chatting with someone online even if they make weird comments",
+          isGood: false,
+          explanation: "If something feels off, it's okay to stop responding and tell someone you trust."
+        },
+        {
+          text: "Send pictures to someone online to prove you're real",
+          isGood: false,
+          explanation: "Groomers often ask for photos as a form of manipulation—never send them."
+        },
+        {
+          text: "Share your daily routine with someone you met in a game",
+          isGood: false,
+          explanation: "This can give away too much about where you are and when you're vulnerable."
+        },
+        {
+          text: "Believe someone is a teenager just because they say so online",
+          isGood: false,
+          explanation: "People can easily lie about their age"
+        }
       ]
     };
   },
@@ -247,8 +258,8 @@ export default {
     }
   },
   mounted() {
-  console.log('Game component mounted', this.gameState);
-},
+    console.log('Game component mounted', this.gameState);
+  },
   methods: {
     setDifficulty(level) {
       this.selectedDifficulty = level;
@@ -258,58 +269,82 @@ export default {
         case 'easy':
           this.gameSpeed = 250;
           this.boardSize = 12;
+          this.readingTime = 5000; // 5 seconds for easy
           break;
         case 'medium':
           this.gameSpeed = 200;
           this.boardSize = 15;
+          this.readingTime = 4000; // 4 seconds for medium
           break;
         case 'hard':
           this.gameSpeed = 150;
           this.boardSize = 18;
+          this.readingTime = 3000; // 3 seconds for hard
           break;
       }
     },
     
     startGame() {
-  console.log('Starting game');
-  try {
-    this.initializeBoard();
-    console.log('Board initialized');
-    this.initializeSnake();
-    console.log('Snake initialized');
-    this.placeTargets();
-    console.log('Targets placed');
-    this.selectPractice();
-    console.log('Practice selected');
-    this.startTimer();
-    console.log('Timer started');
-    
-    this.gameState = 'playing';
-    this.score = 0;
-    this.lives = 3;
-    this.correctDecisions = 0;
-    this.incorrectDecisions = 0;
-    this.practicesEncountered = [];
-    
-    console.log('Game state set to playing');
-    
-    this.$nextTick(() => {
-      if (this.$refs.gameBoard) {
-        this.$refs.gameBoard.focus();
-        console.log('Game board focused');
-      } else {
-        console.warn('Game board ref not found');
+      console.log('Starting game');
+      try {
+        this.initializeBoard();
+        this.initializeSnake();
+
+        this.gameState = 'playing';
+        this.score = 0;
+        this.lives = 3;
+        this.correctDecisions = 0;
+        this.incorrectDecisions = 0;
+        this.practicesEncountered = [];
+
+        this.selectPractice();      // Select the first question
+        this.placeTargets();        // Place targets
+
+        this.isCountingDown = true;
+        this.countdownNumber = 3;
+
+        const countdownInterval = setInterval(() => {
+          this.countdownNumber--;
+          if (this.countdownNumber === 0) {
+            clearInterval(countdownInterval);
+            this.isCountingDown = false;
+            
+            // Show reading overlay instead of starting game immediately
+            this.showReadingOverlay();
+          }
+        }, 1000);
+      } catch (error) {
+        console.error('Error in startGame:', error);
       }
-    });
+    },
     
-    this.gameLoop = setInterval(() => {
-      this.moveSnake();
-    }, this.gameSpeed);
-    console.log('Game loop started');
-  } catch (error) {
-    console.error('Error in startGame:', error);
-  }
-},
+    // New method to show reading overlay
+    showReadingOverlay() {
+      this.isReadingQuestion = true;
+      this.readingTimerWidth = 100;
+      
+      // Set up the reading timer
+      const decrement = 100 / (this.readingTime / 100); // Calculate decrement per 100ms
+      this.readingTimerInterval = setInterval(() => {
+        this.readingTimerWidth -= decrement;
+        
+        if (this.readingTimerWidth <= 0) {
+          clearInterval(this.readingTimerInterval);
+          this.isReadingQuestion = false;
+          
+          // Now start the actual game and timer
+          this.startTimer();
+          this.$nextTick(() => {
+            this.$refs.gameBoard?.focus();
+          });
+          
+          this.gameLoop = setInterval(() => {
+            this.moveSnake();
+          }, this.gameSpeed);
+        }
+      }, 100);
+    },
+    
     initializeBoard() {
       this.board = [];
       for (let i = 0; i < this.boardSize; i++) {
@@ -406,7 +441,7 @@ export default {
     },
     
     handleKeyDown(event) {
-      if (this.gameState !== 'playing' || this.isCountingDown) return;
+      if (this.gameState !== 'playing' || this.isCountingDown || this.isReadingQuestion) return;
       
       switch (event.key) {
         case 'ArrowUp':
@@ -425,7 +460,7 @@ export default {
     },
     
     move(direction) {
-      if (this.gameState !== 'playing' || this.isCountingDown) return;
+      if (this.gameState !== 'playing' || this.isCountingDown || this.isReadingQuestion) return;
       
       // Prevent 180-degree turns
       if ((direction === 'up' && this.direction !== 'down') ||
@@ -459,116 +494,90 @@ export default {
       }
       
       // Check for collision with walls
-if (this.isWall(head[0], head[1])) {
-  this.handleCollision();
-  return;
-}
+      if (this.isWall(head[0], head[1])) {
+        this.handleCollision();
+        return;
+      }
 
-// Check for collision with self
-if (this.isSnakeBody(head[0], head[1])) {
-  this.handleCollision();
-  return;
-}
+      // Check for collision with self
+      if (this.isSnakeBody(head[0], head[1])) {
+        this.handleCollision();
+        return;
+      }
 
-// Check for target collision
-const hitGoodTarget = this.isGoodTarget(head[0], head[1]);
-const hitBadTarget = this.isBadTarget(head[0], head[1]);
+      // Check for target collision
+      const hitGoodTarget = this.isGoodTarget(head[0], head[1]);
+      const hitBadTarget = this.isBadTarget(head[0], head[1]);
 
-this.snake.unshift(head); // Always move the head
+      this.snake.unshift(head); // Always move the head
 
-if (hitGoodTarget || hitBadTarget) {
-  clearInterval(this.timerInterval);
-  clearInterval(this.gameLoop);
-  
-  const correctDecision = (hitGoodTarget && this.currentPractice.isGood) ||
-                           (hitBadTarget && !this.currentPractice.isGood);
-  
-  if (correctDecision) {
-    this.score += 10;
-    this.correctDecisions++;
-    this.lastDecisionCorrect = true;
-  } else {
-    this.lives--;
-    this.incorrectDecisions++;
-    this.lastDecisionCorrect = false;
-  }
-  
-  this.lastPractice = this.currentPractice;
-  this.practicesEncountered.push(this.currentPractice);
-  
-  if (this.lives <= 0) {
-    this.endGame();
-  } else {
-    this.gameState = 'feedback';
-  }
-  
-  // 🚨 Do NOT pop the tail! Snake grows!
-  this.goodTargetPosition = null;
-  this.badTargetPosition = null;
+      if (hitGoodTarget || hitBadTarget) {
+        clearInterval(this.timerInterval);
+        clearInterval(this.gameLoop);
+        
+        const correctDecision = (hitGoodTarget && this.currentPractice.isGood) ||
+                               (hitBadTarget && !this.currentPractice.isGood);
+        
+        if (correctDecision) {
+          this.score += 10;
+          this.correctDecisions++;
+          this.lastDecisionCorrect = true;
+        } else {
+          this.lives--;
+          this.incorrectDecisions++;
+          this.lastDecisionCorrect = false;
+        }
+        
+        this.lastPractice = this.currentPractice;
+        this.practicesEncountered.push(this.currentPractice);
+        
+        if (this.lives <= 0) {
+          this.endGame();
+        } else {
+          this.gameState = 'feedback';
+        }
+        
+        // Snake grows!
+        this.goodTargetPosition = null;
+        this.badTargetPosition = null;
 
-  return; // Stop further movement
-}
+        return; // Stop further movement
+      }
 
-// 🚨 If not eating target, normal move: pop the tail
-this.snake.pop();
+      // If not eating target, normal move: pop the tail
+      this.snake.pop();
     },
     
     handleCollision() {
-  this.lives--;
+      this.lives--;
 
-  if (this.lives <= 0) {
-    this.endGame();
-  } else {
-    clearInterval(this.gameLoop);
-    clearInterval(this.timerInterval);
-    this.initializeSnake();
-    this.placeTargets();
-    this.selectPractice();
+      if (this.lives <= 0) {
+        this.endGame();
+      } else {
+        clearInterval(this.gameLoop);
+        clearInterval(this.timerInterval);
+        this.initializeSnake();
+        this.placeTargets();
+        this.selectPractice();
 
-    // Start countdown overlay
-    this.countdownNumber = 3;
-    this.isCountingDown = true;
-
-    const countdownInterval = setInterval(() => {
-      this.countdownNumber--;
-      if (this.countdownNumber === 0) {
-        clearInterval(countdownInterval);
-        this.isCountingDown = false;
-        this.startTimer();
-        this.$nextTick(() => {
-          this.$refs.gameBoard?.focus();
-        });
-        this.gameLoop = setInterval(() => {
-          this.moveSnake();
-        }, this.gameSpeed);
+        // Show reading overlay before restarting
+        this.showReadingOverlay();
       }
-    }, 1000);
-  }
-},
-
+    },
     
     continuePlaying() {
-  // Reset board for next round
-  this.placeTargets();
-  this.selectPractice();
-  this.startTimer();
-  
-  this.gameState = 'playing';
-
-  this.$nextTick(() => {
-    if (this.$refs.gameBoard) {
-      this.$refs.gameBoard.focus();
-    }
-  });
-
-  this.gameLoop = setInterval(() => {
-    this.moveSnake();
-  }, this.gameSpeed);
-},
+      this.selectPractice();
+      this.placeTargets();
+      this.gameState = 'playing';
+      
+      // Show reading overlay before starting movement again
+      this.showReadingOverlay();
+    },
     
     endGame() {
       clearInterval(this.gameLoop);
       clearInterval(this.timerInterval);
+      clearInterval(this.readingTimerInterval);
       
       // Prepare review practices for game over screen
       // Include both correct and incorrect decisions for learning
@@ -580,6 +589,10 @@ this.snake.pop();
     resetGame() {
       console.log('Resetting game to start state');
       this.gameState = 'start';
+      clearInterval(this.gameLoop);
+      clearInterval(this.timerInterval);
+      clearInterval(this.readingTimerInterval);
+      this.isReadingQuestion = false;
     },
     
     // Helper methods for cell types
@@ -610,6 +623,7 @@ this.snake.pop();
   beforeUnmount() {
     clearInterval(this.gameLoop);
     clearInterval(this.timerInterval);
+    clearInterval(this.readingTimerInterval);
   }
 };
 </script>
@@ -617,12 +631,53 @@ this.snake.pop();
 <style scoped>
 .cyber-snake-game {
   font-family: 'Arial', sans-serif;
-  max-width: 800px;
+  max-width: 90%; /* Increased from 800px to use more screen space */
   margin: 0 auto;
-  height: 100%; /* <-- ADD THIS */
-  min-height: 100vh; /* <-- ENSURE at least full screen */
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  padding: 0 15px; /* Add some padding on the sides */
+}
+
+/* Reading Overlay Styles */
+.reading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reading-container {
+  background-color: white;
+  padding: 35px;
+  border-radius: 20px;
+  max-width: 90%;
+  width: 650px; /* Slightly larger */
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  border: 2px solid #4a90e2; /* Add border for emphasis */
+}
+
+.reading-container h3 {
+  margin-top: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.reading-text {
+  font-size: 22px; /* Larger text */
+  margin: 25px 0;
+  line-height: 1.6;
+  font-weight: bold;
+  color: #333;
 }
 
 .practice-item:last-child {
@@ -670,8 +725,15 @@ this.snake.pop();
 /* Responsive Design */
 @media (max-width: 600px) {
   .game-controls {
-    margin-top: 10px;
-  }
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 250px; /* Constrain width for better proportions */
+  margin-left: auto;
+  margin-right: auto;
+}
   
   .control-btn {
     width: 50px;
@@ -693,7 +755,6 @@ this.snake.pop();
   }
 }
 
-
 .game-screen {
   width: 100%;
   height: 100%;
@@ -702,7 +763,6 @@ this.snake.pop();
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  z-index: 9999;
 }
 
 /* Start Screen */
@@ -787,8 +847,8 @@ this.snake.pop();
   background-color: #f8f9fa;
   justify-content: flex-start;
   padding: 10px;
-  min-height: 80vh; /* Add this line */
-  width: 100%; /* Add this line */
+  min-height: 80vh;
+  width: 100%;
 }
 
 .game-info {
@@ -832,23 +892,23 @@ this.snake.pop();
 .timer-progress {
   height: 100%;
   background: linear-gradient(90deg, #ff7675, #fd79a8, #a29bfe, #74b9ff);
-  transition: width 1s linear;
+  transition: width 0.1s linear;
 }
 
 .game-board {
   width: 100%;
   aspect-ratio: 1 / 1;
-  max-width: 500px;
-  min-height: 300px; /* Add this line */
+  max-width: 550px; /* Slightly larger board */
+  min-height: 350px; 
   margin: 0 auto;
   background-color: #e9ecef;
-  border: 2px solid #333;
-  border-radius: 5px;
+  border: 3px solid #333; /* Thicker border */
+  border-radius: 8px; /* Slightly more rounded corners */
   display: flex;
   flex-direction: column;
   outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Add subtle shadow for depth */
 }
-
 .board-row {
   display: flex;
   flex: 1;
@@ -859,39 +919,42 @@ this.snake.pop();
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  border: 1px solid #ddd; /* Add this line */
-  min-width: 20px; /* Add this line */
-  min-height: 20px; /* Add this line */
+  border: 1px solid #ccc; /* Lighter border */
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.good-target, .bad-target {
+  font-size: 28px; /* Larger symbols */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Add glow effect */
 }
 
 .snake-head {
   background-color: #17a2b8;
   border-radius: 5px;
-  z-index: 2; /* Add this line */
+  z-index: 2;
 }
 
 .snake-body {
   background-color: #138496;
   border-radius: 5px;
-  z-index: 1; /* Add this line */
+  z-index: 1;
 }
 
 .good-target {
   background-color: #28a745;
   color: white;
   border-radius: 50%;
-  font-size: 24px; /* Add this line */
-  z-index: 2; /* Add this line */
+  z-index: 2;
 }
 
 .bad-target {
   background-color: #dc3545;
   color: white;
   border-radius: 50%;
-  font-size: 24px; /* Add this line */
-  z-index: 2; /* Add this line */
+  z-index: 2;
 }
 
 .wall {
@@ -903,32 +966,39 @@ this.snake.pop();
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Add this line */
+  width: 100%;
 }
 
 .horizontal-controls {
   display: flex;
-  gap: 20px;
-  margin: 10px 0;
+  gap: 30px; /* More space between left/right buttons */
+  margin: 15px 0;
 }
 
 .control-btn {
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   background-color: #333;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 24px;
+  border-radius: 15px; /* More rounded buttons */
+  font-size: 28px; /* Larger arrow symbols */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5px; /* Add this line */
+  margin: 5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2); /* Add subtle shadow */
 }
 
 .control-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translateY(2px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.control-btn:hover {
+  background-color: #444; /* Lighten on hover */
+  transform: translateY(-2px);
 }
 
 /* Feedback Screen */
@@ -1014,50 +1084,15 @@ this.snake.pop();
   padding: 15px;
   max-height: 300px;
   overflow-y: auto;
-};
+}
 
-.ready-screen {
+.practice-item {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #f8f9fa;
-  color: #333;
-  font-size: 2em;
-  font-weight: bold;
-}
-.countdown-number {
-  font-size: 5rem;
-  color: #333;
-  animation: pulse 1s ease-in-out;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.2;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.2;
-  }
-}
-
-.fade-scale-enter-active, .fade-scale-leave-active {
-  transition: all 0.5s ease;
-}
-.fade-scale-enter-from, .fade-scale-leave-to {
-  transform: scale(0.8);
-  opacity: 0;
-}
-.fade-scale-enter-to, .fade-scale-leave-from {
-  transform: scale(1.2);
-  opacity: 1;
-}
 .countdown-overlay {
   position: absolute;
   top: 50%;
@@ -1104,5 +1139,25 @@ this.snake.pop();
   opacity: 1;
 }
 
+@media (max-width: 768px) {
+  .cyber-snake-game {
+    max-width: 95%;
+  }
+  
+  .game-board {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-board {
+    max-width: 350px;
+  }
+  
+  .control-btn {
+    width: 55px;
+    height: 55px;
+  }
+}
 
 </style>
