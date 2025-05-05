@@ -28,67 +28,81 @@
         </div>
         
         <div class="input-container">
-          <v-text-field
-            v-model="contentToAnalyze"
-            placeholder="Enter text to analyze..."
-            variant="outlined"
-            :error-messages="inputError"
-            class="mb-3"
-            @focus="clearError"
-            @input="clearError"
-          ></v-text-field>
-          
-          <div class="d-flex align-center">
-            <div class="image-upload-container mr-2" v-if="!selectedFile">
-              <v-btn
-                icon
-                class="image-upload-btn"
-                @click="triggerFileUpload"
-              >
-                <v-icon>mdi-image</v-icon>
-                <input 
-                  ref="fileInput" 
-                  type="file" 
-                  accept="image/*" 
-                  style="display: none" 
-                  @change="handleFileUpload"
-                />
-              </v-btn>
-            </div>
-            <div v-else class="selected-file-container mr-2">
-              <div class="image-preview-wrapper">
-                <div class="image-preview">
-                  <img 
-                    :src="selectedFilePreview" 
-                    alt="Selected file preview" 
-                    class="preview-image"
-                  />
+          <div class="search-bar-container">
+            <v-text-field
+              v-model="contentToAnalyze"
+              placeholder="Enter text to analyze..."
+              variant="outlined"
+              :error-messages="inputError"
+              class="google-style-input"
+              @focus="clearError"
+              @input="clearError"
+              hide-details
+            >
+              <template v-slot:append-inner>
+                <div class="d-flex align-center">
+                  <!-- 添加相机图标按钮用于上传图片 -->
+                  <v-btn
+                    v-if="!selectedFile"
+                    icon
+                    density="comfortable"
+                    class="image-upload-btn mr-2"
+                    @click.stop="triggerFileUpload"
+                    title="Upload image"
+                  >
+                    <v-icon>mdi-image-search</v-icon>
+                    <input 
+                      ref="fileInput" 
+                      type="file" 
+                      accept="image/*" 
+                      style="display: none" 
+                      @change="handleFileUpload"
+                    />
+                  </v-btn>
                 </div>
-                <button 
-                  type="button"
-                  class="custom-remove-btn"
-                  @click.prevent="removeSelectedFile"
-                  aria-label="Remove file"
-                >
-                  <span class="close-icon">×</span>
-                </button>
-              </div>
-              <span class="text-caption file-name">{{ selectedFile.name }}</span>
-              <div v-if="isExtractingText" class="d-flex justify-center align-center mt-2">
-                <v-progress-circular indeterminate color="primary" size="22" />
-              </div>
-            </div>
-            <span v-if="selectedFile && !extractedText" class="text-caption mr-auto"></span>
-            <v-spacer v-if="!selectedFile"></v-spacer>
+              </template>
+            </v-text-field>
+
+            <!-- 检查按钮放在外面，更符合Google搜索的样式 -->
             <v-btn
               color="primary"
-              class="check-btn"
+              class="check-btn ml-2"
               @click="analyzeContent"
               rounded
               :loading="isAnalyzing"
             >
               Check
             </v-btn>
+          </div>
+          
+          <!-- 已选择图片预览区域 -->
+          <div v-if="selectedFile" class="selected-file-preview mt-2">
+            <div class="d-flex align-center">
+              <div class="image-preview-wrapper mr-3">
+                <img 
+                  :src="selectedFilePreview" 
+                  alt="Selected file preview" 
+                  class="preview-image"
+                />
+              </div>
+              <div class="file-info">
+                <div class="file-name">{{ selectedFile.name }}</div>
+                <div v-if="isExtractingText" class="d-flex align-center mt-1">
+                  <v-progress-linear indeterminate color="primary" height="3" class="mb-1"></v-progress-linear>
+                  <span class="text-caption ml-2">Extracting text...</span>
+                </div>
+              </div>
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                size="small"
+                class="remove-btn"
+                @click.prevent="removeSelectedFile"
+                title="Remove file"
+              >
+                <v-icon size="small">mdi-close</v-icon>
+              </v-btn>
+            </div>
           </div>
         </div>
       </v-card>
@@ -1391,50 +1405,74 @@ export default {
   box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
 }
 
-/* Image upload and preview styles */
-.image-upload-container {
+/* Input container styles */
+.input-container {
   position: relative;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.google-style-input {
+  border-radius: 24px !important;
+  background-color: white !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease !important;
+}
+
+.google-style-input:hover, .google-style-input:focus-within {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Reset input field styles */
+:deep(.v-field__outline) {
+  border-radius: 24px !important;
+  border-color: transparent !important;
+}
+
+:deep(.v-field__input) {
+  padding: 12px 16px !important;
 }
 
 .image-upload-btn {
-  border: 1px dashed rgba(99, 102, 241, 0.3);
-  background-color: rgba(99, 102, 241, 0.05);
+  color: #4f86f7 !important;
   transition: all 0.2s ease;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px !important;
+  opacity: 0.8;
 }
 
 .image-upload-btn:hover {
-  border-color: rgba(99, 102, 241, 0.5);
-  background-color: rgba(99, 102, 241, 0.1);
+  opacity: 1;
+  transform: scale(1.05);
 }
 
-.selected-file-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 12px;
+.check-btn {
+  height: 44px;
+  min-width: 100px;
+  border-radius: 24px !important;
+  text-transform: none;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 0 2px 5px rgba(99, 102, 241, 0.2) !important;
+}
+
+.selected-file-preview {
+  background-color: #f5f7ff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
 .image-preview-wrapper {
-  position: relative;
   width: 48px;
   height: 48px;
-  border-radius: 10px;
-  overflow: visible;
-  margin: 4px;
-}
-
-.image-preview {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 2px solid rgba(99, 102, 241, 0.2);
-  background-color: #f8fafc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .preview-image {
@@ -1443,56 +1481,26 @@ export default {
   object-fit: cover;
 }
 
-.custom-remove-btn {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border: 2px solid #6366F1;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-}
-
-.custom-remove-btn:hover {
-  background-color: #EEF2FF;
-  transform: scale(1.1);
-}
-
-.close-icon {
-  font-size: 14px;
-  line-height: 0;
-  color: #6366F1;
-  font-weight: bold;
-  margin-bottom: 2px;
+.file-info {
+  flex: 1;
 }
 
 .file-name {
-  max-width: 100px;
-  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
   text-overflow: ellipsis;
+  overflow: hidden;
   white-space: nowrap;
-  font-size: 10px;
-  margin-top: 4px;
+  max-width: 300px;
 }
 
-.check-btn {
-  background: var(--primary-gradient) !important;
-  color: white !important;
-  font-weight: 500;
-  min-width: 100px;
-  height: 40px;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+.remove-btn {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.remove-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Results styles */
@@ -1753,16 +1761,12 @@ export default {
     height: 42px;
   }
   
-  .custom-remove-btn {
+  .remove-btn {
     width: 22px;
     height: 22px;
     top: -8px;
     right: -8px;
     border-width: 2px;
-  }
-  
-  .close-icon {
-    font-size: 16px;
   }
   
   .file-name {
