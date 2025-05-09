@@ -62,7 +62,10 @@
       </div>
       
       <div class="practice-display">
+        <div class="practice-title">🎯 Current Question</div>
         <div class="practice-text">{{ currentPractice.text }}</div>
+      </div>
+      <div class="timer-bar-wrapper">
         <div class="timer-bar">
           <div class="timer-progress" :style="{ width: timerWidth + '%' }"></div>
         </div>
@@ -850,31 +853,65 @@ this.snake.pop();
 }
 
 .practice-display {
-  width: 100%;
-  padding: 15px;
-  background-color: #333;
-  color: white;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  margin: 32px auto 24px auto;
+  padding: 32px 32px 22px 32px;
+  background: linear-gradient(100deg, #232526 0%, #414345 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 2px 8px #00e0ff44;
+  max-width: 800px;
+  min-height: 120px;
   text-align: center;
+  position: relative;
+  border: 3px solid #00e0ff;
+  animation: pop-in 0.7s cubic-bezier(.68,-0.55,.27,1.55);
 }
-
+@keyframes pop-in {
+  0% { transform: scale(0.7); opacity: 0.2;}
+  80% { transform: scale(1.08);}
+  100% { transform: scale(1); opacity: 1;}
+}
+.practice-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #00e0ff;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 12px #00e0ff55;
+}
 .practice-text {
-  font-size: 18px;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 12px #00e0ff55, 0 1px 0 #232526;
   margin-bottom: 10px;
 }
 
+.timer-bar-wrapper {
+  width: 340px;
+  max-width: 90vw;
+  margin: 0 auto 24px auto;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .timer-bar {
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
+  width: 100%;
+  height: 18px;
+  background: #232526;
+  border-radius: 9px;
   overflow: hidden;
+  border: 2.5px solid #00e0ff;
+  box-shadow: 0 2px 12px #00e0ff33;
 }
 
 .timer-progress {
   height: 100%;
   background: linear-gradient(90deg, #ff7675, #fd79a8, #a29bfe, #74b9ff);
   transition: width 1s linear;
+  border-radius: 9px 0 0 9px;
 }
 
 .game-board {
