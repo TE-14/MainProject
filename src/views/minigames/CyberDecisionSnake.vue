@@ -13,44 +13,26 @@
 </div>
     <!-- Start Screen -->
     <div v-else-if="gameState === 'start'" class="game-screen start-screen">
-      <h1>Cyber Decision Snake</h1>
-      <p>Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
-      
-      <div class="instructions">
+      <h1 class="game-title">Cyber Decision Snake</h1>
+      <p class="game-slogan">Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
+      <div class="instructions-card">
         <h3>How to play:</h3>
         <ol>
-  <li>A scenario about online interactions will appear at the top of the screen</li>
-  <li>Use arrow keys or on-screen buttons to move your snake</li>
-  <li>Move toward the <span class="good-practice">✓</span> if it's a <strong>safe or smart choice</strong></li>
-  <li>Move toward the <span class="bad-practice">✗</span> if it's an <strong>unsafe or risky choice</strong></li>
-  <li>Learn to recognize signs of online grooming and protect yourself!</li>
-</ol>
+          <li>🧑‍💻 A scenario about online interactions will appear at the top of the screen</li>
+          <li>🎮 Use arrow keys or on-screen buttons to move your snake</li>
+          <li>✅ Move toward the <span class="good-practice">✓</span> if it's a <strong>safe or smart choice</strong></li>
+          <li>❌ Move toward the <span class="bad-practice">✗</span> if it's an <strong>unsafe or risky choice</strong></li>
+          <li>🛡️ Learn to recognize signs of online grooming and protect yourself!</li>
+        </ol>
       </div>
-      
       <div class="difficulty-select">
         <h3>Select Difficulty:</h3>
         <div class="difficulty-buttons">
-          <button 
-            @click="setDifficulty('easy')" 
-            :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']"
-          >
-            Easy
-          </button>
-          <button 
-            @click="setDifficulty('medium')" 
-            :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']"
-          >
-            Medium
-          </button>
-          <button 
-            @click="setDifficulty('hard')" 
-            :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']"
-          >
-            Hard
-          </button>
+          <button @click="setDifficulty('easy')" :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']">Easy</button>
+          <button @click="setDifficulty('medium')" :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']">Medium</button>
+          <button @click="setDifficulty('hard')" :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']">Hard</button>
         </div>
       </div>
-      
       <button @click="startGame" class="start-btn">Start Game</button>
     </div>
 
@@ -621,153 +603,62 @@ this.snake.pop();
 
 <style scoped>
 .cyber-snake-game {
-  font-family: 'Segoe UI', 'Arial', sans-serif;
   min-height: 100vh;
-  /* 紫色基调渐变背景 */
-  background: linear-gradient(135deg, #f3e8ff 0%, #d1c4e9 60%, #9575cd 100%);
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
 
-.practice-item:last-child {
-  margin-bottom: 0;
-  border-bottom: none;
-}
-
-.practice-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 15px;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.good-icon {
-  background-color: #28a745;
-  color: white;
-}
-
-.bad-icon {
-  background-color: #dc3545;
-  color: white;
-}
-
-.practice-detail {
-  flex: 1;
-  text-align: left;
-}
-
-.practice-text {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.practice-explanation {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .game-controls {
-    margin-top: 10px;
-  }
-  
-  .control-btn {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-  }
-  
-  .practice-display {
-    padding: 10px;
-  }
-  
-  .practice-text {
-    font-size: 16px;
-  }
-  
-  .feedback-container {
-    max-width: 90%;
-    padding: 15px;
-  }
-}
-
-
-.game-screen {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 9999;
-}
-
-/* Start Screen */
-.start-screen {
-  background: none;
-  color: #222;
-  text-align: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 60px;
-}
-
-.start-screen h1 {
-  font-size: 2.8rem;
+.game-title {
+  font-size: 3.2rem;
   font-weight: bold;
   background: linear-gradient(90deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 24px;
-  text-shadow: 0 2px 8px rgba(118, 75, 162, 0.12);
+  margin-bottom: 10px;
+  text-shadow: 0 4px 24px #764ba244;
+  letter-spacing: 2px;
+  text-align: center;
+  width: 100%;
 }
 
-.instructions {
-  background: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
-  backdrop-filter: blur(8px);
-  border-radius: 24px;
-  padding: 32px 24px;
-  margin: 32px 0 24px 0;
+.game-slogan {
+  font-size: 1.2rem;
+  color: #6c47ff;
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.instructions-card {
+  background: rgba(255,255,255,0.7);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px 0 rgba(118, 75, 162, 0.10);
+  padding: 32px 28px;
+  margin: 24px 0 24px 0;
   color: #222;
   max-width: 480px;
   text-align: left;
   font-size: 1.1rem;
+  transition: box-shadow 0.3s, transform 0.3s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.instructions h3 {
+.instructions-card h3 {
   font-weight: bold;
   margin-bottom: 12px;
 }
-.instructions ol {
+.instructions-card ol {
   padding-left: 20px;
 }
-.instructions li {
-  margin-bottom: 8px;
+.instructions-card li {
+  margin-bottom: 10px;
   line-height: 1.7;
-}
-
-.good-practice {
-  color: #43e97b;
-  font-weight: bold;
-  font-size: 1.2em;
-}
-.bad-practice {
-  color: #ff7675;
-  font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.08em;
 }
 
 .difficulty-select {
@@ -775,6 +666,8 @@ this.snake.pop();
 }
 .difficulty-select h3 {
   margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
 }
 .difficulty-buttons {
   display: flex;
