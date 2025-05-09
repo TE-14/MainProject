@@ -622,6 +622,7 @@ this.snake.pop();
   letter-spacing: 2px;
   text-align: center;
   width: 100%;
+  margin-top: 48px;
 }
 
 .game-slogan {
