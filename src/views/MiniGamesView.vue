@@ -24,91 +24,52 @@
 
     <!-- Game cards section -->
     <v-row class="justify-center">
-      <v-col cols="12" md="6" class="game-col">
-        <v-card class="game-card h-100" :elevation="0">
+      <!-- CyberHero Challenge 卡片 -->
+      <v-col cols="12" md="5" class="game-col">
+        <v-card class="game-card" :elevation="2">
+          <v-img
+            :src="require('@/assets/images/cyberhero.png')"
+            aspect-ratio="1.8"
+            class="game-image"
+            cover
+          ></v-img>
           <v-card-text class="pa-6">
-            <div class="game-icon mb-6 cyberbullying-icon">
-              <v-icon size="32" color="#673AB7">mdi-message-alert</v-icon>
-            </div>
-            <div class="card-badge">Interactive</div>
-            <h3 class="text-h5 font-weight-bold mb-4">
-              <span class="title-text-purple">CyberHero</span> Challenge
-            </h3>
-            <p class="text-body-1 mb-4">
-              Become a cyberbullying defender in this interactive game where you'll learn to:
+            <h3 class="game-title">CyberHero Challenge</h3>
+            <p class="game-desc">
+              Become a cyberbullying defender! Learn to identify cyberbullying scenarios and choose the right actions to respond to online harassment.
             </p>
-            <ul class="text-body-1 mb-6 feature-list">
-              <li>
-                <v-icon small color="#673AB7" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Identify different types of cyberbullying scenarios</span>
-              </li>
-              <li>
-                <v-icon small color="#673AB7" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Choose the right actions to respond to online harassment</span>
-              </li>
-              <li>
-                <v-icon small color="#673AB7" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Help others while earning defender points</span>
-              </li>
-              <li>
-                <v-icon small color="#673AB7" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Learn practical strategies for real-world situations</span>
-              </li>
-            </ul>
             <v-btn
               :to="'/minigames/cyberbullying'"
-              color="deep-purple"
-              class="mt-4 play-btn"
-              elevation="0"
+              color="primary"
+              class="play-btn"
               block
             >
               Play Now
-              <v-icon end class="ml-2">mdi-play-circle</v-icon>
             </v-btn>
           </v-card-text>
         </v-card>
       </v-col>
-
-      <v-col cols="12" md="6" class="game-col">
-        <v-card class="game-card h-100" :elevation="0">
+      <!-- Detective Maze 卡片 -->
+      <v-col cols="12" md="5" class="game-col">
+        <v-card class="game-card" :elevation="2">
+          <v-img
+            :src="require('@/assets/images/snake.png')"
+            aspect-ratio="1.8"
+            class="game-image"
+            cover
+          ></v-img>
           <v-card-text class="pa-6">
-            <div class="game-icon mb-6 grooming-icon">
-              <v-icon size="32" color="#3b82f6">mdi-account-multiple-check</v-icon>
-            </div>
-            <div class="card-badge new">New Game</div>
-            <h3 class="text-h5 font-weight-bold mb-4">
-              <span class="title-text-blue">Detective</span> Maze
-            </h3>
-            <p class="text-body-1 mb-4">
-              Enter the maze to better recognize online grooming tactics:
+            <h3 class="game-title">Detective Maze</h3>
+            <p class="game-desc">
+              Enter the maze to recognize online grooming tactics, spot red flags, and make safe choices in simulated chat scenarios!
             </p>
-            <ul class="text-body-1 mb-6 feature-list">
-              <li>
-                <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Spot red flags in online conversations</span>
-              </li>
-              <li>
-                <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Make safe choices in simulated chat scenarios</span>
-              </li>
-              <li>
-                <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Learn to protect personal information online</span>
-              </li>
-              <li>
-                <v-icon small color="#3b82f6" class="mr-2">mdi-check-circle</v-icon>
-                <span class="feature-text">Discover when and how to seek help</span>
-              </li>
-            </ul>
             <v-btn
               :to="'/minigames/grooming'"
-              color="info"
-              class="mt-4 play-btn"
-              elevation="0"
+              color="primary"
+              class="play-btn"
               block
             >
               Play Now
-              <v-icon end class="ml-2">mdi-play-circle</v-icon>
             </v-btn>
           </v-card-text>
         </v-card>
@@ -230,134 +191,65 @@ export default {
 }
 
 .game-card {
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.game-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #673AB7, #9575CD);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(80, 80, 120, 0.10);
+  background: #fff;
+  transition: transform 0.18s, box-shadow 0.18s;
+  margin-bottom: 32px;
 }
 
 .game-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15) !important;
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(80, 80, 120, 0.18);
 }
 
-.game-card:hover::before {
-  opacity: 1;
+.game-image {
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  min-height: 140px;
+  object-fit: cover;
 }
 
-.card-badge {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: rgba(103, 58, 183, 0.1);
-  color: #673AB7;
+.game-title {
+  font-size: 1.35rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 18px 0 10px 0;
 }
 
-.card-badge.new {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+.game-desc {
+  font-size: 1rem;
+  color: #444;
+  text-align: center;
+  margin-bottom: 18px;
 }
 
-.game-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: rgba(99, 102, 241, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.game-icon::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
-}
-
-.game-icon.cyberbullying-icon {
-  background: linear-gradient(135deg, rgba(103, 58, 183, 0.1), rgba(103, 58, 183, 0.2));
-  border: 1px solid rgba(103, 58, 183, 0.2);
-}
-
-.game-icon.cyberbullying-icon .v-icon {
-  color: #673AB7 !important;
-}
-
-.game-icon.cyberbullying-icon:hover {
-  border-color: rgba(103, 58, 183, 0.4);
-  box-shadow: 0 8px 16px rgba(103, 58, 183, 0.1);
-}
-
-.game-icon.grooming-icon {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2));
-  border: 1px solid rgba(59, 130, 246, 0.2);
-}
-
-.game-icon.grooming-icon:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.1);
-}
-
-/* Feature list */
-.feature-list {
-  list-style: none;
-  padding: 0;
-}
-
-.feature-list li {
+.play-btn {
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 24px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-left: 0;
+  justify-content: center;
+  padding: 14px 0;
+  background: linear-gradient(90deg, #a78bfa 0%, #6366f1 100%);
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.15), 0 1.5px 6px rgba(139,92,246,0.10);
+  letter-spacing: 1px;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+  border: none;
+  text-align: center;
 }
-
-.feature-list li::before {
-  display: none;
+.play-btn:hover, .play-btn:focus {
+  background: linear-gradient(90deg, #6366f1 0%, #a78bfa 100%);
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.22), 0 3px 12px rgba(139,92,246,0.18);
+  outline: none;
 }
-
-/* Button styles */
-.play-btn {
-  border-radius: 12px;
-  text-transform: none;
-  font-weight: 600;
-  letter-spacing: 0;
-  height: 48px;
-}
-
-.play-btn:hover {
-  transform: translateY(-2px);
+.play-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
 }
 
 /* Animations */
@@ -381,37 +273,5 @@ export default {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
-}
-
-@media (max-width: 600px) {
-  .game-card {
-    margin-bottom: 1.5rem;
-  }
-}
-
-.title-text-purple {
-  color: #673AB7;
-}
-
-.title-text-blue {
-  color: #3b82f6;
-}
-
-.feature-text {
-  color: #475569;
-  transition: color 0.3s ease;
-}
-
-.feature-list li:hover .feature-text {
-  color: #1e293b;
 }
 </style>

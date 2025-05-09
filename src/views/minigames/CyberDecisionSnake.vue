@@ -124,37 +124,39 @@
 
     <!-- Game Over Screen -->
     <div v-else-if="gameState === 'gameover'" class="game-screen gameover-screen">
-      <h2>Game Over!</h2>
-      <div class="results-summary">
-        <p>Final Score: {{ score }}</p>
-        <p>Correct Decisions: {{ correctDecisions }}</p>
-        <p>Incorrect Decisions: {{ incorrectDecisions }}</p>
-      </div>
-      
-      <div class="knowledge-summary">
-        <h3>Cybersecurity Knowledge:</h3>
-        <div class="knowledge-bar">
-          <div class="knowledge-progress" :style="{ width: knowledgePercentage + '%' }"></div>
+      <div class="gameover-card">
+        <h2>Game Over!</h2>
+        <div class="results-summary">
+          <p>Final Score: {{ score }}</p>
+          <p>Correct Decisions: {{ correctDecisions }}</p>
+          <p>Incorrect Decisions: {{ incorrectDecisions }}</p>
         </div>
-        <div class="knowledge-text">{{ knowledgePercentage }}%</div>
-      </div>
-      
-      <div class="practice-review">
-        <h3>Remember these key practices:</h3>
-        <div class="practices-list">
-          <div v-for="(practice, index) in reviewPractices" :key="index" class="practice-item">
-            <div :class="['practice-icon', practice.isGood ? 'good-icon' : 'bad-icon']">
-              {{ practice.isGood ? '✓' : '✗' }}
-            </div>
-            <div class="practice-detail">
-              <div class="practice-text">{{ practice.text }}</div>
-              <div class="practice-explanation">{{ practice.explanation }}</div>
+        
+        <div class="knowledge-summary">
+          <h3>Cybersecurity Knowledge:</h3>
+          <div class="knowledge-bar">
+            <div class="knowledge-progress" :style="{ width: knowledgePercentage + '%' }"></div>
+          </div>
+          <div class="knowledge-text">{{ knowledgePercentage }}%</div>
+        </div>
+        
+        <div class="practice-review">
+          <h3>Remember these key practices:</h3>
+          <div class="practices-list">
+            <div v-for="(practice, index) in reviewPractices" :key="index" class="practice-item">
+              <div :class="['practice-icon', practice.isGood ? 'good-icon' : 'bad-icon']">
+                {{ practice.isGood ? '✓' : '✗' }}
+              </div>
+              <div class="practice-detail">
+                <div class="practice-text">{{ practice.text }}</div>
+                <div class="practice-explanation">{{ practice.explanation }}</div>
+              </div>
             </div>
           </div>
         </div>
+        
+        <button @click="resetGame" class="restart-btn">Play Again</button>
       </div>
-      
-      <button @click="resetGame" class="restart-btn">Play Again</button>
     </div>
   </div>
 </template>
@@ -213,7 +215,7 @@ export default {
   explanation: "You have the right to feel safe and set boundaries."
 },
 {
-  text: "Use a nickname or screen name that doesn’t reveal your identity",
+  text: "Use a nickname or screen name that doesn't reveal your identity",
   isGood: true,
   explanation: "Keeping personal info private protects you from grooming attempts."
 },
@@ -616,13 +618,14 @@ this.snake.pop();
 
 <style scoped>
 .cyber-snake-game {
-  font-family: 'Arial', sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  height: 100%; /* <-- ADD THIS */
-  min-height: 100vh; /* <-- ENSURE at least full screen */
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  min-height: 100vh;
+  /* 紫色基调渐变背景 */
+  background: linear-gradient(135deg, #f3e8ff 0%, #d1c4e9 60%, #9575cd 100%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .practice-item:last-child {
@@ -707,79 +710,118 @@ this.snake.pop();
 
 /* Start Screen */
 .start-screen {
-  background: linear-gradient(135deg, #4a90e2, #5433FF);
-  color: white;
+  background: none;
+  color: #222;
   text-align: center;
   justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+}
+
+.start-screen h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 8px rgba(118, 75, 162, 0.12);
 }
 
 .instructions {
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 15px;
-  border-radius: 10px;
-  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+  backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 32px 24px;
+  margin: 32px 0 24px 0;
+  color: #222;
+  max-width: 480px;
   text-align: left;
-  max-width: 500px;
+  font-size: 1.1rem;
+}
+.instructions h3 {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.instructions ol {
+  padding-left: 20px;
+}
+.instructions li {
+  margin-bottom: 8px;
+  line-height: 1.7;
 }
 
 .good-practice {
-  color: #28a745;
+  color: #43e97b;
   font-weight: bold;
+  font-size: 1.2em;
 }
-
 .bad-practice {
-  color: #dc3545;
+  color: #ff7675;
   font-weight: bold;
+  font-size: 1.2em;
 }
 
 .difficulty-select {
-  margin: 20px 0;
+  margin: 24px 0 12px 0;
 }
-
+.difficulty-select h3 {
+  margin-bottom: 10px;
+}
 .difficulty-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 18px;
   margin-top: 10px;
 }
-
 .difficulty-btn {
-  padding: 8px 20px;
-  border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.difficulty-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.difficulty-btn.selected {
-  background-color: white;
-  color: #4a90e2;
-  font-weight: bold;
-}
-
-.start-btn, .continue-btn, .restart-btn {
-  padding: 12px 30px;
-  background-color: white;
-  color: #4a90e2;
   border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 24px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #d1c4e9 0%, #b39ddb 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(149, 117, 205, 0.10);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s, border 0.2s;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-  margin-top: 20px;
+  outline: none;
+}
+.difficulty-btn.selected {
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.25);
+  transform: scale(1.10);
+  border: 2.5px solid #7c4dff;
+  background: linear-gradient(90deg, #7c4dff 0%, #9575cd 100%);
+  color: #fff;
+  z-index: 1;
+}
+.difficulty-btn:hover {
+  opacity: 0.96;
+  background: linear-gradient(90deg, #9575cd 0%, #7c4dff 100%);
 }
 
-.start-btn:hover, .continue-btn:hover, .restart-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+.start-btn {
+  display: block;
+  margin: 36px auto 0;
+  padding: 16px 48px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 32px;
+  border: none;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.18);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.start-btn:hover {
+  background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
 }
 
 /* Game Play Screen */
@@ -933,88 +975,246 @@ this.snake.pop();
 
 /* Feedback Screen */
 .feedback-screen {
-  background-color: rgba(0, 0, 0, 0.8);
+  /* background-color: rgba(0, 0, 0, 0.8); */
+  background: none;
   justify-content: center;
   align-items: center;
 }
 
 .feedback-container {
-  max-width: 500px;
-  padding: 25px;
-  border-radius: 10px;
+  max-width: 420px;
+  padding: 32px 24px;
+  border-radius: 24px;
   text-align: center;
-}
-
-.correct-feedback {
-  background-color: #28a745;
-  color: white;
-}
-
-.incorrect-feedback {
-  background-color: #dc3545;
-  color: white;
-}
-
-.practice-info {
-  margin: 20px 0;
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  text-align: left;
-}
-
-/* Game Over Screen */
-.gameover-screen {
-  background: linear-gradient(135deg, #4a90e2, #5433FF);
-  color: white;
-  text-align: center;
-  overflow-y: auto;
-}
-
-.results-summary {
-  margin: 20px 0;
-  font-size: 18px;
-}
-
-.knowledge-summary {
-  margin: 20px 0;
+  margin: 48px auto 0 auto;
+  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.10);
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(10px);
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.correct-feedback {
+  background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%, rgba(255,255,255,0.28));
+  color: #fff;
+  border: none;
+}
+
+.incorrect-feedback {
+  background: linear-gradient(135deg, #ff5858 0%, #f09819 100%, rgba(255,255,255,0.28));
+  color: #fff;
+  border: none;
+}
+
+.practice-info {
+  margin: 20px 0;
+  padding: 18px;
+  background: rgba(255,255,255,0.22);
+  border-radius: 14px;
+  text-align: left;
+  color: #fff;
+  font-size: 1.08rem;
+  box-shadow: none;
+}
+
+.continue-btn {
+  margin-top: 24px;
+  padding: 14px 48px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  border-radius: 28px;
+  border: none;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
+}
+.correct-feedback .continue-btn {
+  background: linear-gradient(90deg, #74b9ff 0%, #a29bfe 100%);
+}
+.correct-feedback .continue-btn:hover {
+  background: linear-gradient(90deg, #4e8cff 0%, #6c5ce7 100%);
+  transform: scale(1.04);
+}
+.incorrect-feedback .continue-btn {
+  background: linear-gradient(90deg, #ffd86f 0%, #ff9a44 100%);
+  color: #fff;
+}
+.incorrect-feedback .continue-btn:hover {
+  background: linear-gradient(90deg, #ffb347 0%, #ff6e7f 100%);
+  transform: scale(1.04);
+}
+
+/* Game Over Screen */
+.gameover-screen {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  text-align: center;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.gameover-card {
+  background: rgba(255,255,255,0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  backdrop-filter: blur(10px);
+  border-radius: 32px;
+  padding: 48px 36px 36px 36px;
+  max-width: 480px;
+  margin: 48px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gameover-card h2 {
+  font-size: 2.4rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 8px rgba(118, 75, 162, 0.12);
+}
+
+.results-summary {
+  margin: 18px 0 10px 0;
+  font-size: 1.15rem;
+  color: #333;
+}
+
+.knowledge-summary {
+  margin: 18px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 .knowledge-bar {
-  width: 80%;
-  height: 20px;
-  background-color: rgba(255, 255, 255, 0.2);
+  width: 90%;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
   overflow: hidden;
-  margin: 10px 0;
+  margin: 10px 0 4px 0;
 }
-
 .knowledge-progress {
   height: 100%;
-  background: linear-gradient(90deg, #74b9ff, #a29bfe, #fd79a8);
+  background: linear-gradient(90deg, #43e97b, #38f9d7, #a29bfe);
   transition: width 1s ease;
 }
-
 .knowledge-text {
-  font-size: 18px;
+  font-size: 1.1rem;
   font-weight: bold;
+  color: #333;
 }
 
 .practice-review {
-  max-width: 600px;
-  margin: 20px 0;
+  width: 100%;
+  max-width: 420px;
+  margin: 18px 0 0 0;
+}
+.practice-review h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+.practices-list {
+  background: rgba(255,255,255,0.18);
+  border-radius: 14px;
+  padding: 12px 10px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+.practice-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.practice-item:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.practice-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  font-weight: bold;
+  flex-shrink: 0;
+  font-size: 1.2em;
+}
+.good-icon {
+  background-color: #43e97b;
+  color: white;
+}
+.bad-icon {
+  background-color: #ff7675;
+  color: white;
+}
+.practice-detail {
+  flex: 1;
+  text-align: left;
+}
+.practice-text {
+  font-weight: bold;
+  margin-bottom: 2px;
+  font-size: 1rem;
+}
+.practice-explanation {
+  font-size: 0.97rem;
+  opacity: 0.92;
 }
 
-.practices-list {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 15px;
-  max-height: 300px;
-  overflow-y: auto;
-};
+.restart-btn {
+  display: block;
+  margin: 32px auto 0 auto;
+  padding: 14px 44px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 28px;
+  border: none;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.18);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.restart-btn:hover {
+  background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .gameover-card {
+    padding: 18px 6px 18px 6px;
+    max-width: 98vw;
+  }
+  .practice-review {
+    max-width: 98vw;
+  }
+  .restart-btn {
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
+}
 
 .ready-screen {
   display: flex;
