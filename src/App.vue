@@ -17,8 +17,8 @@
       <div class="d-flex align-center">
         <router-link to="/" class="text-decoration-none">
           <div class="brand-container">
-            <v-icon size="32" class="brand-icon mr-2">mdi-shield-check</v-icon>
-            <span class="text-h5 font-weight-bold brand-text">Digital Citizenship</span>
+            <img src="@/assets/logo2.png" alt="ShieldSkills Logo" class="brand-logo mr-2" />
+            <span class="brand-text">ShieldSkills</span>
           </div>
         </router-link>
       </div>
@@ -60,8 +60,8 @@
       <div class="pa-4">
         <div class="d-flex align-center justify-space-between mb-6">
           <div class="brand-container">
-            <v-icon size="32" class="brand-icon mr-2">mdi-shield-check</v-icon>
-            <span class="text-h6 font-weight-bold brand-text">Digital Citizenship</span>
+            <img src="@/assets/logo2.png" alt="ShieldSkills Logo" class="brand-logo mr-2" />
+            <span class="text-h6 font-weight-bold brand-text">ShieldSkills</span>
           </div>
           <v-btn icon @click="drawer = false">
             <v-icon>mdi-close</v-icon>
@@ -89,48 +89,14 @@
     <!-- Main Content Area -->
     <v-main class="main-content">
       <router-view v-slot="{ Component }">
-        <transition name="page-transition" mode="out-in">
-          <component :is="Component" />
-        </transition>
+        <component :is="Component" />
       </router-view>
     </v-main>
 
     <!-- Footer -->
     <v-footer app class="footer-blur px-4 py-3">
-      <span class="text-caption text-medium-emphasis">Empowering digital citizens, creating a secure online world.</span>
+      <span class="text-caption text-medium-emphasis">TE-14/Empowering digital citizens, creating a secure online world.</span>
       <v-spacer></v-spacer>
-      <div class="social-links">
-        <v-btn 
-          icon="mdi-twitter" 
-          variant="text" 
-          class="mx-1"
-          href="https://twitter.com" 
-          target="_blank"
-          rel="noopener noreferrer"
-          :ripple="false"
-          title="Visit Twitter"
-        ></v-btn>
-        <v-btn 
-          icon="mdi-github" 
-          variant="text" 
-          class="mx-1"
-          href="https://github.com" 
-          target="_blank"
-          rel="noopener noreferrer"
-          :ripple="false"
-          title="Visit GitHub"
-        ></v-btn>
-        <v-btn 
-          icon="mdi-linkedin" 
-          variant="text" 
-          class="mx-1"
-          href="https://linkedin.com" 
-          target="_blank"
-          rel="noopener noreferrer"
-          :ripple="false"
-          title="Visit LinkedIn"
-        ></v-btn>
-      </div>
     </v-footer>
   </v-app>
 </template>
@@ -303,14 +269,18 @@ export default {
 .brand-container {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
+  padding-left: 24px;
 }
 
 .brand-text {
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: 'Quicksand', 'Montserrat', 'Inter', Arial, sans-serif;
   font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+  color: #7c3aed;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 .brand-badge {
@@ -604,4 +574,15 @@ html, body {
     font-size: 1.1rem !important;
   }
 }
+
+.brand-logo {
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 2px;
+}
 </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
