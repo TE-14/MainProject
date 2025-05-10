@@ -25,63 +25,66 @@
 
       <v-spacer></v-spacer>
 
-      <div class="nav-links">
+      <!-- Desktop Navigation Links -->
+      <div class="nav-links d-none d-md-flex">
         <v-btn
-          to="/"
-          :class="['nav-btn mx-2', $route.path === '/' ? 'nav-btn-active' : '']"
+          v-for="navItem in navigationItems" 
+          :key="navItem.path"
+          :to="navItem.path"
+          :class="['nav-btn mx-2', isActive(navItem.path, navItem.match) ? 'nav-btn-active' : '']"
           elevation="0"
-          exact
+          :exact="navItem.exact"
         >
-          <v-icon start class="mr-2">mdi-home</v-icon>
-          HOME
-        </v-btn>
-
-        <v-btn
-          to="/learning-hub"
-          :class="['nav-btn mx-2', $route.path.startsWith('/learning') ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-book-open-variant</v-icon>
-          LEARNING HUB
-        </v-btn>
-
-        <v-btn
-          to="/resources"
-          :class="['nav-btn mx-2', $route.path.startsWith('/resources') ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-information</v-icon>
-          RESOURCE CENTER
-        </v-btn>
-
-        <v-btn
-          to="/safety-check"
-          :class="['nav-btn mx-2', $route.path === '/safety-check' ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-shield-alert</v-icon>
-          SAFETY CHECK
-        </v-btn>
-
-        <v-btn
-          to="/scenario"
-          :class="['nav-btn mx-2', $route.path === '/scenario' || $route.path.includes('scenario') ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-account-group</v-icon>
-          SCENARIO
-        </v-btn>
-
-        <v-btn
-          to="/mini-games"
-          :class="['nav-btn mx-2', $route.path === '/mini-games' || $route.path.includes('mini-games') ? 'nav-btn-active' : '']"
-          elevation="0"
-        >
-          <v-icon start class="mr-2">mdi-account-group</v-icon>
-          MINI-GAMES
+          <v-icon start class="mr-2">{{ navItem.icon }}</v-icon>
+          {{ navItem.title }}
         </v-btn>
       </div>
+
+      <!-- Mobile Navigation Button -->
+      <v-btn
+        icon
+        class="d-md-none"
+        @click="drawer = !drawer"
+      >
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
     </v-app-bar>
+
+    <!-- Mobile Navigation Drawer -->
+    <v-navigation-drawer
+      v-model="drawer"
+      temporary
+      right
+      class="mobile-nav-drawer"
+    >
+      <div class="pa-4">
+        <div class="d-flex align-center justify-space-between mb-6">
+          <div class="brand-container">
+            <v-icon size="32" class="brand-icon mr-2">mdi-shield-check</v-icon>
+            <span class="text-h6 font-weight-bold brand-text">Digital Citizenship</span>
+          </div>
+          <v-btn icon @click="drawer = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </div>
+
+        <v-list nav>
+          <v-list-item
+            v-for="navItem in navigationItems"
+            :key="navItem.path"
+            :to="navItem.path"
+            :exact="navItem.exact"
+            :class="isActive(navItem.path, navItem.match) ? 'mobile-nav-active' : ''"
+            @click="drawer = false"
+          >
+            <template v-slot:prepend>
+              <v-icon>{{ navItem.icon }}</v-icon>
+            </template>
+            <v-list-item-title>{{ navItem.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </div>
+    </v-navigation-drawer>
 
     <!-- Main Content Area -->
     <v-main class="main-content">
@@ -134,12 +137,66 @@
 
 <script>
 import { useRoute } from 'vue-router'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 export default {
   name: 'App',
   setup() {
     const route = useRoute()
+    const drawer = ref(false)
+
+    // 导航项配置
+    const navigationItems = [
+      {
+        title: 'HOME',
+        path: '/',
+        icon: 'mdi-home',
+        exact: true,
+        match: null
+      },
+      {
+        title: 'LEARNING HUB',
+        path: '/learning-hub',
+        icon: 'mdi-book-open-variant',
+        exact: false,
+        match: '/learning'
+      },
+      {
+        title: 'RESOURCE CENTER',
+        path: '/resources',
+        icon: 'mdi-information',
+        exact: false,
+        match: '/resources'
+      },
+      {
+        title: 'SAFETY CHECK',
+        path: '/safety-check',
+        icon: 'mdi-shield-alert',
+        exact: true,
+        match: null
+      },
+      {
+        title: 'SCENARIO',
+        path: '/scenario',
+        icon: 'mdi-account-group',
+        exact: false,
+        match: 'scenario'
+      },
+      {
+        title: 'MINI-GAMES',
+        path: '/mini-games',
+        icon: 'mdi-gamepad-variant',
+        exact: false,
+        match: 'mini-games'
+      }
+    ]
+
+    // 检查导航项是否处于激活状态
+    const isActive = (path, match) => {
+      if (path === route.path) return true
+      if (match && route.path.includes(match)) return true
+      return false
+    }
 
     // 处理 ResizeObserver 错误
     const handleError = (event) => {
@@ -157,7 +214,7 @@ export default {
       window.removeEventListener('error', handleError)
     })
 
-    return { route }
+    return { route, drawer, navigationItems, isActive }
   }
 }
 </script>
@@ -518,6 +575,33 @@ html, body {
   @media (max-width: 480px) {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
+  }
+}
+
+/* 移动端导航样式 */
+.mobile-nav-drawer {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-nav-active {
+  background: var(--primary-gradient) !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.mobile-nav-active .v-icon {
+  color: white !important;
+}
+
+/* 隐藏大屏幕导航，显示移动导航 */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none !important;
+  }
+  
+  .brand-text {
+    font-size: 1.1rem !important;
   }
 }
 </style>
