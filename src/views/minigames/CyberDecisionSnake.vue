@@ -37,7 +37,7 @@
     </div>
 
     <!-- Main Game Screen -->
-    <div v-else-if="gameState === 'playing'" class="game-screen game-play-screen">
+    <div v-if="gameState === 'playing' || gameState === 'feedback'" class="game-screen game-play-screen">
       <div class="game-info">
         <div class="score-display">Score: {{ score }}</div>
         <div class="lives-display">Lives: <span v-for="n in lives" :key="n">❤️</span></div>
@@ -93,18 +93,25 @@
         </div>
         <button @click="move('down')" class="control-btn down-btn">↓</button>
       </div>
-    </div>
 
-    <!-- Feedback Screen -->
-    <div v-else-if="gameState === 'feedback'" class="game-screen feedback-screen">
-      <div :class="['feedback-container', lastDecisionCorrect ? 'correct-feedback' : 'incorrect-feedback']">
-        <h2>{{ lastDecisionCorrect ? 'Correct!' : 'Incorrect!' }}</h2>
-        <div class="practice-info">
-          <p>"{{ lastPractice.text }}" is a {{ lastPractice.isGood ? 'good' : 'bad' }} practice.</p>
-          <p>{{ lastPractice.explanation }}</p>
+      <!-- 反馈模态框 -->
+      <transition name="fade">
+        <div v-if="gameState === 'feedback'" class="feedback-modal-overlay">
+          <div class="feedback-modal" :class="[
+            lastDecisionCorrect ? 'correct-feedback' : 'incorrect-feedback'
+          ]">
+            <h2>{{ lastDecisionCorrect ? 'Well Done! 🎉' : 'Think Again! 🤔' }}</h2>
+            <div class="practice-info">
+              <p class="practice-text">"{{ lastPractice.text }}"</p>
+              <p class="practice-type">This is a <strong>{{ lastPractice.isGood ? 'good' : 'bad' }}</strong> practice because:</p>
+              <p class="practice-explanation">{{ lastPractice.explanation }}</p>
+            </div>
+            <button @click="continuePlaying" class="continue-btn">
+              Continue Playing
+            </button>
+          </div>
         </div>
-        <button @click="continuePlaying" class="continue-btn">Continue</button>
-      </div>
+      </transition>
     </div>
 
     <!-- Game Over Screen -->
@@ -1235,5 +1242,147 @@ this.snake.pop();
   opacity: 1;
 }
 
+/* 反馈模态框样式 */
+.feedback-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 24, 39, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
 
+.feedback-modal {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.feedback-modal.correct-feedback {
+  border: none;
+  background: linear-gradient(145deg, #ffffff, #f0fff4);
+  box-shadow: 0 20px 40px rgba(72, 187, 120, 0.2);
+}
+
+.feedback-modal.incorrect-feedback {
+  border: none;
+  background: linear-gradient(145deg, #ffffff, #fff5f5);
+  box-shadow: 0 20px 40px rgba(245, 101, 101, 0.2);
+}
+
+.feedback-modal h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.correct-feedback h2 {
+  color: #48bb78;
+}
+
+.incorrect-feedback h2 {
+  color: #f56565;
+}
+
+.feedback-modal .practice-info {
+  background: linear-gradient(145deg, #f7fafc, #edf2f7);
+  padding: 1.8rem;
+  border-radius: 16px;
+  margin: 1.5rem 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.feedback-modal .practice-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.feedback-modal .practice-type {
+  color: #4a5568;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+}
+
+.feedback-modal .practice-explanation {
+  color: #4a5568;
+  line-height: 1.7;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.feedback-modal .practice-info strong {
+  color: #4299e1;
+  font-weight: 700;
+}
+
+.correct-feedback .practice-info strong {
+  color: #38a169;
+}
+
+.incorrect-feedback .practice-info strong {
+  color: #e53e3e;
+}
+
+.feedback-modal .continue-btn {
+  background: linear-gradient(145deg, #4299e1, #3182ce);
+  color: white;
+  border: none;
+  padding: 1rem 2.8rem;
+  border-radius: 9999px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.correct-feedback .continue-btn {
+  background: linear-gradient(145deg, #48bb78, #38a169);
+  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.incorrect-feedback .continue-btn {
+  background: linear-gradient(145deg, #f56565, #e53e3e);
+  box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+}
+
+.feedback-modal .continue-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(110%);
+}
+
+.feedback-modal .continue-btn:active {
+  transform: translateY(1px);
+}
+
+/* 添加过渡动画 */
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+
+.fade-enter-to, .fade-leave-from {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
 </style>
