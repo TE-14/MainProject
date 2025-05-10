@@ -16,6 +16,7 @@
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@wllama/wllama": "^2.3.1",
+    "aos": "^2.3.4",
     "axios": "^1.6.7",
     "chart.js": "^3.9.1",
     "core-js": "^3.8.3",
@@ -59,6 +60,5 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]  
+  ]
 }
-

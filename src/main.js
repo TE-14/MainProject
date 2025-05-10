@@ -1,7 +1,9 @@
-import { createApp } from 'vue'
+import { createApp, nextTick } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 // Vuetify
 import 'vuetify/styles'
@@ -49,7 +51,15 @@ app.use(vuetify)
 
 // Update title on route change
 router.afterEach((to) => {
-  document.title = to.meta.title || 'Digital Citizenship'
+  document.title = to.meta.title || 'ShieldSkills'
+  nextTick(() => {
+    AOS.refreshHard();
+  });
 })
 
 app.mount('#app')
+AOS.init({
+  duration: 800, 
+  once: true,    
+  offset: 80     
+})
