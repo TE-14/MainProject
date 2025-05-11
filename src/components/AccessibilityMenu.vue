@@ -48,7 +48,8 @@
           </h3>
           <button 
             @click="toggleDyslexiaFont"
-            :class="{ 'active': isDyslexiaFontEnabled }"
+            :class="{ active: isDyslexiaFontEnabled }"
+            :aria-pressed="isDyslexiaFontEnabled"
             :aria-label="'Dyslexia Friendly Font ' + (isDyslexiaFontEnabled ? 'Enabled' : 'Enable') + ' (Alt + 3)'"
             :title="'Dyslexia Friendly Font ' + (isDyslexiaFontEnabled ? 'Enabled' : 'Enable') + ' (Alt + 3)'"
           >
@@ -106,6 +107,38 @@
             {{ isDarkMode ? 'Enabled' : 'Enable' }}
           </button>
         </div>
+
+        <!-- Magnifier -->
+        <div class="menu-item">
+          <h3>
+            <span class="icon">🔍</span>
+            Screen Magnifier
+            <span class="shortcut">(Alt + 7)</span>
+          </h3>
+          <div class="magnifier-controls">
+            <button 
+              @click="toggleMagnifier"
+              :class="{ 'active': isMagnifierEnabled }"
+              :aria-label="'Screen Magnifier ' + (isMagnifierEnabled ? 'Enabled' : 'Enable') + ' (Alt + 7)'"
+              :title="'Screen Magnifier ' + (isMagnifierEnabled ? 'Enabled' : 'Enable') + ' (Alt + 7)'"
+            >
+              {{ isMagnifierEnabled ? 'Enabled' : 'Enable' }}
+            </button>
+            <div v-if="isMagnifierEnabled" class="zoom-controls">
+              <button 
+                @click="adjustMagnifierZoom(-0.5)"
+                aria-label="Decrease Zoom"
+                title="Decrease Zoom"
+              >-</button>
+              <span>{{ magnifierZoom }}x</span>
+              <button 
+                @click="adjustMagnifierZoom(0.5)"
+                aria-label="Increase Zoom"
+                title="Increase Zoom"
+              >+</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="menu-footer">
@@ -123,19 +156,27 @@ export default {
     return {
       isOpen: false,
       fontSize: parseInt(localStorage.getItem('accessibility_fontSize')) || 100,
-      isDyslexiaFontEnabled: localStorage.getItem('accessibility_dyslexiaFont') === 'true',
+      isDyslexiaFontEnabled: false,
       isHighlightLinksEnabled: localStorage.getItem('accessibility_highlightLinks') === 'true',
       isHighlightTitlesEnabled: localStorage.getItem('accessibility_highlightTitles') === 'true',
       isDarkMode: localStorage.getItem('accessibility_darkMode') === 'true',
       showFontIndicator: false,
-      fontIndicatorText: ''
+      fontIndicatorText: '',
+      isMagnifierEnabled: false,
+      magnifierZoom: 1.5,
+      lastFocusedElement: null,
+      magnifierPosition: null,
     }
   },
   created() {
-    // 初始化设置
+    // 从 localStorage 获取初始状态
+    const savedDyslexiaState = localStorage.getItem('accessibility_dyslexiaFont')
+    if (savedDyslexiaState === 'true') {
+      this.isDyslexiaFontEnabled = true
+      document.body.classList.add('dyslexia-font')
+      this.applyDyslexiaFont()
+    }
     this.applySettings()
-    
-    // 添加键盘快捷键
     window.addEventListener('keydown', this.handleKeyboard)
   },
   beforeUnmount() {
@@ -144,6 +185,22 @@ export default {
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen
+      if (this.isOpen) {
+        // 打开菜单时，记录当前焦点元素
+        this.lastFocusedElement = document.activeElement
+        this.$nextTick(() => {
+          // 自动聚焦到第一个可聚焦元素
+          const firstFocusable = this.$el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+          if (firstFocusable) {
+            firstFocusable.focus()
+          }
+        })
+      } else {
+        // 关闭菜单时，恢复之前的焦点
+        if (this.lastFocusedElement) {
+          this.lastFocusedElement.focus()
+        }
+      }
     },
     adjustFontSize(change) {
       this.fontSize = Math.max(50, Math.min(200, this.fontSize + change))
@@ -151,20 +208,29 @@ export default {
       localStorage.setItem('accessibility_fontSize', this.fontSize)
     },
     toggleDyslexiaFont() {
+      // 切换状态
       this.isDyslexiaFontEnabled = !this.isDyslexiaFontEnabled
-      document.body.classList.toggle('dyslexia-font')
+      
+      // 更新字体
+      if (this.isDyslexiaFontEnabled) {
+        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
+        // 强制应用到根元素
+        document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
+      } else {
+        document.documentElement.style.setProperty('--dyslexia-font', 'inherit')
+        // 恢复根元素默认字体
+        document.documentElement.style.fontFamily = ''
+      }
+      
+      // 保存状态
       localStorage.setItem('accessibility_dyslexiaFont', this.isDyslexiaFontEnabled)
       
-      // Show font change indicator
+      // 显示提示
       this.fontIndicatorText = this.isDyslexiaFontEnabled ? 'Dyslexia Friendly Font Enabled' : 'Default Font Restored'
       this.showFontIndicator = true
       setTimeout(() => {
         this.showFontIndicator = false
       }, 2000)
-      
-      if (this.isDyslexiaFontEnabled) {
-        this.checkFontLoading()
-      }
     },
     toggleHighlightLinks() {
       this.isHighlightLinksEnabled = !this.isHighlightLinksEnabled
@@ -180,6 +246,25 @@ export default {
       this.isDarkMode = !this.isDarkMode
       document.body.classList.toggle('dark-mode')
       localStorage.setItem('accessibility_darkMode', this.isDarkMode)
+    },
+    toggleMagnifier() {
+      this.isMagnifierEnabled = !this.isMagnifierEnabled
+      this.$emit('toggle-magnifier', this.isMagnifierEnabled)
+      localStorage.setItem('accessibility_magnifier', this.isMagnifierEnabled)
+      
+      if (this.isMagnifierEnabled) {
+        // 初始化放大镜位置
+        const rect = document.body.getBoundingClientRect()
+        this.magnifierPosition = {
+          x: rect.width / 2,
+          y: rect.height / 2
+        }
+      }
+    },
+    adjustMagnifierZoom(change) {
+      this.magnifierZoom = Math.max(1.2, Math.min(4, this.magnifierZoom + change))
+      this.$emit('set-magnifier-zoom', this.magnifierZoom)
+      localStorage.setItem('accessibility_magnifierZoom', this.magnifierZoom)
     },
     handleKeyboard(event) {
       // Alt + A 打开/关闭菜单
@@ -229,61 +314,126 @@ export default {
               this.toggleDarkMode()
             }
             break
+          case '7':
+            if (event.altKey) {
+              event.preventDefault()
+              this.toggleMagnifier()
+            }
+            break
         }
       }
     },
     applySettings() {
       // 应用保存的设置
       document.documentElement.style.fontSize = `${this.fontSize}%`
-      if (this.isDyslexiaFontEnabled) document.body.classList.add('dyslexia-font')
+      
+      // 检查并应用阅读障碍字体设置
+      const savedDyslexiaState = localStorage.getItem('accessibility_dyslexiaFont')
+      if (savedDyslexiaState === 'true') {
+        this.isDyslexiaFontEnabled = true
+        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
+        document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
+      }
+      
+      // 应用其他设置
       if (this.isHighlightLinksEnabled) document.body.classList.add('highlight-links')
       if (this.isHighlightTitlesEnabled) document.body.classList.add('highlight-titles')
       if (this.isDarkMode) document.body.classList.add('dark-mode')
+      
+      // 应用放大镜设置
+      this.isMagnifierEnabled = localStorage.getItem('accessibility_magnifier') === 'true'
+      this.magnifierZoom = parseFloat(localStorage.getItem('accessibility_magnifierZoom')) || 1.5
+      if (this.isMagnifierEnabled) {
+        this.$emit('toggle-magnifier', true)
+        this.$emit('set-magnifier-zoom', this.magnifierZoom)
+      }
     },
-    checkFontLoading() {
-      document.fonts.ready.then(() => {
-        const testString = 'Test';
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        
-        context.font = '20px Arial';
-        const defaultWidth = context.measureText(testString).width;
-        
-        context.font = '20px OpenDyslexic';
-        const dyslexicWidth = context.measureText(testString).width;
-        
-        if (defaultWidth === dyslexicWidth) {
-          console.warn('OpenDyslexic font may not be loaded correctly');
-          this.fontIndicatorText = 'Font loading failed, using fallback font';
-          this.showFontIndicator = true;
-          setTimeout(() => {
-            this.showFontIndicator = false;
-          }, 3000);
-        }
-      });
-    }
+    applyDyslexiaFont() {
+      if (this.isDyslexiaFontEnabled) {
+        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
+      } else {
+        document.documentElement.style.setProperty('--dyslexia-font', 'inherit')
+      }
+    },
   }
 }
 </script>
 
+<style>
+/* 全局样式 */
+:root {
+  --dyslexia-font: inherit;
+}
+
+/* 使用更强的选择器确保字体应用到所有文本元素 */
+:root[style*="--dyslexia-font"] {
+  font-family: var(--dyslexia-font) !important;
+}
+
+:root[style*="--dyslexia-font"] * {
+  font-family: var(--dyslexia-font) !important;
+}
+
+/* 特别处理一些可能会被遗漏的元素 */
+:root[style*="--dyslexia-font"] .accessibility-menu *,
+:root[style*="--dyslexia-font"] h1,
+:root[style*="--dyslexia-font"] h2,
+:root[style*="--dyslexia-font"] h3,
+:root[style*="--dyslexia-font"] h4,
+:root[style*="--dyslexia-font"] h5,
+:root[style*="--dyslexia-font"] h6,
+:root[style*="--dyslexia-font"] p,
+:root[style*="--dyslexia-font"] span,
+:root[style*="--dyslexia-font"] div,
+:root[style*="--dyslexia-font"] button,
+:root[style*="--dyslexia-font"] input,
+:root[style*="--dyslexia-font"] textarea,
+:root[style*="--dyslexia-font"] label,
+:root[style*="--dyslexia-font"] a {
+  font-family: var(--dyslexia-font) !important;
+}
+
+/* 确保按钮状态样式正确显示 */
+.menu-item button {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-item button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: currentColor;
+  opacity: 0.1;
+}
+
+/* 确保深色模式下的状态正确 */
+:deep(.dark-mode) .menu-item button.active::before {
+  opacity: 0.2;
+}
+</style>
+
 <style scoped>
 .accessibility-wrapper {
   position: fixed;
-  bottom: 20px;
   right: 20px;
+  bottom: 20px;
   z-index: 9999;
 }
 
 .accessibility-button {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #4a90e2;
   border: none;
   color: white;
-  cursor: pointer;
   font-size: 24px;
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -291,323 +441,270 @@ export default {
 }
 
 .accessibility-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  transform: scale(1.1);
+  background: #357abd;
 }
 
 .accessibility-menu {
   position: fixed;
   right: 20px;
-  bottom: 90px;
-  width: min(90vw, 340px);
-  max-height: calc(100vh - 120px);
+  bottom: 80px;
+  width: min(90vw, 400px);
+  max-height: min(90vh, 600px);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
   position: sticky;
   top: 0;
-  background: inherit;
+  background: white;
   z-index: 1;
 }
 
 .menu-header h2 {
   margin: 0;
-  font-size: clamp(1.1rem, 4vw, 1.4rem);
-  font-weight: 600;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(18px, 4vw, 24px);
+  color: #333;
 }
 
 .close-button {
-  width: 32px;
-  height: 32px;
-  background: rgba(99, 102, 241, 0.1);
+  background: none;
   border: none;
-  border-radius: 8px;
-  font-size: 18px;
+  font-size: 24px;
+  color: #666;
   cursor: pointer;
-  color: #6366f1;
+  padding: 5px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .close-button:hover {
-  background: rgba(99, 102, 241, 0.2);
+  background: #f5f5f5;
+  color: #333;
+}
+
+.menu-content {
+  padding: 15px;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .menu-item {
-  margin-bottom: 20px;
-  padding: clamp(12px, 3vw, 16px);
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  transition: all 0.2s ease;
-}
-
-.menu-item:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateY(-2px);
+  padding: 15px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  margin-bottom: 15px;
 }
 
 .menu-item h3 {
+  margin: 0 0 10px 0;
+  font-size: clamp(16px, 3.5vw, 18px);
+  color: #333;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 0 0 12px 0;
-  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-  color: #1f2937;
-  font-weight: 500;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.menu-item .icon {
-  font-size: clamp(1.1rem, 4vw, 1.2rem);
-}
-
-.font-size-controls {
-  display: flex;
-  align-items: center;
-  gap: clamp(8px, 2vw, 16px);
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-}
-
-.font-size-controls button {
-  width: clamp(32px, 8vw, 36px);
-  height: clamp(32px, 8vw, 36px);
-  border-radius: 10px;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+.menu-item button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
   background: white;
-  color: #6366f1;
+  color: #333;
   cursor: pointer;
-  font-size: clamp(16px, 4vw, 18px);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.menu-item button.active {
+  background: #007AFF !important;
+  color: white !important;
+  border-color: #0056b3 !important;
+}
+
+.menu-item button:hover:not(.active) {
+  background: #f5f5f5;
+}
+
+/* 深色模式样式 */
+:deep(.dark-mode) .menu-item button {
+  background: #2c2c2c;
+  border-color: #444;
+  color: #fff;
+}
+
+:deep(.dark-mode) .menu-item button:hover:not(.active) {
+  background: #3c3c3c;
+}
+
+:deep(.dark-mode) .menu-item button.active {
+  background: #007AFF !important;
+  color: white !important;
+  border-color: #0056b3 !important;
+}
+
+.font-size-controls,
+.magnifier-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.font-size-controls button,
+.zoom-controls button {
+  width: 36px;
+  height: 36px;
+  min-width: unset;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.font-size-controls button:hover {
-  background: rgba(99, 102, 241, 0.1);
-}
-
-.font-size-controls span {
-  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
-  color: #1f2937;
-  font-weight: 500;
-  min-width: clamp(50px, 15vw, 60px);
-  text-align: center;
-}
-
-button.active {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  color: white;
-  border: none;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+.shortcut {
+  font-size: clamp(12px, 2.5vw, 14px);
+  color: #666;
+  margin-left: auto;
 }
 
 .menu-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
   text-align: center;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(99, 102, 241, 0.1);
-  font-size: clamp(0.8rem, 3vw, 0.9rem);
-  color: #6366f1;
-  font-weight: 500;
-}
-
-/* 深色模式样式覆盖 */
-:deep(.dark-mode) .accessibility-menu {
-  background: rgba(26, 26, 26, 0.95);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-:deep(.dark-mode) .menu-item {
-  background: rgba(45, 45, 45, 0.5);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-:deep(.dark-mode) .menu-item:hover {
-  background: rgba(45, 45, 45, 0.8);
-}
-
-:deep(.dark-mode) .menu-item h3 {
-  color: rgba(255, 255, 255, 0.95) !important;
-}
-
-:deep(.dark-mode) .font-size-controls {
-  background: rgba(45, 45, 45, 0.8);
-}
-
-:deep(.dark-mode) .font-size-controls button {
-  background: rgba(45, 45, 45, 0.9);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.95) !important;
-}
-
-:deep(.dark-mode) .font-size-controls button:hover {
-  background: rgba(61, 61, 61, 0.9);
-}
-
-:deep(.dark-mode) .font-size-controls span {
-  color: rgba(255, 255, 255, 0.95) !important;
-}
-
-:deep(.dark-mode) button.active {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
-  color: white !important;
-  border: none;
-}
-
-:deep(.dark-mode) .menu-header,
-:deep(.dark-mode) .menu-footer {
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-:deep(.dark-mode) .menu-header h2 {
-  background: linear-gradient(135deg, #93c5fd 0%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-:deep(.dark-mode) .close-button {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.95) !important;
-}
-
-:deep(.dark-mode) .close-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-:deep(.dark-mode) .shortcut,
-:deep(.dark-mode) .keyboard-hint {
-  color: #93c5fd !important;
-  opacity: 0.9;
-}
-
-:deep(.dark-mode) .menu-footer p {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* 确保图标在深色模式下可见 */
-:deep(.dark-mode) .icon {
-  color: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* 移动设备横屏适配 */
-@media screen and (max-height: 500px) and (orientation: landscape) {
-  .accessibility-menu {
-    bottom: 20px;
-    right: 90px;
-    max-height: 80vh;
-  }
-  
-  .menu-item {
-    margin-bottom: 12px;
-    padding: 10px;
-  }
-  
-  .menu-header {
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-  }
-  
-  .menu-footer {
-    margin-top: 16px;
-    padding-top: 12px;
-  }
-}
-
-/* 小屏幕设备适配 */
-@media screen and (max-width: 380px) {
-  .accessibility-button {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    font-size: 20px;
-  }
-  
-  .accessibility-menu {
-    padding: 16px;
-  }
-  
-  .menu-item {
-    padding: 10px;
-  }
-  
-  .close-button {
-    width: 28px;
-    height: 28px;
-    font-size: 16px;
-  }
-}
-
-.shortcut {
-  font-size: 0.8em;
-  color: #6366f1;
-  opacity: 0.8;
-  margin-left: 8px;
+  font-size: clamp(12px, 2.5vw, 14px);
+  color: #666;
+  background: white;
+  position: sticky;
+  bottom: 0;
 }
 
 .keyboard-hint {
-  font-size: 0.9em;
-  color: #6366f1;
-  opacity: 0.8;
-  margin: 0 0 8px 0;
+  margin: 0 0 5px 0;
+  font-style: italic;
 }
 
-:deep(.dark-mode) .shortcut,
-:deep(.dark-mode) .keyboard-hint {
-  color: #93c5fd;
+.icon {
+  font-size: clamp(18px, 4vw, 24px);
 }
 
-/* 添加字体切换过渡效果 */
-:deep(*) {
-  transition: font-family 0.3s ease, letter-spacing 0.3s ease, word-spacing 0.3s ease, line-height 0.3s ease;
-}
-
-/* 添加字体切换提示 */
 .font-change-indicator {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(99, 102, 241, 0.9);
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  font-size: 1.2em;
-  z-index: 10000;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: clamp(16px, 3.5vw, 20px);
+  transition: transform 0.3s ease;
   pointer-events: none;
 }
 
 .font-change-indicator.show {
-  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-:deep(.dark-mode) .font-change-indicator {
-  background: rgba(147, 197, 253, 0.9);
-  color: #1f2937;
+/* 深色模式 */
+:deep(.dark-mode) .accessibility-menu,
+:deep(.dark-mode) .menu-header,
+:deep(.dark-mode) .menu-footer {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+:deep(.dark-mode) .menu-header {
+  border-bottom-color: #333;
+}
+
+:deep(.dark-mode) .menu-footer {
+  border-top-color: #333;
+}
+
+:deep(.dark-mode) .menu-item {
+  background: #2a2a2a;
+}
+
+:deep(.dark-mode) .menu-item h3 {
+  color: #fff;
+}
+
+:deep(.dark-mode) .close-button {
+  color: #999;
+}
+
+:deep(.dark-mode) .close-button:hover {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+/* 移动设备适配 */
+@media (max-width: 768px) {
+  .accessibility-wrapper {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .accessibility-menu {
+    right: 10px;
+    bottom: 70px;
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 80px);
+  }
+
+  .menu-item {
+    padding: 12px;
+  }
+
+  .menu-content {
+    padding: 10px;
+  }
+
+  .font-size-controls,
+  .magnifier-controls {
+    flex-wrap: wrap;
+  }
+}
+
+/* 小屏幕设备适配 */
+@media (max-width: 480px) {
+  .accessibility-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .menu-item h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .shortcut {
+    margin-left: 0;
+  }
+}
+
+/* 确保在较大屏幕上不会太宽 */
+@media (min-width: 1200px) {
+  .accessibility-menu {
+    max-width: 450px;
+  }
 }
 </style> 
