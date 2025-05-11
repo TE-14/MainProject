@@ -195,31 +195,39 @@ export default {
     // 处理 ResizeObserver 错误
     const handleError = (event) => {
       if (event.message && event.message.includes('ResizeObserver')) {
-        // 阻止错误冒泡和默认行为
         event.stopPropagation()
         event.preventDefault()
-        // 使用 requestAnimationFrame 来延迟处理
         window.requestAnimationFrame(() => {
           window.requestAnimationFrame(() => {
             // 在两帧后处理，给予足够时间完成观察
+            if (event.target) {
+              const resizeObserver = event.target.__resizeObserver__
+              if (resizeObserver) {
+                resizeObserver.unobserve(event.target)
+                resizeObserver.observe(event.target)
+              }
+            }
           })
         })
+        return true
       }
+      return false
     }
 
     onMounted(() => {
-      window.addEventListener('error', handleError)
-      window.addEventListener('resize', () => {
-        // 使用 requestAnimationFrame 来处理调整大小事件
-        requestAnimationFrame(() => {
-          // 在下一帧处理大小变化
-        })
-      })
+      window.addEventListener('error', handleError, true)
+      window.addEventListener('unhandledrejection', (event) => {
+        if (event.reason && event.reason.message && event.reason.message.includes('ResizeObserver')) {
+          event.preventDefault()
+          return true
+        }
+        return false
+      }, true)
     })
 
     onUnmounted(() => {
-      window.removeEventListener('error', handleError)
-      window.removeEventListener('resize', () => {})
+      window.removeEventListener('error', handleError, true)
+      window.removeEventListener('unhandledrejection', () => {}, true)
     })
 
     const toggleMagnifier = (enabled) => {
