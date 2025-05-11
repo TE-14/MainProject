@@ -98,15 +98,23 @@
       <span class="text-caption text-medium-emphasis">TE-14/Empowering digital citizens, creating a secure online world.</span>
       <v-spacer></v-spacer>
     </v-footer>
+
+    <!-- 无障碍菜单组件 -->
+    <AccessibilityMenu />
   </v-app>
 </template>
 
 <script>
 import { useRoute } from 'vue-router'
 import { onMounted, onUnmounted, ref } from 'vue'
+import AccessibilityMenu from './components/AccessibilityMenu.vue'
+import './assets/accessibility.css'
 
 export default {
   name: 'App',
+  components: {
+    AccessibilityMenu
+  },
   setup() {
     const route = useRoute()
     const drawer = ref(false)
