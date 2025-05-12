@@ -1,0 +1,534 @@
+/* 阅读障碍友好字体 */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../fonts/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../fonts/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('../fonts/OpenDyslexic-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+.dyslexia-font,
+.dyslexia-font *:not(i):not(.icon):not([class*="fa-"]):not([class*="material-"]) {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+  line-height: 1.5;
+}
+
+/* 特定元素的字体调整 */
+.dyslexia-font h1,
+.dyslexia-font h2,
+.dyslexia-font h3,
+.dyslexia-font h4,
+.dyslexia-font h5,
+.dyslexia-font h6 {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  font-weight: bold;
+  margin: 1.2em 0 0.6em;
+  line-height: 1.3;
+}
+
+.dyslexia-font p,
+.dyslexia-font span,
+.dyslexia-font div,
+.dyslexia-font li,
+.dyslexia-font td,
+.dyslexia-font th,
+.dyslexia-font label,
+.dyslexia-font input,
+.dyslexia-font textarea,
+.dyslexia-font button {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}
+
+/* 确保链接在阅读障碍字体下更易识别 */
+.dyslexia-font a {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  font-weight: bold;
+}
+
+/* 输入框和按钮的特殊处理 */
+.dyslexia-font input,
+.dyslexia-font textarea,
+.dyslexia-font select,
+.dyslexia-font button {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  line-height: 1.4;
+}
+
+/* 保持代码块和预格式化文本的原始字体 */
+.dyslexia-font pre,
+.dyslexia-font code,
+.dyslexia-font kbd,
+.dyslexia-font samp {
+  font-family: monospace !important;
+}
+
+/* 高亮链接 */
+.highlight-links a {
+  background: rgba(253, 224, 71, 0.25);  /* 浅黄色背景 */
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+  transition: all 0.2s ease;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(251, 191, 36, 0.8);  /* 金黄色下划线 */
+}
+
+.highlight-links a:hover {
+  background: rgba(253, 224, 71, 0.4);  /* hover 时加深黄色 */
+  text-decoration-color: rgba(251, 191, 36, 1);  /* hover 时加深下划线颜色 */
+  transform: translateY(-1px);
+}
+
+/* 高亮标题 */
+.highlight-titles h1,
+.highlight-titles h2,
+.highlight-titles h3,
+.highlight-titles h4,
+.highlight-titles h5,
+.highlight-titles h6,
+.highlight-titles .hero-title {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border-left: 4px solid #6366f1;
+  padding: 0.75em 1em;
+  border-radius: 0 8px 8px 0;
+  margin: 1.2em 0;
+  transition: all 0.3s ease;
+}
+
+.highlight-titles h1:hover,
+.highlight-titles h2:hover,
+.highlight-titles h3:hover,
+.highlight-titles h4:hover,
+.highlight-titles h5:hover,
+.highlight-titles h6:hover,
+.highlight-titles .hero-title:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  transform: translateX(4px);
+}
+
+/* 深色模式 - 全局背景和文字 */
+.dark-mode {
+  color-scheme: dark;
+}
+
+.dark-mode body {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode #app,
+.dark-mode div:not([class*="highlight"]),
+.dark-mode main,
+.dark-mode header,
+.dark-mode footer,
+.dark-mode nav,
+.dark-mode aside,
+.dark-mode section,
+.dark-mode article {
+  background-color: #121212;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* 深色模式 - 文字和边框 */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.dark-mode p,
+.dark-mode span,
+.dark-mode label,
+.dark-mode li {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.dark-mode small,
+.dark-mode .text-muted {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 深色模式 - 卡片和容器 */
+.dark-mode .card,
+.dark-mode .box,
+.dark-mode .panel,
+.dark-mode .modal,
+.dark-mode .dropdown,
+.dark-mode .popover,
+.dark-mode .sidebar,
+.dark-mode [class*="-card"],
+.dark-mode [class*="-box"],
+.dark-mode [class*="-panel"] {
+  background-color: #1e1e1e;
+  color: rgba(255, 255, 255, 0.87);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 深色模式 - 按钮 */
+.dark-mode button:not(.accessibility-button):not(.close-button),
+.dark-mode .btn {
+  background-color: #2d2d2d;
+  color: rgba(255, 255, 255, 0.87);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode button:hover:not(.accessibility-button):not(.close-button),
+.dark-mode .btn:hover {
+  background-color: #3d3d3d;
+}
+
+/* 深色模式 - 输入框 */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background-color: #2d2d2d;
+  color: rgba(255, 255, 255, 0.87);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode input:focus,
+.dark-mode textarea:focus,
+.dark-mode select:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* 深色模式 - 滚动条 */
+.dark-mode ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.dark-mode ::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;
+  border-radius: 6px;
+  border: 3px solid #1e1e1e;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background-color: #4d4d4d;
+}
+
+/* 深色模式 - 菜单和卡片背景 */
+.dark-mode .menu-item,
+.dark-mode [class*="-card"],
+.dark-mode [class*="-box"],
+.dark-mode [class*="-panel"],
+.dark-mode [class*="-menu"],
+.dark-mode [class*="-modal"],
+.dark-mode [class*="bg-white"],
+.dark-mode [class*="background-white"] {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border-color: #3a3a3a !important;
+}
+
+/* 深色模式 - 特殊背景处理 */
+.dark-mode [style*="background-color: white"],
+.dark-mode [style*="background-color: #fff"],
+.dark-mode [style*="background-color: rgb(255, 255, 255)"],
+.dark-mode [style*="background-color: rgba(255, 255, 255"],
+.dark-mode [style*="background: white"],
+.dark-mode [style*="background: #fff"],
+.dark-mode [class*="white-bg"],
+.dark-mode [class*="light-bg"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* 深色模式 - 按钮样式 */
+.dark-mode button:not(.accessibility-button):not(.close-button),
+.dark-mode .btn,
+.dark-mode [class*="-button"],
+.dark-mode [class*="-btn"] {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border-color: #404040 !important;
+}
+
+/* 深色模式 - 链接样式 */
+.dark-mode a:not(.button):not(.btn) {
+  color: #66b3ff !important;
+}
+
+/* 深色模式 - 图标颜色 */
+.dark-mode .icon {
+  color: #ffffff !important;
+}
+
+/* 深色模式 - 保持图片原样 */
+.dark-mode img {
+  background-color: transparent !important;
+}
+
+/* 深色模式 - 高亮链接 */
+.dark-mode .highlight-links a {
+  background: rgba(253, 224, 71, 0.15);
+  color: #66b3ff !important;
+  text-decoration-color: rgba(251, 191, 36, 0.5);
+}
+
+.dark-mode .highlight-links a:hover {
+  background: rgba(253, 224, 71, 0.25);
+  text-decoration-color: rgba(251, 191, 36, 0.8);
+}
+
+/* 深色模式 - 高亮标题 */
+.dark-mode .highlight-titles h1,
+.dark-mode .highlight-titles h2,
+.dark-mode .highlight-titles h3,
+.dark-mode .highlight-titles h4,
+.dark-mode .highlight-titles h5,
+.dark-mode .highlight-titles h6,
+.dark-mode .highlight-titles .hero-title {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+  border-left-color: #818cf8;
+}
+
+.dark-mode .highlight-titles h1:hover,
+.dark-mode .highlight-titles h2:hover,
+.dark-mode .highlight-titles h3:hover,
+.dark-mode .highlight-titles h4:hover,
+.dark-mode .highlight-titles h5:hover,
+.dark-mode .highlight-titles h6:hover,
+.dark-mode .highlight-titles .hero-title:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+}
+
+/* 深色模式 - 无障碍菜单特殊处理 */
+.dark-mode .accessibility-menu {
+  background-color: rgba(26, 26, 26, 0.95) !important;
+}
+
+.dark-mode .accessibility-menu .menu-item {
+  background-color: rgba(42, 42, 42, 0.9) !important;
+}
+
+.dark-mode .accessibility-menu button {
+  color: #ffffff !important;
+}
+
+/* 深色模式 - 确保所有文本可见 */
+.dark-mode [style*="color"] {
+  color: #ffffff !important;
+}
+
+/* 深色模式 - 处理可能的内联样式 */
+.dark-mode [style*="background"] {
+  background-color: #1a1a1a !important;
+}
+
+/* 深色模式 - 处理特定框架可能的类名 */
+.dark-mode [class*="light"],
+.dark-mode [class*="white"],
+.dark-mode [class*="bright"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* 动画效果 */
+.accessibility-menu {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 无障碍焦点样式 */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* 减少动画 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.dark-mode .accessibility-menu {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+.dark-mode .menu-header h2 {
+  color: #66b3ff;
+}
+
+.dark-mode .menu-item h3 {
+  color: #ffffff;
+}
+
+.dark-mode .close-button {
+  color: #ffffff;
+}
+
+.dark-mode .menu-footer {
+  color: #999999;
+  border-top-color: #404040;
+}
+
+.dark-mode .menu-header {
+  border-bottom-color: #404040;
+}
+
+/* 深色模式下的高亮链接 */
+.dark-mode .highlight-links a:hover {
+  background: rgba(253, 224, 71, 0.25);
+  border-bottom-color: rgba(245, 158, 11, 0.8);
+}
+
+/* 深色模式下的高亮标题 */
+.dark-mode .highlight-titles .hero-title {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  color: #ffffff !important;
+  border-left-color: #66b3ff !important;
+}
+
+/* 深色模式 - 导航栏 */
+.dark-mode nav,
+.dark-mode .navbar,
+.dark-mode [class*="nav-"],
+.dark-mode [class*="header-"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode nav button,
+.dark-mode .navbar button,
+.dark-mode [class*="nav-"] button,
+.dark-mode [class*="header-"] button {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode nav button:hover,
+.dark-mode .navbar button:hover,
+.dark-mode [class*="nav-"] button:hover,
+.dark-mode [class*="header-"] button:hover {
+  background-color: #3d3d3d !important;
+}
+
+/* 深色模式 - 按钮文字颜色 */
+.dark-mode button,
+.dark-mode .btn,
+.dark-mode [class*="-button"],
+.dark-mode [class*="-btn"] {
+  color: #ffffff !important;
+}
+
+.dark-mode button:hover,
+.dark-mode .btn:hover,
+.dark-mode [class*="-button"]:hover,
+.dark-mode [class*="-btn"]:hover {
+  background-color: #3d3d3d !important;
+}
+
+/* 深色模式 - 容器背景 */
+.dark-mode .container,
+.dark-mode .content,
+.dark-mode [class*="-container"],
+.dark-mode [class*="-content"],
+.dark-mode [class*="-wrapper"],
+.dark-mode [class*="-section"] {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+/* 深色模式 - 确保所有文本可见 */
+.dark-mode * {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6,
+.dark-mode .title,
+.dark-mode [class*="title"],
+.dark-mode [class*="heading"] {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.dark-mode a,
+.dark-mode .link,
+.dark-mode [class*="link"] {
+  color: #66b3ff !important;
+}
+
+/* 深色模式 - 背景和边框 */
+.dark-mode [style*="background"],
+.dark-mode [style*="background-color"],
+.dark-mode [class*="bg-"],
+.dark-mode [class*="background"] {
+  background-color: #1a1a1a !important;
+}
+
+.dark-mode [style*="border"],
+.dark-mode [class*="border"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 深色模式 - 输入框和表单元素 */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select,
+.dark-mode .form-control,
+.dark-mode [class*="input"],
+.dark-mode [class*="form"] {
+  background-color: #2d2d2d !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode input:focus,
+.dark-mode textarea:focus,
+.dark-mode select:focus,
+.dark-mode .form-control:focus {
+  border-color: #66b3ff !important;
+  box-shadow: 0 0 0 2px rgba(102, 179, 255, 0.2) !important;
+} 
