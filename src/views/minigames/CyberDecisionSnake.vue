@@ -634,10 +634,11 @@ this.snake.pop();
 
 <style scoped>
 :deep(html), :deep(body), :deep(#app), :deep(.v-application) {
-  height: 100vh !important;
-  overflow: hidden !important;
   min-height: 100vh !important;
-  max-height: 100vh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 .cyber-snake-game {
@@ -649,7 +650,8 @@ this.snake.pop();
 }
 
 .snake-landing-outer {
-  height: calc(100vh - 64px - 56px);
+  min-height: calc(100vh - 64px - 56px);
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -697,6 +699,7 @@ this.snake.pop();
   align-items: center;
   justify-content: flex-start;
   padding: 44px 32px 32px 32px;
+  box-sizing: border-box;
 }
 .snake-img {
   width: 100%;
@@ -765,6 +768,7 @@ this.snake.pop();
   flex-direction: column;
   align-items: center;
   margin-top: 24px;
+  margin-bottom: 32px;
 }
 .difficulty-select {
   margin-bottom: 18px;
@@ -823,18 +827,70 @@ this.snake.pop();
 }
 @media (max-width: 1100px) {
   .snake-card, .rule-card {
-    width: 90vw;
+    width: 80vw;
+    max-width: 420px;
+    min-width: 220px;
+    height: auto;
+    max-height: 70vh;
+    padding: 28px 12px 18px 12px;
+  }
+  .snake-landing-main {
+    gap: 18px;
+  }
+  .snake-img {
+    max-height: 220px;
+  }
+  .rule-card h3 {
+    margin-bottom: 16px;
+  }
+  .instructions-list {
+    font-size: 0.97em;
+  }
+}
+@media (max-width: 800px) {
+  .snake-card, .rule-card {
+    width: 95vw;
     max-width: 98vw;
     min-width: 0;
     height: auto;
-    min-height: 220px;
     max-height: none;
-    padding: 18px 8px;
+    padding: 14px 4vw 10px 4vw;
   }
   .snake-landing-main {
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
     align-items: center;
+  }
+  .snake-landing-header {
+    margin-top: 18px;
+  }
+  .game-title {
+    font-size: 1.5rem;
+  }
+  .game-slogan {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .snake-card, .rule-card {
+    width: 98vw;
+    max-width: 99vw;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    padding: 8px 2vw 6px 2vw;
+  }
+  .snake-landing-header {
+    margin-top: 8px;
+  }
+  .game-title {
+    font-size: 1.1rem;
+  }
+  .game-slogan {
+    font-size: 0.92rem;
+  }
+  .difficulty-section {
+    margin-top: 12px;
   }
 }
 
