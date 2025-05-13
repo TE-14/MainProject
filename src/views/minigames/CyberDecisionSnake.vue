@@ -768,7 +768,6 @@ this.snake.pop();
   flex-direction: column;
   align-items: center;
   margin-top: 24px;
-  margin-bottom: 32px;
 }
 .difficulty-select {
   margin-bottom: 18px;
