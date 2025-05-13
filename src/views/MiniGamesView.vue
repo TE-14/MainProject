@@ -1,5 +1,5 @@
 <template>
-  <v-container class="games-container py-16">
+  <v-container class="games-container">
     <!-- Top decoration elements -->
     <div class="decoration-circle circle-1"></div>
     <div class="decoration-circle circle-2"></div>
@@ -23,20 +23,20 @@
     </v-row>
 
     <!-- Game cards section -->
-    <v-row class="justify-center">
+    <v-row class="justify-space-between games-row-gap">
       <!-- CyberHero Challenge 卡片 -->
       <v-col cols="12" md="5" class="game-col">
         <v-card class="game-card" :elevation="2">
           <v-img
             :src="require('@/assets/images/cyberhero.png')"
             aspect-ratio="1.8"
-            class="game-image"
+            class="game-image cyberhero-img"
             cover
           ></v-img>
           <v-card-text class="pa-6">
             <h3 class="game-title">CyberHero Challenge</h3>
             <p class="game-desc">
-              Become a cyberbullying defender! Learn to identify cyberbullying scenarios and choose the right actions to respond to online harassment.
+              Become a cyberbullying defender! Learn to identify cyberbullying scenarios and choose the right actions.
             </p>
             <v-btn
               :to="'/minigames/cyberbullying'"
@@ -55,7 +55,7 @@
           <v-img
             :src="require('@/assets/images/snake.png')"
             aspect-ratio="1.8"
-            class="game-image"
+            class="game-image snake-img"
             cover
           ></v-img>
           <v-card-text class="pa-6">
@@ -84,14 +84,25 @@
 
 <script>
 export default {
-  name: 'GamesLandingPage'
+  name: 'GamesLandingPage',
+  mounted() {
+    document.body.style.overflow = 'hidden';
+  },
+  beforeUnmount() {
+    document.body.style.overflow = '';
+  }
 }
 </script>
 
 <style scoped>
 .games-container {
   position: relative;
-  overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-bottom: 40px;
 }
 
 /* Decoration circles */
@@ -99,36 +110,39 @@ export default {
   position: absolute;
   border-radius: 50%;
   opacity: 0.1;
-  z-index: -1;
+  pointer-events: none;
+  max-width: 40vw;
+  max-height: 40vw;
+  overflow: hidden;
 }
 
 .circle-1 {
-  width: 300px;
-  height: 300px;
+  width: 18vw;
+  height: 18vw;
   background: linear-gradient(45deg, #6366f1, #8b5cf6);
   top: -100px;
   left: -100px;
 }
 
 .circle-2 {
-  width: 200px;
-  height: 200px;
+  width: 12vw;
+  height: 12vw;
   background: linear-gradient(45deg, #3b82f6, #6366f1);
   top: 10%;
   right: -50px;
 }
 
 .circle-3 {
-  width: 250px;
-  height: 250px;
+  width: 15vw;
+  height: 15vw;
   background: linear-gradient(45deg, #8b5cf6, #6366f1);
   bottom: -100px;
   right: 10%;
 }
 
 .circle-4 {
-  width: 150px;
-  height: 150px;
+  width: 8vw;
+  height: 8vw;
   background: linear-gradient(45deg, #6366f1, #3b82f6);
   bottom: 20%;
   left: -50px;
@@ -186,16 +200,34 @@ export default {
 }
 
 /* Game cards */
+.games-row-gap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
 .game-col {
-  animation: slideUp 0.6s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1 1 420px;
+  min-width: 320px;
+  max-width: 480px;
 }
 
 .game-card {
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(80, 80, 120, 0.10);
-  background: #fff;
-  transition: transform 0.18s, box-shadow 0.18s;
-  margin-bottom: 32px;
+  width: 100%;
+  max-width: 480px;
+  min-width: 320px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
 }
 
 .game-card:hover {
@@ -207,7 +239,9 @@ export default {
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   min-height: 140px;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 8px;
+  background-color: #f8fafc;
 }
 
 .game-title {
@@ -273,5 +307,34 @@ export default {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@media (max-width: 960px) {
+  .games-row-gap {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 24px;
+  }
+  .game-col {
+    max-width: 98vw;
+    min-width: 0;
+    width: 100%;
+  }
+  .game-card {
+    max-width: 98vw;
+    min-width: 0;
+  }
+}
+
+::v-deep .cyberhero-img img {
+  object-position: center 60%;
+}
+
+::v-deep .snake-img img {
+  object-position: center 30%;
+}
+
+:deep(body) {
+  overflow: hidden !important;
 }
 </style>

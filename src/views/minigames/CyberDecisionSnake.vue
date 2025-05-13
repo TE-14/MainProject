@@ -5,35 +5,59 @@
   <div class="cyber-snake-game">
     <!-- Get Ready Screen -->
     <div v-if="gameState === 'ready'" class="game-screen ready-screen">
-  <transition name="fade-scale" mode="out-in">
-    <div :key="countdownNumber" class="countdown-number">
-      {{ countdownNumber }}
+      <transition name="fade-scale" mode="out-in">
+        <div :key="countdownNumber" class="countdown-number">
+          {{ countdownNumber }}
+        </div>
+      </transition>
     </div>
-  </transition>
-</div>
     <!-- Start Screen -->
-    <div v-else-if="gameState === 'start'" class="game-screen start-screen">
-      <h1 class="game-title">Cyber Decision Snake</h1>
-      <p class="game-slogan">Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
-      <div class="instructions-card">
-        <h3>How to play:</h3>
-        <ol>
-          <li>🧑‍💻 A scenario about online interactions will appear at the top of the screen</li>
-          <li>🎮 Use arrow keys or on-screen buttons to move your snake</li>
-          <li>✅ Move toward the <span class="good-practice">✓</span> if it's a <strong>safe or smart choice</strong></li>
-          <li>❌ Move toward the <span class="bad-practice">✗</span> if it's an <strong>unsafe or risky choice</strong></li>
-          <li>🛡️ Learn to recognize signs of online grooming and protect yourself!</li>
-        </ol>
+    <div v-else-if="gameState === 'start'" class="snake-landing-outer">
+      <div class="snake-landing-header">
+        <h1 class="game-title">Cyber Decision Snake</h1>
+        <p class="game-slogan">Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
       </div>
-      <div class="difficulty-select">
-        <h3>Select Difficulty:</h3>
-        <div class="difficulty-buttons">
-          <button @click="setDifficulty('easy')" :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']">Easy</button>
-          <button @click="setDifficulty('medium')" :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']">Medium</button>
-          <button @click="setDifficulty('hard')" :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']">Hard</button>
+      <div class="snake-landing-main">
+        <div class="snake-card">
+          <img src="@/assets/images/snake.png" alt="Snake Game" class="snake-img" />
+        </div>
+        <div class="rule-card">
+          <h3>How to play:</h3>
+          <ul class="instructions-list">
+            <li class="instruction-item">
+              <span class="icon-bullet" style="background:#6366f1"><span>🧑‍💻</span></span>
+              <span class="instruction-text">A scenario about online interactions will appear at the top of the screen</span>
+            </li>
+            <li class="instruction-item">
+              <span class="icon-bullet" style="background:#8b5cf6"><span>🎮</span></span>
+              <span class="instruction-text">Use arrow keys or on-screen buttons to move your snake</span>
+            </li>
+            <li class="instruction-item">
+              <span class="icon-bullet" style="background:#22c55e"><span>✅</span></span>
+              <span class="instruction-text">Move toward the <span class="highlight-green">✓</span> if it's a <strong class="highlight-green">safe or smart choice</strong></span>
+            </li>
+            <li class="instruction-item">
+              <span class="icon-bullet" style="background:#ef4444"><span>❌</span></span>
+              <span class="instruction-text">Move toward the <span class="highlight-red">✗</span> if it's an <strong class="highlight-red">unsafe or risky choice</strong></span>
+            </li>
+            <li class="instruction-item">
+              <span class="icon-bullet" style="background:#f59e42"><span>🛡️</span></span>
+              <span class="instruction-text">Learn to recognize signs of online grooming and protect yourself!</span>
+            </li>
+          </ul>
         </div>
       </div>
-      <button @click="startGame" class="start-btn">Start Game</button>
+      <div class="difficulty-section">
+        <div class="difficulty-select">
+          <h3>Select Difficulty:</h3>
+          <div class="difficulty-buttons">
+            <button @click="setDifficulty('easy')" :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']">Easy</button>
+            <button @click="setDifficulty('medium')" :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']">Medium</button>
+            <button @click="setDifficulty('hard')" :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']">Hard</button>
+          </div>
+        </div>
+        <button @click="startGame" class="start-btn">Start Game</button>
+      </div>
     </div>
 
     <!-- Main Game Screen -->
@@ -79,12 +103,12 @@
       </div>
       
       <div v-if="isCountingDown" class="countdown-overlay">
-  <transition name="fade-scale" mode="out-in">
-    <div :key="countdownNumber" class="countdown-number">
-      {{ countdownNumber }}
-    </div>
-  </transition>
-</div>
+        <transition name="fade-scale" mode="out-in">
+          <div :key="countdownNumber" class="countdown-number">
+            {{ countdownNumber }}
+          </div>
+        </transition>
+      </div>
       <div class="game-controls">
         <button @click="move('up')" class="control-btn up-btn">↑</button>
         <div class="horizontal-controls">
@@ -609,8 +633,14 @@ this.snake.pop();
 </script>
 
 <style scoped>
+:deep(html), :deep(body), :deep(#app), :deep(.v-application) {
+  height: 100vh !important;
+  overflow: hidden !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+}
+
 .cyber-snake-game {
-  min-height: 100vh;
   background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
   display: flex;
   flex-direction: column;
@@ -618,70 +648,136 @@ this.snake.pop();
   justify-content: flex-start;
 }
 
+.snake-landing-outer {
+  height: calc(100vh - 64px - 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #e0c3fc 0%, #f8fafc 100%);
+  overflow: hidden;
+}
+.snake-landing-header {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
 .game-title {
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   font-weight: bold;
   background: linear-gradient(90deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
-  text-shadow: 0 4px 24px #764ba244;
+  margin-bottom: 8px;
   letter-spacing: 2px;
-  text-align: center;
-  width: 100%;
-  margin-top: 48px;
 }
-
 .game-slogan {
   font-size: 1.2rem;
   color: #6c47ff;
-  margin-bottom: 24px;
-  text-align: center;
   font-weight: 600;
   letter-spacing: 1px;
+  margin-bottom: 0;
 }
-
-.instructions-card {
-  background: rgba(255,255,255,0.7);
-  border-radius: 22px;
-  box-shadow: 0 4px 24px 0 rgba(118, 75, 162, 0.10);
-  padding: 32px 28px;
-  margin: 24px 0 24px 0;
-  color: #222;
-  max-width: 480px;
-  text-align: left;
-  font-size: 1.1rem;
-  transition: box-shadow 0.3s, transform 0.3s;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.snake-landing-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  min-height: 0;
+  padding: 0 4vw;
 }
-.instructions-card h3 {
+.snake-card, .rule-card {
+  width: 480px;
+  height: 480px;
+  background: linear-gradient(120deg, #f8fafc 60%, #fbc2eb 100%);
+  border-radius: 28px;
+  box-shadow: 0 4px 24px 0 rgba(118, 75, 162, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 44px 32px 32px 32px;
+  box-sizing: border-box;
+}
+.snake-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(80, 80, 120, 0.08);
+}
+.rule-card h3 {
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 22px;
+  color: #5f2c82;
+  text-align: left;
+  width: 100%;
 }
-.instructions-card ol {
-  padding-left: 20px;
+.instructions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
-.instructions-card li {
-  margin-bottom: 10px;
-  line-height: 1.7;
-  font-size: 1.08em;
+.instruction-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+  font-size: 1em;
+  border-radius: 12px;
+  padding: 4px 6px;
+  cursor: default;
+  background: none;
+  transition: none;
 }
-
+.icon-bullet {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.3em;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  margin-top: 2px;
+  transition: none;
+}
+.instruction-text {
+  flex: 1;
+  line-height: 1.6;
+  color: #333;
+  font-size: 0.98em;
+}
+.highlight-green {
+  color: #22c55e;
+  font-weight: bold;
+}
+.highlight-red {
+  color: #ef4444;
+  font-weight: bold;
+}
+.difficulty-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
 .difficulty-select {
-  margin: 24px 0 12px 0;
+  margin-bottom: 18px;
+  text-align: center;
 }
 .difficulty-select h3 {
   margin-bottom: 10px;
-  text-align: center;
-  width: 100%;
 }
 .difficulty-buttons {
   display: flex;
   justify-content: center;
   gap: 18px;
-  margin-top: 10px;
 }
 .difficulty-btn {
   border: none;
@@ -708,10 +804,9 @@ this.snake.pop();
   opacity: 0.96;
   background: linear-gradient(90deg, #9575cd 0%, #7c4dff 100%);
 }
-
 .start-btn {
   display: block;
-  margin: 36px auto 0;
+  margin: 0 auto;
   padding: 16px 48px;
   font-size: 1.3rem;
   font-weight: bold;
@@ -726,6 +821,74 @@ this.snake.pop();
 .start-btn:hover {
   background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
   transform: scale(1.05);
+}
+@media (max-width: 1100px) {
+  .snake-card, .rule-card {
+    width: 80vw;
+    max-width: 420px;
+    min-width: 220px;
+    height: auto;
+    max-height: 70vh;
+    padding: 28px 12px 18px 12px;
+  }
+  .snake-landing-main {
+    gap: 18px;
+  }
+  .snake-img {
+    max-height: 220px;
+  }
+  .rule-card h3 {
+    margin-bottom: 16px;
+  }
+  .instructions-list {
+    font-size: 0.97em;
+  }
+}
+@media (max-width: 800px) {
+  .snake-card, .rule-card {
+    width: 95vw;
+    max-width: 98vw;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    padding: 14px 4vw 10px 4vw;
+  }
+  .snake-landing-main {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .snake-landing-header {
+    margin-top: 18px;
+  }
+  .game-title {
+    font-size: 1.5rem;
+  }
+  .game-slogan {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .snake-card, .rule-card {
+    width: 98vw;
+    max-width: 99vw;
+    min-width: 0;
+    height: auto;
+    max-height: none;
+    padding: 8px 2vw 6px 2vw;
+  }
+  .snake-landing-header {
+    margin-top: 8px;
+  }
+  .game-title {
+    font-size: 1.1rem;
+  }
+  .game-slogan {
+    font-size: 0.92rem;
+  }
+  .difficulty-section {
+    margin-top: 12px;
+  }
 }
 
 /* Game Play Screen */
