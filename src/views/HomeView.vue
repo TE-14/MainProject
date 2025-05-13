@@ -83,9 +83,9 @@
                 <v-icon size="32" color="primary">mdi-apps</v-icon>
               </div>
               <div class="stat-number text-h4 font-weight-bold mb-2">6+</div>
-              <div class="stat-label text-grey-darken-1">Social Media Risk</div>
+              <div class="stat-label text-grey-darken-1">Social Media Apps Risk</div>
               <div class="stat-description text-caption text-grey">
-                Platforms increase cyberbullying risk
+                Platforms increase online safety risk
               </div>
             </v-card>
           </v-col>

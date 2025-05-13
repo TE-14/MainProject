@@ -10,7 +10,6 @@
 
     <!-- Navigation Bar -->
     <v-app-bar
-      app
       :elevation="0"
       class="nav-blur"
     >
@@ -54,7 +53,7 @@
     <v-navigation-drawer
       v-model="drawer"
       temporary
-      right
+      location="right"
       class="mobile-nav-drawer"
     >
       <div class="pa-4">
@@ -95,21 +94,50 @@
 
     <!-- Footer -->
     <v-footer app class="footer-blur px-4 py-3">
-      <span class="text-caption text-medium-emphasis">TE-14/Empowering digital citizens, creating a secure online world.</span>
-      <v-spacer></v-spacer>
+      <div class="d-flex justify-space-between align-center w-100">
+        <span class="text-caption text-medium-emphasis">TE-14/Empowering digital citizens, creating a secure online world.</span>
+        <v-spacer></v-spacer>
+      </div>
     </v-footer>
+
+    <!-- 无障碍菜单组件 -->
+    <AccessibilityMenu 
+      @toggle-magnifier="toggleMagnifier"
+      @set-magnifier-zoom="setMagnifierZoom"
+    />
+
+    <Magnifier 
+      :is-enabled="isMagnifierEnabled" 
+      :zoom-level="magnifierZoom"
+    >
+      <template #default>
+        <div class="app-content">
+          <slot></slot>
+        </div>
+      </template>
+    </Magnifier>
   </v-app>
 </template>
 
 <script>
 import { useRoute } from 'vue-router'
 import { onMounted, onUnmounted, ref } from 'vue'
+import AccessibilityMenu from './components/AccessibilityMenu.vue'
+import Magnifier from './components/Magnifier.vue'
+import './assets/accessibility.css'
 
 export default {
   name: 'App',
+  components: {
+    AccessibilityMenu,
+    Magnifier
+  },
   setup() {
     const route = useRoute()
     const drawer = ref(false)
+    const isMagnifierEnabled = ref(false)
+    const magnifierZoom = ref(1.5)
+    const magnifierClone = ref(null)
 
     // 导航项配置
     const navigationItems = [
@@ -169,18 +197,48 @@ export default {
       if (event.message && event.message.includes('ResizeObserver')) {
         event.stopPropagation()
         event.preventDefault()
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            // 在两帧后处理，给予足够时间完成观察
+            if (event.target) {
+              const resizeObserver = event.target.__resizeObserver__
+              if (resizeObserver) {
+                resizeObserver.unobserve(event.target)
+                resizeObserver.observe(event.target)
+              }
+            }
+          })
+        })
+        return true
       }
+      return false
     }
 
     onMounted(() => {
-      window.addEventListener('error', handleError)
+      window.addEventListener('error', handleError, true)
+      window.addEventListener('unhandledrejection', (event) => {
+        if (event.reason && event.reason.message && event.reason.message.includes('ResizeObserver')) {
+          event.preventDefault()
+          return true
+        }
+        return false
+      }, true)
     })
 
     onUnmounted(() => {
-      window.removeEventListener('error', handleError)
+      window.removeEventListener('error', handleError, true)
+      window.removeEventListener('unhandledrejection', () => {}, true)
     })
 
-    return { route, drawer, navigationItems, isActive }
+    const toggleMagnifier = (enabled) => {
+      isMagnifierEnabled.value = enabled
+    }
+
+    const setMagnifierZoom = (level) => {
+      magnifierZoom.value = level
+    }
+
+    return { route, drawer, navigationItems, isActive, isMagnifierEnabled, magnifierZoom, magnifierClone, toggleMagnifier, setMagnifierZoom }
   }
 }
 </script>
@@ -334,6 +392,11 @@ export default {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 确保页脚在无障碍菜单之下 */
+.accessibility-wrapper {
+  z-index: 101;
 }
 
 /* common card style */
@@ -582,6 +645,19 @@ html, body {
   object-fit: contain;
   vertical-align: middle;
   margin-right: 2px;
+}
+
+.app-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 移除之前的magnifier-clone相关样式 */
+.magnifier-clone {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 </style>
 

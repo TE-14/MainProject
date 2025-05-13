@@ -634,10 +634,11 @@ this.snake.pop();
 
 <style scoped>
 :deep(html), :deep(body), :deep(#app), :deep(.v-application) {
-  height: 100vh !important;
-  overflow: hidden !important;
   min-height: 100vh !important;
-  max-height: 100vh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 .cyber-snake-game {
@@ -649,7 +650,8 @@ this.snake.pop();
 }
 
 .snake-landing-outer {
-  height: calc(100vh - 64px - 56px);
+  min-height: calc(100vh - 64px - 56px);
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
