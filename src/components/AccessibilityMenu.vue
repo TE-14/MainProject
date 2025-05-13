@@ -91,21 +91,39 @@
           </button>
         </div>
 
-        <!-- Dark mode -->
+        <!-- Color Saturation -->
         <div class="menu-item">
           <h3>
-            <span class="icon">🌙</span>
-            Dark Mode
+            <span class="icon">🎨</span>
+            Color Saturation
             <span class="shortcut">(Alt + 6)</span>
           </h3>
-          <button 
-            @click="toggleDarkMode"
-            :class="{ 'active': isDarkMode }"
-            :aria-label="'Dark Mode ' + (isDarkMode ? 'Enabled' : 'Enable') + ' (Alt + 6)'"
-            :title="'Dark Mode ' + (isDarkMode ? 'Enabled' : 'Enable') + ' (Alt + 6)'"
-          >
-            {{ isDarkMode ? 'Enabled' : 'Enable' }}
-          </button>
+          <div class="saturation-controls">
+            <button 
+              @click="setSaturation('low')"
+              :class="{ 'active': currentSaturation === 'low' }"
+              aria-label="Low Saturation (Alt + 6)"
+              title="Low Saturation - Softer Colors"
+            >
+              Low
+            </button>
+            <button 
+              @click="setSaturation('normal')"
+              :class="{ 'active': currentSaturation === 'normal' }"
+              aria-label="Normal Saturation"
+              title="Normal Saturation - Original Colors"
+            >
+              Normal
+            </button>
+            <button 
+              @click="setSaturation('high')"
+              :class="{ 'active': currentSaturation === 'high' }"
+              aria-label="High Saturation"
+              title="High Saturation - Vibrant Colors"
+            >
+              High
+            </button>
+          </div>
         </div>
 
         <!-- Magnifier -->
@@ -143,7 +161,6 @@
 
       <div class="menu-footer">
         <p class="keyboard-hint">Press Alt + A to toggle menu</p>
-        <p>Web Accessibility By Sienna ❤️</p>
       </div>
     </div>
   </div>
@@ -159,13 +176,13 @@ export default {
       isDyslexiaFontEnabled: false,
       isHighlightLinksEnabled: localStorage.getItem('accessibility_highlightLinks') === 'true',
       isHighlightTitlesEnabled: localStorage.getItem('accessibility_highlightTitles') === 'true',
-      isDarkMode: localStorage.getItem('accessibility_darkMode') === 'true',
       showFontIndicator: false,
       fontIndicatorText: '',
       isMagnifierEnabled: false,
       magnifierZoom: 1.5,
       lastFocusedElement: null,
       magnifierPosition: null,
+      currentSaturation: localStorage.getItem('accessibility_saturation') || 'normal',
     }
   },
   created() {
@@ -186,17 +203,14 @@ export default {
     toggleMenu() {
       this.isOpen = !this.isOpen
       if (this.isOpen) {
-        // 打开菜单时，记录当前焦点元素
         this.lastFocusedElement = document.activeElement
         this.$nextTick(() => {
-          // 自动聚焦到第一个可聚焦元素
           const firstFocusable = this.$el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
           if (firstFocusable) {
             firstFocusable.focus()
           }
         })
       } else {
-        // 关闭菜单时，恢复之前的焦点
         if (this.lastFocusedElement) {
           this.lastFocusedElement.focus()
         }
@@ -208,24 +222,18 @@ export default {
       localStorage.setItem('accessibility_fontSize', this.fontSize)
     },
     toggleDyslexiaFont() {
-      // 切换状态
       this.isDyslexiaFontEnabled = !this.isDyslexiaFontEnabled
       
-      // 更新字体
       if (this.isDyslexiaFontEnabled) {
         document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
-        // 强制应用到根元素
         document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
       } else {
         document.documentElement.style.setProperty('--dyslexia-font', 'inherit')
-        // 恢复根元素默认字体
         document.documentElement.style.fontFamily = ''
       }
       
-      // 保存状态
       localStorage.setItem('accessibility_dyslexiaFont', this.isDyslexiaFontEnabled)
       
-      // 显示提示
       this.fontIndicatorText = this.isDyslexiaFontEnabled ? 'Dyslexia Friendly Font Enabled' : 'Default Font Restored'
       this.showFontIndicator = true
       setTimeout(() => {
@@ -242,10 +250,21 @@ export default {
       document.body.classList.toggle('highlight-titles')
       localStorage.setItem('accessibility_highlightTitles', this.isHighlightTitlesEnabled)
     },
-    toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode
-      document.body.classList.toggle('dark-mode')
-      localStorage.setItem('accessibility_darkMode', this.isDarkMode)
+    setSaturation(level) {
+      this.currentSaturation = level
+      localStorage.setItem('accessibility_saturation', level)
+      
+      document.body.classList.remove('saturation-low', 'saturation-normal', 'saturation-high')
+      
+      if (level !== 'normal') {
+        document.body.classList.add(`saturation-${level}`)
+      }
+      
+      this.fontIndicatorText = `Switched to ${level === 'low' ? 'Low' : level === 'high' ? 'High' : 'Normal'} Saturation`
+      this.showFontIndicator = true
+      setTimeout(() => {
+        this.showFontIndicator = false
+      }, 2000)
     },
     toggleMagnifier() {
       this.isMagnifierEnabled = !this.isMagnifierEnabled
@@ -253,7 +272,6 @@ export default {
       localStorage.setItem('accessibility_magnifier', this.isMagnifierEnabled)
       
       if (this.isMagnifierEnabled) {
-        // 初始化放大镜位置
         const rect = document.body.getBoundingClientRect()
         this.magnifierPosition = {
           x: rect.width / 2,
@@ -267,7 +285,6 @@ export default {
       localStorage.setItem('accessibility_magnifierZoom', this.magnifierZoom)
     },
     handleKeyboard(event) {
-      // Alt + A 打开/关闭菜单
       if (event.altKey && event.key === 'a') {
         event.preventDefault()
         this.toggleMenu()
@@ -311,7 +328,10 @@ export default {
           case '6':
             if (event.altKey) {
               event.preventDefault()
-              this.toggleDarkMode()
+              const levels = ['normal', 'low', 'high']
+              const currentIndex = levels.indexOf(this.currentSaturation)
+              const nextIndex = (currentIndex + 1) % levels.length
+              this.setSaturation(levels[nextIndex])
             }
             break
           case '7':
@@ -324,10 +344,8 @@ export default {
       }
     },
     applySettings() {
-      // 应用保存的设置
       document.documentElement.style.fontSize = `${this.fontSize}%`
       
-      // 检查并应用阅读障碍字体设置
       const savedDyslexiaState = localStorage.getItem('accessibility_dyslexiaFont')
       if (savedDyslexiaState === 'true') {
         this.isDyslexiaFontEnabled = true
@@ -335,12 +353,14 @@ export default {
         document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
       }
       
-      // 应用其他设置
       if (this.isHighlightLinksEnabled) document.body.classList.add('highlight-links')
       if (this.isHighlightTitlesEnabled) document.body.classList.add('highlight-titles')
-      if (this.isDarkMode) document.body.classList.add('dark-mode')
       
-      // 应用放大镜设置
+      const savedSaturation = localStorage.getItem('accessibility_saturation')
+      if (savedSaturation && savedSaturation !== 'normal') {
+        document.body.classList.add(`saturation-${savedSaturation}`)
+      }
+      
       this.isMagnifierEnabled = localStorage.getItem('accessibility_magnifier') === 'true'
       this.magnifierZoom = parseFloat(localStorage.getItem('accessibility_magnifierZoom')) || 1.5
       if (this.isMagnifierEnabled) {
@@ -560,7 +580,8 @@ export default {
 }
 
 .font-size-controls,
-.magnifier-controls {
+.magnifier-controls,
+.saturation-controls {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -575,6 +596,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.saturation-controls button {
+  flex: 1;
+  min-width: 80px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 
 .shortcut {
@@ -621,39 +651,6 @@ export default {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* 深色模式 */
-:deep(.dark-mode) .accessibility-menu,
-:deep(.dark-mode) .menu-header,
-:deep(.dark-mode) .menu-footer {
-  background: #1a1a1a;
-  color: #fff;
-}
-
-:deep(.dark-mode) .menu-header {
-  border-bottom-color: #333;
-}
-
-:deep(.dark-mode) .menu-footer {
-  border-top-color: #333;
-}
-
-:deep(.dark-mode) .menu-item {
-  background: #2a2a2a;
-}
-
-:deep(.dark-mode) .menu-item h3 {
-  color: #fff;
-}
-
-:deep(.dark-mode) .close-button {
-  color: #999;
-}
-
-:deep(.dark-mode) .close-button:hover {
-  background: #2a2a2a;
-  color: #fff;
-}
-
 /* 移动设备适配 */
 @media (max-width: 768px) {
   .accessibility-wrapper {
@@ -677,7 +674,8 @@ export default {
   }
 
   .font-size-controls,
-  .magnifier-controls {
+  .magnifier-controls,
+  .saturation-controls {
     flex-wrap: wrap;
   }
 }
