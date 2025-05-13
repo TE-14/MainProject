@@ -199,7 +199,6 @@ export default {
         event.preventDefault()
         window.requestAnimationFrame(() => {
           window.requestAnimationFrame(() => {
-            // 在两帧后处理，给予足够时间完成观察
             if (event.target) {
               const resizeObserver = event.target.__resizeObserver__
               if (resizeObserver) {
@@ -238,7 +237,17 @@ export default {
       magnifierZoom.value = level
     }
 
-    return { route, drawer, navigationItems, isActive, isMagnifierEnabled, magnifierZoom, magnifierClone, toggleMagnifier, setMagnifierZoom }
+    return {
+      route,
+      drawer,
+      navigationItems,
+      isActive,
+      isMagnifierEnabled,
+      magnifierZoom,
+      magnifierClone,
+      toggleMagnifier,
+      setMagnifierZoom
+    }
   }
 }
 </script>
@@ -392,11 +401,6 @@ export default {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* 确保页脚在无障碍菜单之下 */
-.accessibility-wrapper {
-  z-index: 101;
 }
 
 /* common card style */
@@ -651,13 +655,6 @@ html, body {
   width: 100%;
   height: 100%;
   position: relative;
-}
-
-/* 移除之前的magnifier-clone相关样式 */
-.magnifier-clone {
-  position: relative;
-  width: 100%;
-  height: 100%;
 }
 </style>
 

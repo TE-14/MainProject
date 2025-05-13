@@ -84,19 +84,19 @@
 
 /* 高亮链接 */
 .highlight-links a {
-  background: rgba(253, 224, 71, 0.25);  /* 浅黄色背景 */
+  background: rgba(253, 224, 71, 0.25);
   border-radius: 4px;
   padding: 0.1em 0.3em;
   transition: all 0.2s ease;
   text-decoration: underline;
   text-underline-offset: 0.2em;
   text-decoration-thickness: 2px;
-  text-decoration-color: rgba(251, 191, 36, 0.8);  /* 金黄色下划线 */
+  text-decoration-color: rgba(251, 191, 36, 0.8);
 }
 
 .highlight-links a:hover {
-  background: rgba(253, 224, 71, 0.4);  /* hover 时加深黄色 */
-  text-decoration-color: rgba(251, 191, 36, 1);  /* hover 时加深下划线颜色 */
+  background: rgba(253, 224, 71, 0.4);
+  text-decoration-color: rgba(251, 191, 36, 1);
   transform: translateY(-1px);
 }
 
@@ -127,246 +127,183 @@
   transform: translateX(4px);
 }
 
-/* 深色模式 - 全局背景和文字 */
-.dark-mode {
-  color-scheme: dark;
+/* 放大镜样式 */
+.magnifier {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.dark-mode body {
-  background-color: #121212;
-  color: #ffffff;
+.magnifier.active {
+  display: block;
 }
 
-.dark-mode #app,
-.dark-mode div:not([class*="highlight"]),
-.dark-mode main,
-.dark-mode header,
-.dark-mode footer,
-.dark-mode nav,
-.dark-mode aside,
-.dark-mode section,
-.dark-mode article {
-  background-color: #121212;
-  color: rgba(255, 255, 255, 0.87);
+.magnifier-content {
+  position: absolute;
+  transform-origin: 0 0;
 }
 
-/* 深色模式 - 文字和边框 */
-.dark-mode h1,
-.dark-mode h2,
-.dark-mode h3,
-.dark-mode h4,
-.dark-mode h5,
-.dark-mode h6 {
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.dark-mode p,
-.dark-mode span,
-.dark-mode label,
-.dark-mode li {
-  color: rgba(255, 255, 255, 0.87);
-}
-
-.dark-mode small,
-.dark-mode .text-muted {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* 深色模式 - 卡片和容器 */
-.dark-mode .card,
-.dark-mode .box,
-.dark-mode .panel,
-.dark-mode .modal,
-.dark-mode .dropdown,
-.dark-mode .popover,
-.dark-mode .sidebar,
-.dark-mode [class*="-card"],
-.dark-mode [class*="-box"],
-.dark-mode [class*="-panel"] {
-  background-color: #1e1e1e;
-  color: rgba(255, 255, 255, 0.87);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* 深色模式 - 按钮 */
-.dark-mode button:not(.accessibility-button):not(.close-button),
-.dark-mode .btn {
-  background-color: #2d2d2d;
-  color: rgba(255, 255, 255, 0.87);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode button:hover:not(.accessibility-button):not(.close-button),
-.dark-mode .btn:hover {
-  background-color: #3d3d3d;
-}
-
-/* 深色模式 - 输入框 */
-.dark-mode input,
-.dark-mode textarea,
-.dark-mode select {
-  background-color: #2d2d2d;
-  color: rgba(255, 255, 255, 0.87);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode input:focus,
-.dark-mode textarea:focus,
-.dark-mode select:focus {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-}
-
-/* 深色模式 - 滚动条 */
-.dark-mode ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-.dark-mode ::-webkit-scrollbar-track {
-  background: #1e1e1e;
-}
-
-.dark-mode ::-webkit-scrollbar-thumb {
-  background-color: #3d3d3d;
-  border-radius: 6px;
-  border: 3px solid #1e1e1e;
-}
-
-.dark-mode ::-webkit-scrollbar-thumb:hover {
-  background-color: #4d4d4d;
-}
-
-/* 深色模式 - 菜单和卡片背景 */
-.dark-mode .menu-item,
-.dark-mode [class*="-card"],
-.dark-mode [class*="-box"],
-.dark-mode [class*="-panel"],
-.dark-mode [class*="-menu"],
-.dark-mode [class*="-modal"],
-.dark-mode [class*="bg-white"],
-.dark-mode [class*="background-white"] {
-  background-color: #2a2a2a !important;
-  color: #ffffff !important;
-  border-color: #3a3a3a !important;
-}
-
-/* 深色模式 - 特殊背景处理 */
-.dark-mode [style*="background-color: white"],
-.dark-mode [style*="background-color: #fff"],
-.dark-mode [style*="background-color: rgb(255, 255, 255)"],
-.dark-mode [style*="background-color: rgba(255, 255, 255"],
-.dark-mode [style*="background: white"],
-.dark-mode [style*="background: #fff"],
-.dark-mode [class*="white-bg"],
-.dark-mode [class*="light-bg"] {
-  background-color: #1a1a1a !important;
-  color: #ffffff !important;
-}
-
-/* 深色模式 - 按钮样式 */
-.dark-mode button:not(.accessibility-button):not(.close-button),
-.dark-mode .btn,
-.dark-mode [class*="-button"],
-.dark-mode [class*="-btn"] {
-  background-color: #333333 !important;
-  color: #ffffff !important;
-  border-color: #404040 !important;
-}
-
-/* 深色模式 - 链接样式 */
-.dark-mode a:not(.button):not(.btn) {
-  color: #66b3ff !important;
-}
-
-/* 深色模式 - 图标颜色 */
-.dark-mode .icon {
-  color: #ffffff !important;
-}
-
-/* 深色模式 - 保持图片原样 */
-.dark-mode img {
-  background-color: transparent !important;
-}
-
-/* 深色模式 - 高亮链接 */
-.dark-mode .highlight-links a {
-  background: rgba(253, 224, 71, 0.15);
-  color: #66b3ff !important;
-  text-decoration-color: rgba(251, 191, 36, 0.5);
-}
-
-.dark-mode .highlight-links a:hover {
-  background: rgba(253, 224, 71, 0.25);
-  text-decoration-color: rgba(251, 191, 36, 0.8);
-}
-
-/* 深色模式 - 高亮标题 */
-.dark-mode .highlight-titles h1,
-.dark-mode .highlight-titles h2,
-.dark-mode .highlight-titles h3,
-.dark-mode .highlight-titles h4,
-.dark-mode .highlight-titles h5,
-.dark-mode .highlight-titles h6,
-.dark-mode .highlight-titles .hero-title {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
-  border-left-color: #818cf8;
-}
-
-.dark-mode .highlight-titles h1:hover,
-.dark-mode .highlight-titles h2:hover,
-.dark-mode .highlight-titles h3:hover,
-.dark-mode .highlight-titles h4:hover,
-.dark-mode .highlight-titles h5:hover,
-.dark-mode .highlight-titles h6:hover,
-.dark-mode .highlight-titles .hero-title:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-}
-
-/* 深色模式 - 无障碍菜单特殊处理 */
-.dark-mode .accessibility-menu {
-  background-color: rgba(26, 26, 26, 0.95) !important;
-}
-
-.dark-mode .accessibility-menu .menu-item {
-  background-color: rgba(42, 42, 42, 0.9) !important;
-}
-
-.dark-mode .accessibility-menu button {
-  color: #ffffff !important;
-}
-
-/* 深色模式 - 确保所有文本可见 */
-.dark-mode [style*="color"] {
-  color: #ffffff !important;
-}
-
-/* 深色模式 - 处理可能的内联样式 */
-.dark-mode [style*="background"] {
-  background-color: #1a1a1a !important;
-}
-
-/* 深色模式 - 处理特定框架可能的类名 */
-.dark-mode [class*="light"],
-.dark-mode [class*="white"],
-.dark-mode [class*="bright"] {
-  background-color: #1a1a1a !important;
-  color: #ffffff !important;
-}
-
-/* 动画效果 */
+/* 无障碍菜单样式 */
 .accessibility-menu {
-  animation: slideIn 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  width: 280px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1000;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.accessibility-menu.open {
+  right: 20px;
+}
+
+.menu-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close-button:hover {
+  background-color: #f5f5f5;
+}
+
+.menu-items {
+  padding: 15px;
+}
+
+.menu-item {
+  margin-bottom: 20px;
+}
+
+.menu-item:last-child {
+  margin-bottom: 0;
+}
+
+.menu-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 1em;
+  color: #666;
+}
+
+.menu-item button {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu-item button:hover:not(.active) {
+  background-color: #f5f5f5;
+}
+
+.menu-item button.active {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+.menu-item button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.zoom-controls button {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-controls span {
+  flex: 1;
+  text-align: center;
+  color: #666;
+}
+
+.menu-footer {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.menu-footer small {
+  color: #999;
+}
+
+/* 移动设备适配 */
+@media (max-width: 768px) {
+  .accessibility-menu {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: -100%;
+    border-radius: 0;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .accessibility-menu.open {
+    right: 0;
+  }
+
+  .menu-header {
+    padding: 20px;
+  }
+
+  .menu-items {
+    padding: 20px;
+  }
+
+  .menu-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
   }
 }
 
@@ -531,4 +468,33 @@
 .dark-mode .form-control:focus {
   border-color: #66b3ff !important;
   box-shadow: 0 0 0 2px rgba(102, 179, 255, 0.2) !important;
+}
+
+/* 饱和度调整 */
+.saturation-low {
+  filter: saturate(0.5);
+}
+
+.saturation-high {
+  filter: saturate(1.8);
+}
+
+/* 确保某些元素不受饱和度影响 */
+.saturation-low .accessibility-menu,
+.saturation-high .accessibility-menu,
+.saturation-low .accessibility-button,
+.saturation-high .accessibility-button {
+  filter: none;
+}
+
+/* 动画过渡效果 */
+body {
+  transition: filter 0.3s ease;
+}
+
+/* 减少动画模式下禁用过渡 */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 } 
