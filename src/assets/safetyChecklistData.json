@@ -314,20 +314,19 @@
         }
       }
     ],
-    "overall_feedback": {
-      "high": {
-        "message": "Excellent! You are following best practices for online safety. Continue maintaining these good habits to protect yourself online."
-      },
-      "medium": {
-        "message": "You have a good foundation for online safety, but there are areas where you could improve your practices to better protect yourself."
-      },
-      "low": {
-        "message": "Your online safety practices need significant improvement. Consider implementing the recommendations below to better protect yourself online."
-      }
-    },
     "thresholds": {
       "high": 80,
-      "medium": 50,
-      "low": 0
+      "medium": 60
+    },
+    "overall_feedback": {
+      "high": {
+        "message": "Excellent! You demonstrate strong online safety practices. Keep maintaining these good habits to stay secure in the digital world."
+      },
+      "medium": {
+        "message": "You have a good foundation in online safety, but there's room for improvement. Focus on the recommended actions to enhance your digital security."
+      },
+      "low": {
+        "message": "Your online safety practices need attention. Following the recommended improvements will help you better protect yourself in the digital world."
+      }
     }
   }
