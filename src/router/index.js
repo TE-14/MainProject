@@ -71,9 +71,17 @@ const router = createRouter({
       }
     },
     {
+      path: '/checklist',
+      name: 'checklist',
+      component: ChecklistView,
+      meta: {
+        title: 'Safety Checklist'
+      }
+    },
+    {
       path: '/mini-games',
       name: 'mini-games',
-      component: MiniGamesView,
+      component: MiniGamesView,,
       meta: {
         title: 'Mini Games'
       }
