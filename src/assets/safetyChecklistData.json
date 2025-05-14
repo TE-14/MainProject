@@ -1,0 +1,333 @@
+{
+    "categories": [
+      {
+        "id": "cybersafety",
+        "name": "Cybersafety",
+        "description": "Practices that keep you safe online",
+        "weight": 0.4,
+        "questions": [
+          {
+            "id": "strong_passwords",
+            "text": "Do you use different, strong passwords for your accounts?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Use Stronger Passwords",
+                "description": "Create unique, complex passwords for each account using a mix of letters, numbers, and symbols. Consider using a password manager.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Strong Password Management",
+              "description": "You're using unique, strong passwords for your online accounts, significantly reducing your risk of unauthorized access."
+            }
+          },
+          {
+            "id": "change_passwords",
+            "text": "Do you change your passwords regularly?",
+            "importance": "medium",
+            "recommendations": {
+              "low": {
+                "title": "Change Passwords Regularly",
+                "description": "Update your passwords every 3-6 months, especially for sensitive accounts like banking, email, and social media.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Regular Password Updates",
+              "description": "By regularly changing your passwords, you minimize the risk of compromised accounts, even if a data breach occurs."
+            }
+          },
+          {
+            "id": "think_before_posting",
+            "text": "Do you think before posting content online?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Consider Impact Before Posting",
+                "description": "Always pause and consider how your post might be interpreted and who might see it before sharing content online.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Thoughtful Online Sharing",
+              "description": "You think carefully before posting content online, which helps protect your digital reputation and privacy."
+            }
+          },
+          {
+            "id": "critical_thinking",
+            "text": "Do you exercise critical thinking when consuming online content?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Verify Information Sources",
+                "description": "Check multiple reliable sources before believing or sharing information, and question content that seems misleading or too good to be true.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Critical Digital Literacy",
+              "description": "You apply critical thinking when consuming online content, making you less susceptible to misinformation and manipulation."
+            }
+          },
+          {
+            "id": "skeptical_strangers",
+            "text": "Are you skeptical of strangers who contact you online?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Maintain Healthy Skepticism",
+                "description": "Always verify the identity of people you meet online before sharing personal information or developing relationships with them.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Stranger Awareness",
+              "description": "You maintain a healthy skepticism toward online strangers, protecting yourself from potential scams or harmful relationships."
+            }
+          },
+          {
+            "id": "avoid_suspicious_links",
+            "text": "Do you avoid clicking on suspicious links?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Avoid Suspicious Links",
+                "description": "Never click on links from unknown sources. Hover over links to verify their destination before clicking.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Link Safety Vigilance",
+              "description": "You carefully evaluate links before clicking, protecting your devices from malware and your accounts from phishing attempts."
+            }
+          },
+          {
+            "id": "dont_share_passwords",
+            "text": "Do you avoid sharing your passwords with others?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Keep Passwords Private",
+                "description": "Never share your passwords with anyone, including friends and family. Each person should have their own login credentials.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Password Privacy",
+              "description": "By keeping your passwords private, you maintain full control over your accounts and prevent unauthorized access."
+            }
+          }
+        ],
+        "feedback": {
+          "high": {
+            "message": "You have strong cybersafety practices in place. Keep it up!"
+          },
+          "medium": {
+            "message": "Your cybersafety practices are adequate but could be improved."
+          },
+          "low": {
+            "message": "Your cybersafety practices need significant improvement."
+          }
+        }
+      },
+      {
+        "id": "cyberbullying",
+        "name": "Cyberbullying",
+        "description": "How to handle online harassment and bullying",
+        "weight": 0.3,
+        "questions": [
+          {
+            "id": "ignore_provocation",
+            "text": "Do you ignore provocation, and ask yourself if responding is really necessary?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Practice Restraint Online",
+                "description": "When faced with provocative content, pause and consider whether responding will help or escalate the situation.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "De-escalation Skills",
+              "description": "You avoid engaging with provocations online, which helps prevent cyberbullying situations from escalating."
+            }
+          },
+          {
+            "id": "collect_evidence",
+            "text": "Do you collect evidence of harmful behavior when it occurs?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Document Harmful Behavior",
+                "description": "Take screenshots of cyberbullying incidents before blocking or reporting, including timestamps and context.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Evidence Collection",
+              "description": "You document harmful online behavior, ensuring you have proof if you need to report incidents to platforms or authorities."
+            }
+          },
+          {
+            "id": "use_block_tools",
+            "text": "Do you utilize block features and reporting tools on platforms?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Use Blocking and Reporting Tools",
+                "description": "Familiarize yourself with each platform's reporting mechanisms and use them when encountering harmful behavior.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Effective Use of Platform Safety Tools",
+              "description": "You make good use of blocking and reporting features, helping to create safer online spaces for yourself and others."
+            }
+          },
+          {
+            "id": "trusted_adult",
+            "text": "Do you have a trusted adult you can report abuses to?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Identify a Trusted Support Person",
+                "description": "Establish a relationship with someone you can turn to when facing online harassment or abuse.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Support Network",
+              "description": "Having a trusted person to turn to ensures you never have to face online harassment alone and can get help when needed."
+            }
+          },
+          {
+            "id": "good_judgment",
+            "text": "Do you use critical thinking and exercise good judgment online?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Develop Better Digital Judgment",
+                "description": "Consider potential consequences before posting or responding to content, especially in emotional situations.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Sound Digital Judgment",
+              "description": "Your thoughtful approach to online interactions helps you avoid potential conflicts and maintain positive digital relationships."
+            }
+          }
+        ],
+        "feedback": {
+          "high": {
+            "message": "You're well-equipped to handle cyberbullying situations."
+          },
+          "medium": {
+            "message": "You have some strategies for cyberbullying, but could benefit from more."
+          },
+          "low": {
+            "message": "You should develop better strategies for handling cyberbullying."
+          }
+        }
+      },
+      {
+        "id": "grooming",
+        "name": "Grooming",
+        "description": "Protecting against online predators",
+        "weight": 0.3,
+        "questions": [
+          {
+            "id": "cautious_strangers",
+            "text": "Are you cautious with online strangers?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Increase Caution with Strangers",
+                "description": "Never assume people online are who they claim to be. Maintain healthy skepticism, especially when someone shows unusual interest in you.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Stranger Awareness",
+              "description": "You maintain a healthy skepticism toward online strangers, which is a key defense against grooming attempts."
+            }
+          },
+          {
+            "id": "careful_info",
+            "text": "Are you careful about what personal information you share online?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Limit Personal Information Sharing",
+                "description": "Never share your address, school/work location, financial information, or detailed personal schedules online.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Information Privacy",
+              "description": "You carefully control what personal information you share online, making it harder for potential groomers to target you."
+            }
+          },
+          {
+            "id": "public_communications",
+            "text": "Do you keep communications with strangers public rather than private?",
+            "importance": "critical",
+            "recommendations": {
+              "low": {
+                "title": "Keep Communications Public",
+                "description": "Avoid moving conversations with online strangers to private channels like direct messages or private chat apps.",
+                "priority": "high"
+              }
+            },
+            "strength": {
+              "title": "Public Communication Habits",
+              "description": "By keeping conversations in public spaces, you reduce the risk of manipulation in private channels."
+            }
+          },
+          {
+            "id": "recognize_red_flags",
+            "text": "Do you know how to recognize red flags in online interactions?",
+            "importance": "high",
+            "recommendations": {
+              "low": {
+                "title": "Learn to Recognize Warning Signs",
+                "description": "Be alert to excessive compliments, requests for personal information, attempts to isolate you, and inappropriate questions.",
+                "priority": "medium"
+              }
+            },
+            "strength": {
+              "title": "Red Flag Recognition",
+              "description": "Your ability to identify warning signs in online interactions helps you avoid potentially dangerous situations."
+            }
+          }
+        ],
+        "feedback": {
+          "high": {
+            "message": "You're vigilant about grooming risks online. Excellent!"
+          },
+          "medium": {
+            "message": "You have some awareness of grooming risks, but could be more cautious."
+          },
+          "low": {
+            "message": "You need to be much more cautious about grooming risks online."
+          }
+        }
+      }
+    ],
+    "overall_feedback": {
+      "high": {
+        "message": "Excellent! You are following best practices for online safety. Continue maintaining these good habits to protect yourself online."
+      },
+      "medium": {
+        "message": "You have a good foundation for online safety, but there are areas where you could improve your practices to better protect yourself."
+      },
+      "low": {
+        "message": "Your online safety practices need significant improvement. Consider implementing the recommendations below to better protect yourself online."
+      }
+    },
+    "thresholds": {
+      "high": 80,
+      "medium": 50,
+      "low": 0
+    }
+  }
