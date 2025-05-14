@@ -27,7 +27,7 @@
       <!-- Desktop Navigation Links -->
       <div class="nav-links d-none d-md-flex">
         <v-btn
-          v-for="navItem in navigationItems" 
+          v-for="navItem in navigationItems.filter(item => item.title !== 'SAFETY CHECK')" 
           :key="navItem.path"
           :to="navItem.path"
           :class="['nav-btn mx-2', isActive(navItem.path, navItem.match) ? 'nav-btn-active' : '']"
@@ -37,6 +37,40 @@
           <v-icon start class="mr-2">{{ navItem.icon }}</v-icon>
           {{ navItem.title }}
         </v-btn>
+
+        <!-- Safety Check Dropdown -->
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :class="['nav-btn mx-2', isActive('/safety-check', null) || isActive('/checklist', null) ? 'nav-btn-active' : '']"
+              elevation="0"
+            >
+              <v-icon start class="mr-2">mdi-shield-alert</v-icon>
+              SAFETY CHECK
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              :to="'/safety-check'"
+              class="safety-menu-item"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-shield-check</v-icon>
+              </template>
+              <v-list-item-title>Safety Analyzer</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              :to="'/checklist'"
+              class="safety-menu-item"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-clipboard-check</v-icon>
+              </template>
+              <v-list-item-title>Safety Checklist</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
 
       <!-- Mobile Navigation Button -->
@@ -69,7 +103,7 @@
 
         <v-list nav>
           <v-list-item
-            v-for="navItem in navigationItems"
+            v-for="navItem in navigationItems.filter(item => item.title !== 'SAFETY CHECK')"
             :key="navItem.path"
             :to="navItem.path"
             :exact="navItem.exact"
@@ -81,6 +115,43 @@
             </template>
             <v-list-item-title>{{ navItem.title }}</v-list-item-title>
           </v-list-item>
+
+          <!-- Mobile Safety Check Group -->
+          <v-list-group value="Safety">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                :class="isActive('/safety-check', null) || isActive('/checklist', null) ? 'mobile-nav-active' : ''"
+              >
+                <template v-slot:prepend>
+                  <v-icon>mdi-shield-alert</v-icon>
+                </template>
+                <v-list-item-title>SAFETY CHECK</v-list-item-title>
+              </v-list-item>
+            </template>
+
+            <v-list-item
+              :to="'/safety-check'"
+              @click="drawer = false"
+              class="safety-submenu-item"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-shield-check</v-icon>
+              </template>
+              <v-list-item-title>Safety Analyzer</v-list-item-title>
+            </v-list-item>
+
+            <v-list-item
+              :to="'/checklist'"
+              @click="drawer = false"
+              class="safety-submenu-item"
+            >
+              <template v-slot:prepend>
+                <v-icon>mdi-clipboard-check</v-icon>
+              </template>
+              <v-list-item-title>Safety Checklist</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
         </v-list>
       </div>
     </v-navigation-drawer>
@@ -655,6 +726,18 @@ html, body {
   width: 100%;
   height: 100%;
   position: relative;
+}
+
+.safety-menu-item {
+  min-width: 200px;
+}
+
+.safety-menu-item:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.safety-submenu-item {
+  padding-left: 32px;
 }
 </style>
 
