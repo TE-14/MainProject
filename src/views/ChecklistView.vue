@@ -946,6 +946,9 @@ export default {
   border: none;
   position: relative;
   overflow: hidden;
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .safety-score-high {
@@ -997,6 +1000,9 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
   border: 1px solid rgba(0, 0, 0, 0.05);
   background: white;
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .card-header {
@@ -1012,6 +1018,8 @@ export default {
 /* Category breakdown styles */
 .category-breakdown {
   padding: 24px 30px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .category-item {
@@ -1072,6 +1080,8 @@ export default {
 /* Recommendations styles */
 .recommendations-container {
   padding: 24px 30px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .recommendation-category {
@@ -1164,7 +1174,8 @@ export default {
 .strengths-list {
   list-style-type: none;
   padding: 24px 30px;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 800px;
 }
 
 .strength-item {
