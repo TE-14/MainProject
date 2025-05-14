@@ -416,7 +416,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #00A86B;
+  background-color: #7678f3;
   color: white;
   width: 100%;
   padding: 12px 20px;
