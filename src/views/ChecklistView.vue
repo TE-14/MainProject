@@ -23,7 +23,8 @@
       
       <!-- Questionnaire area - shown before submission -->
       <div v-if="!analysisComplete">
-        <v-card class="input-card mx-auto mb-8" max-width="800" elevation="1">
+        <v-card class="input-card mx-auto mb-8" max-width="1080" elevation="1">
+          <!-- Tab selection -->
           <div class="tab-container mb-4">
             <v-btn 
               :class="['tab-btn mr-2', activeTab === 'cybersafety' ? 'tab-btn-active' : '']" 
@@ -47,69 +48,85 @@
               Grooming
             </v-btn>
           </div>
-          
-          <!-- Questionnaire items -->
-          <div class="questionnaire-container">
-            <div v-if="currentQuestions.length > 0" class="questionnaire-layout">
-              <!-- Progress indicator -->
-              <div class="progress-container">
-                <div class="progress-text">
-                  <span>Progress: {{ completionPercentage }}%</span>
-                  <span>{{ questionsCompleted }} of {{ totalQuestions }}</span>
-                </div>
-                <v-progress-linear 
-                  color="primary" 
-                  :model-value="completionPercentage"
-                  height="8"
-                  rounded
-                ></v-progress-linear>
-              </div>
 
-              <!-- Questions area -->
-              <div class="questions-wrapper">
-                <div class="questions-scroll-area">
-                  <div 
-                    v-for="(question, index) in currentQuestions" 
-                    :key="index"
-                    :id="`question-${index}`"
-                    class="question-item"
-                    ref="questionItems"
-                  >
-                    <div class="question-text">{{ question.text }}</div>
-                    <div class="answer-options">
-                      <v-radio-group 
-                        v-model="responses[`${activeTab}_${index}`]"
-                        row
-                        @change="updateProgress"
-                      >
-                        <v-radio 
-                          label="Always" 
-                          :value="3"
-                          color="green"
-                        ></v-radio>
-                        <v-radio 
-                          label="Sometimes" 
-                          :value="2"
-                          color="orange"
-                        ></v-radio>
-                        <v-radio 
-                          label="Rarely" 
-                          :value="1"
-                          color="red"
-                        ></v-radio>
-                        <v-radio 
-                          label="Never" 
-                          :value="0"
-                          color="red-darken-4"
-                        ></v-radio>
-                      </v-radio-group>
-                    </div>
-                  </div>
-                </div>
+          <!-- Progress indicator -->
+          <div class="progress-container">
+            <div class="progress-text">
+              <span>Progress: {{ completionPercentage }}%</span>
+              <span>{{ questionsCompleted }} of {{ totalQuestions }}</span>
+            </div>
+            <v-progress-linear 
+              color="primary" 
+              :model-value="completionPercentage"
+              height="8"
+              rounded
+            ></v-progress-linear>
+          </div>
+
+          <!-- Question Area -->
+          <div class="question-area">
+            <!-- Left Options -->
+            <div class="options-column options-left">
+              <div 
+                class="option-wrapper"
+                :class="{ 'option-highlight': isDraggingOver === 'always' }"
+                @dragenter="handleDragEnter"
+                @dragleave="handleDragLeave"
+                @dragover.prevent
+                @drop="handleDrop('always')"
+                data-value="always"
+              >
+                <span class="option-text">Always</span>
+              </div>
+              <div 
+                class="option-wrapper"
+                :class="{ 'option-highlight': isDraggingOver === 'sometimes' }"
+                @dragenter="handleDragEnter"
+                @dragleave="handleDragLeave"
+                @dragover.prevent
+                @drop="handleDrop('sometimes')"
+                data-value="sometimes"
+              >
+                <span class="option-text">Sometimes</span>
               </div>
             </div>
-            <div v-else class="no-questions-message">
-              No questions available for this category.
+
+            <!-- Center Question -->
+            <div 
+              v-if="currentQuestion"
+              class="question-card"
+              :class="{ 'being-dragged': isDragging }"
+              draggable="true"
+              @dragstart="handleDragStart"
+              @dragend="handleDragEnd"
+            >
+              {{ currentQuestion.text }}
+            </div>
+
+            <!-- Right Options -->
+            <div class="options-column options-right">
+              <div 
+                class="option-wrapper"
+                :class="{ 'option-highlight': isDraggingOver === 'rarely' }"
+                @dragenter="handleDragEnter"
+                @dragleave="handleDragLeave"
+                @dragover.prevent
+                @drop="handleDrop('rarely')"
+                data-value="rarely"
+              >
+                <span class="option-text">Rarely</span>
+              </div>
+              <div 
+                class="option-wrapper"
+                :class="{ 'option-highlight': isDraggingOver === 'never' }"
+                @dragenter="handleDragEnter"
+                @dragleave="handleDragLeave"
+                @dragover.prevent
+                @drop="handleDrop('never')"
+                data-value="never"
+              >
+                <span class="option-text">Never</span>
+              </div>
             </div>
           </div>
           
@@ -257,29 +274,29 @@
           </ul>
         </v-card>
         
-        <!-- Take Another Assessment -->
-        <div class="text-center mb-10">
+        <!-- Action Buttons -->
+        <div class="button-group">
           <v-btn
-            color="primary"
-            class="restart-btn"
+            color="#6366F1"
+            class="action-btn"
             @click="resetAssessment"
-            rounded
+            elevation="2"
+            :rounded="false"
           >
             Take Another Assessment
           </v-btn>
-        </div>
 
-        <!-- PDF Download Button -->
-        <checklist-p-d-f
-          :checklist-data="{
-            overallSafetyScore,
-            overallSafetyLevel,
-            overallSafetyMessage,
-            categoryResults,
-            improvementRecommendations,
-            safetyStrengths
-          }"
-        />
+          <checklist-p-d-f
+            :checklist-data="{
+              overallSafetyScore,
+              overallSafetyLevel,
+              overallSafetyMessage,
+              categoryResults,
+              improvementRecommendations,
+              safetyStrengths
+            }"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -305,17 +322,25 @@ export default {
       categoryWeights: {},
       thresholds: {},
       overallSafetyScore: 0,
-      overallSafetyLevel: 'medium', // 'high', 'medium', 'low'
+      overallSafetyLevel: 'medium',
       categoryResults: [],
       improvementRecommendations: [],
       safetyStrengths: [],
       currentQuestionIndex: 0,
-      observer: null
+      observer: null,
+      isDraggingOver: null,
+      isDragging: false,
+      dragEnterTimer: null,
+      dragLeaveTimer: null,
+      dragStartPos: null
     }
   },
   computed: {
     currentQuestions() {
       return this.checklistData[this.activeTab] || [];
+    },
+    currentQuestion() {
+      return this.currentQuestions[this.currentQuestionIndex] || null;
     },
     totalQuestions() {
       return Object.values(this.checklistData).reduce((total, questions) => total + questions.length, 0);
@@ -554,35 +579,175 @@ export default {
       return this.responses[responseKey] !== undefined ? this.responses[responseKey] : 0;
     },
     setupIntersectionObserver() {
+      // 先清理之前的观察者
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+
+      // 创建新的观察者，使用防抖处理回调
       this.observer = new IntersectionObserver(
-        (entries) => {
+        this.debounce((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              const index = parseInt(entry.target.id.split('-')[1])
-              this.currentQuestionIndex = index
+              const index = parseInt(entry.target.id.split('-')[1]);
+              if (!isNaN(index)) {
+                this.currentQuestionIndex = index;
+              }
             }
-          })
-        },
+          });
+        }, 100),
         {
           root: null,
           rootMargin: '-50% 0px',
           threshold: 0
         }
-      )
+      );
 
+      // 使用 nextTick 确保 DOM 已更新
       this.$nextTick(() => {
         if (this.$refs.questionItems) {
           this.$refs.questionItems.forEach(item => {
-            this.observer.observe(item)
-          })
+            if (item) {
+              this.observer.observe(item);
+            }
+          });
         }
-      })
+      });
     },
-    scrollToQuestion(index) {
-      const element = document.getElementById(`question-${index}`)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // 添加防抖函数
+    debounce(fn, delay) {
+      let timeoutId;
+      return function (...args) {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+          fn.apply(this, args);
+        }, delay);
+      };
+    },
+    // 组件销毁时清理
+    beforeDestroy() {
+      if (this.observer) {
+        this.observer.disconnect();
+        this.observer = null;
       }
+    },
+    // 优化拖拽处理
+    handleDragStart(event) {
+      this.isDragging = true;
+      
+      // 添加触觉反馈
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+
+      // 设置拖拽时的半透明效果
+      event.target.style.opacity = '0.6';
+      event.target.style.cursor = 'grabbing';
+      event.target.style.zIndex = '9999';
+      
+      // 添加过渡动画
+      event.target.style.transition = 'transform 0.2s ease-out';
+
+      // 设置拖拽图像为当前元素
+      event.dataTransfer.setDragImage(event.target, event.offsetX, event.offsetY);
+      
+      // 记录初始位置
+      this.dragStartPos = {
+        x: event.clientX,
+        y: event.clientY
+      };
+    },
+    handleDragEnd(event) {
+      this.isDragging = false;
+      this.isDraggingOver = null;
+      
+      // 恢复原始样式
+      event.target.style.opacity = '';
+      event.target.style.cursor = '';
+      event.target.style.zIndex = '';
+      event.target.style.transition = '';
+      
+      // 添加结束动画
+      event.target.style.transform = 'scale(1) rotate(0deg)';
+      
+      // 如果有吸附目标，触发振动反馈
+      if (this.isDraggingOver && navigator.vibrate) {
+        navigator.vibrate([30, 50, 30]);
+      }
+    },
+    handleDragEnter(event) {
+      this.isDraggingOver = event.target.dataset.value;
+      
+      // 添加吸附效果的视觉反馈
+      event.currentTarget.style.transform = 'scale(1.15)';
+      event.currentTarget.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      
+      // 短振动反馈
+      if (navigator.vibrate) {
+        navigator.vibrate(30);
+      }
+    },
+    handleDragLeave(event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX;
+      const y = event.clientY;
+      
+      if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+        this.isDraggingOver = null;
+        
+        // 恢复原始大小
+        event.currentTarget.style.transform = '';
+        event.currentTarget.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      }
+    },
+    handleDrop(option) {
+      const answerValues = {
+        'always': 3,
+        'sometimes': 2,
+        'rarely': 1,
+        'never': 0
+      };
+      
+      // 记录答案
+      this.responses[`${this.activeTab}_${this.currentQuestionIndex}`] = answerValues[option];
+      
+      // 更新进度
+      this.updateProgress();
+      
+      // 动画效果
+      this.isDragging = false;
+      this.isDraggingOver = null;
+      
+      // 成功放置的视觉反馈
+      const optionElement = event.currentTarget;
+      optionElement.style.transform = 'scale(1.2)';
+      setTimeout(() => {
+        optionElement.style.transform = '';
+      }, 300);
+      
+      // 成功放置的触觉反馈
+      if (navigator.vibrate) {
+        navigator.vibrate([40, 60, 40]);
+      }
+      
+      // 延迟处理下一题
+      setTimeout(() => {
+        if (this.currentQuestionIndex < this.currentQuestions.length - 1) {
+          this.currentQuestionIndex++;
+        } else {
+          const categories = ['cybersafety', 'cyberbullying', 'grooming'];
+          const currentIndex = categories.indexOf(this.activeTab);
+          if (currentIndex < categories.length - 1) {
+            this.activeTab = categories[currentIndex + 1];
+            this.currentQuestionIndex = 0;
+          }
+        }
+      }, 300);
+    },
+    downloadReport() {
+      // Implementation of downloadReport method
     }
   }
 }
@@ -615,7 +780,7 @@ export default {
   position: relative;
   padding: 2rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1300px !important;
   margin: 0 auto;
 }
 
@@ -669,15 +834,17 @@ export default {
 
 /* Input card styles */
 .input-card {
-  border-radius: 24px !important;
+  border-radius: 20px !important;
   overflow: hidden;
-  padding: 30px;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   position: relative;
+  max-width: 1080px !important;
+  margin: 0 auto;
 }
 
 .input-card::before {
@@ -686,64 +853,37 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 4px;
   background: linear-gradient(90deg, #6366F1, #4F46E5);
 }
 
 .tab-container {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   background: rgba(241, 245, 249, 0.7);
-  padding: 8px;
-  border-radius: 16px;
+  padding: 6px;
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
 }
 
 .tab-btn {
-  border-radius: 12px !important;
+  border-radius: 10px !important;
   font-weight: 600;
   color: #64748B;
-  height: 48px;
+  height: 40px;
   text-transform: none;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: 0;
-  padding: 0 24px !important;
-  min-width: 140px;
-  transition: all 0.3s ease !important;
-  position: relative;
-  overflow: hidden;
+  padding: 0 20px !important;
+  min-width: 120px;
 }
 
-.tab-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.tab-btn:hover::before {
-  opacity: 1;
-}
-
-.tab-btn-active {
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
-  color: white !important;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-}
-
-/* Progress bar styles */
 .progress-container {
-  padding: 20px;
+  padding: 15px;
   max-width: 800px;
-  margin: 0 auto;
-  background: transparent;
+  margin: 0 auto 15px;
 }
 
 .progress-text {
@@ -1240,23 +1380,22 @@ export default {
   line-height: 1.6;
 }
 
-.restart-btn {
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
-  color: white !important;
-  font-weight: 500;
-  min-width: 220px;
-  height: 52px;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 16px;
-  border-radius: 26px !important;
-  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.25) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px 0;
 }
 
-.restart-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 20px rgba(99, 102, 241, 0.35) !important;
+.action-btn {
+  min-width: 240px !important;
+  height: 50px !important;
+  font-size: 16px !important;
+  letter-spacing: 0.3px !important;
+  text-transform: none !important;
+  background: #6366F1 !important;
+  color: white !important;
+  border-radius: 8px !important;
 }
 
 /* Responsive adjustments */
@@ -1515,5 +1654,134 @@ export default {
   .progress-text {
     font-size: 14px;
   }
+}
+
+.question-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  min-height: 380px;
+  position: relative;
+  margin: 15px auto;
+  width: 100%;
+  max-width: 1000px !important;
+  background: linear-gradient(135deg,
+    rgba(224, 242, 254, 0.4) 0%,
+    rgba(239, 246, 255, 0.4) 50%,
+    rgba(224, 242, 254, 0.4) 100%
+  );
+  border-radius: 24px;
+  box-shadow: none;
+  border: none;
+}
+
+.options-column {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  min-width: 220px;
+  padding: 10px 20px;
+}
+
+.option-wrapper {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  background: rgba(237, 233, 254, 0.8);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.option-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #60A5FA, #818CF8);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.option-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #6366F1;
+}
+
+.question-card {
+  margin: 0 20px;
+  background: linear-gradient(120deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%);
+  padding: 25px 35px;
+  border-radius: 20px;
+  box-shadow: 
+    0 15px 30px rgba(79, 70, 229, 0.2),
+    0 8px 15px rgba(99, 102, 241, 0.15);
+  width: 400px;
+  min-height: 120px;
+  cursor: grab;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.5;
+  user-select: none;
+  z-index: 4;
+  will-change: transform, opacity;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(120deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border-radius: 20px;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.being-dragged {
+  transform: scale(1.02) rotate(0.5deg);
+  cursor: grabbing;
+  opacity: 0.8;
+  background: linear-gradient(120deg, #4338CA 0%, #4F46E5 50%, #6366F1 100%);
+  box-shadow: 
+    0 25px 50px rgba(79, 70, 229, 0.3),
+    0 12px 25px rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+}
+
+.option-highlight {
+  transform: scale(1.05);
+  background: rgba(237, 233, 254, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.option-highlight::before {
+  background: linear-gradient(135deg, #818CF8, #6366F1);
 }
 </style> 
