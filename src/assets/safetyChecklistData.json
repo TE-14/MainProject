@@ -69,54 +69,6 @@
               "title": "Critical Digital Literacy",
               "description": "You apply critical thinking when consuming online content, making you less susceptible to misinformation and manipulation."
             }
-          },
-          {
-            "id": "skeptical_strangers",
-            "text": "Are you skeptical of strangers who contact you online?",
-            "importance": "high",
-            "recommendations": {
-              "low": {
-                "title": "Maintain Healthy Skepticism",
-                "description": "Always verify the identity of people you meet online before sharing personal information or developing relationships with them.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Stranger Awareness",
-              "description": "You maintain a healthy skepticism toward online strangers, protecting yourself from potential scams or harmful relationships."
-            }
-          },
-          {
-            "id": "avoid_suspicious_links",
-            "text": "Do you avoid clicking on suspicious links?",
-            "importance": "critical",
-            "recommendations": {
-              "low": {
-                "title": "Avoid Suspicious Links",
-                "description": "Never click on links from unknown sources. Hover over links to verify their destination before clicking.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Link Safety Vigilance",
-              "description": "You carefully evaluate links before clicking, protecting your devices from malware and your accounts from phishing attempts."
-            }
-          },
-          {
-            "id": "dont_share_passwords",
-            "text": "Do you avoid sharing your passwords with others?",
-            "importance": "critical",
-            "recommendations": {
-              "low": {
-                "title": "Keep Passwords Private",
-                "description": "Never share your passwords with anyone, including friends and family. Each person should have their own login credentials.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Password Privacy",
-              "description": "By keeping your passwords private, you maintain full control over your accounts and prevent unauthorized access."
-            }
           }
         ],
         "feedback": {
@@ -137,38 +89,6 @@
         "description": "How to handle online harassment and bullying",
         "weight": 0.3,
         "questions": [
-          {
-            "id": "ignore_provocation",
-            "text": "Do you ignore provocation, and ask yourself if responding is really necessary?",
-            "importance": "high",
-            "recommendations": {
-              "low": {
-                "title": "Practice Restraint Online",
-                "description": "When faced with provocative content, pause and consider whether responding will help or escalate the situation.",
-                "priority": "medium"
-              }
-            },
-            "strength": {
-              "title": "De-escalation Skills",
-              "description": "You avoid engaging with provocations online, which helps prevent cyberbullying situations from escalating."
-            }
-          },
-          {
-            "id": "collect_evidence",
-            "text": "Do you collect evidence of harmful behavior when it occurs?",
-            "importance": "high",
-            "recommendations": {
-              "low": {
-                "title": "Document Harmful Behavior",
-                "description": "Take screenshots of cyberbullying incidents before blocking or reporting, including timestamps and context.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Evidence Collection",
-              "description": "You document harmful online behavior, ensuring you have proof if you need to report incidents to platforms or authorities."
-            }
-          },
           {
             "id": "use_block_tools",
             "text": "Do you utilize block features and reporting tools on platforms?",
@@ -200,22 +120,6 @@
               "title": "Support Network",
               "description": "Having a trusted person to turn to ensures you never have to face online harassment alone and can get help when needed."
             }
-          },
-          {
-            "id": "good_judgment",
-            "text": "Do you use critical thinking and exercise good judgment online?",
-            "importance": "high",
-            "recommendations": {
-              "low": {
-                "title": "Develop Better Digital Judgment",
-                "description": "Consider potential consequences before posting or responding to content, especially in emotional situations.",
-                "priority": "medium"
-              }
-            },
-            "strength": {
-              "title": "Sound Digital Judgment",
-              "description": "Your thoughtful approach to online interactions helps you avoid potential conflicts and maintain positive digital relationships."
-            }
           }
         ],
         "feedback": {
@@ -237,22 +141,6 @@
         "weight": 0.3,
         "questions": [
           {
-            "id": "cautious_strangers",
-            "text": "Are you cautious with online strangers?",
-            "importance": "critical",
-            "recommendations": {
-              "low": {
-                "title": "Increase Caution with Strangers",
-                "description": "Never assume people online are who they claim to be. Maintain healthy skepticism, especially when someone shows unusual interest in you.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Stranger Awareness",
-              "description": "You maintain a healthy skepticism toward online strangers, which is a key defense against grooming attempts."
-            }
-          },
-          {
             "id": "careful_info",
             "text": "Are you careful about what personal information you share online?",
             "importance": "critical",
@@ -266,22 +154,6 @@
             "strength": {
               "title": "Information Privacy",
               "description": "You carefully control what personal information you share online, making it harder for potential groomers to target you."
-            }
-          },
-          {
-            "id": "public_communications",
-            "text": "Do you keep communications with strangers public rather than private?",
-            "importance": "critical",
-            "recommendations": {
-              "low": {
-                "title": "Keep Communications Public",
-                "description": "Avoid moving conversations with online strangers to private channels like direct messages or private chat apps.",
-                "priority": "high"
-              }
-            },
-            "strength": {
-              "title": "Public Communication Habits",
-              "description": "By keeping conversations in public spaces, you reduce the risk of manipulation in private channels."
             }
           },
           {
