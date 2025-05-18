@@ -1,31 +1,21 @@
 <template>
-  <div class="pdf-download-container">
-    <div class="decoration-icon left">
-      <v-icon size="40" color="primary" class="shield-icon">mdi-shield-check</v-icon>
-    </div>
-    <v-btn
-      color="primary"
-      :loading="isGeneratingPDF"
-      @click="generatePDF"
-      class="download-pdf-btn"
-      prepend-icon="mdi-file-pdf-box"
-      elevation="2"
-      rounded
-    >
-      <span class="button-text">Download Safety Report</span>
-      <v-progress-circular
-        v-if="isGeneratingPDF"
-        indeterminate
-        size="20"
-        width="2"
-        color="white"
-        class="ml-2"
-      ></v-progress-circular>
-    </v-btn>
-    <div class="decoration-icon right">
-      <v-icon size="40" color="primary" class="lock-icon">mdi-lock-check</v-icon>
-    </div>
-  </div>
+  <v-btn
+    color="primary"
+    :loading="isGeneratingPDF"
+    @click="generatePDF"
+    class="action-btn"
+    rounded
+  >
+    <span class="button-text">Download Safety Report</span>
+    <v-progress-circular
+      v-if="isGeneratingPDF"
+      indeterminate
+      size="20"
+      width="2"
+      color="white"
+      class="ml-2"
+    ></v-progress-circular>
+  </v-btn>
 </template>
 
 <script>
@@ -273,84 +263,16 @@ export default {
 </script>
 
 <style scoped>
-.pdf-download-container {
-  background: rgba(241, 245, 249, 0.5);
-  padding: 20px;
-  border-radius: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 900px;
-  margin: 0 auto 32px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  position: relative;
-}
-
-.decoration-icon {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.decoration-icon.left {
-  left: 40px;
-}
-
-.decoration-icon.right {
-  right: 40px;
-}
-
-.shield-icon, .lock-icon {
-  opacity: 0.8;
-}
-
-.download-pdf-btn {
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
-  color: white !important;
-  font-weight: 500;
-  min-width: 220px;
-  height: 48px;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 16px;
-  border-radius: 24px !important;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25) !important;
-  transition: all 0.3s ease !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.download-pdf-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35) !important;
-}
-
-.download-pdf-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2) !important;
+.action-btn {
+  min-width: 200px;
 }
 
 .button-text {
-  margin-right: 8px;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
-  .pdf-download-container {
-    margin: 0 16px 24px;
-    padding: 16px;
-  }
-  
-  .download-pdf-btn {
+  .action-btn {
     min-width: 180px;
     height: 44px;
     font-size: 14px;

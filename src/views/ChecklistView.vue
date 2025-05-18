@@ -51,21 +51,22 @@
           
           <!-- Questionnaire items -->
           <div class="questionnaire-container">
-            <div v-if="currentQuestions.length > 0" class="questionnaire-layout">
-              <!-- Progress indicator -->
-              <div class="progress-container">
-                <div class="progress-text">
-                  <span>Progress: {{ completionPercentage }}%</span>
-                  <span>{{ questionsCompleted }} of {{ totalQuestions }}</span>
-                </div>
-                <v-progress-linear 
-                  color="primary" 
-                  :model-value="completionPercentage"
-                  height="8"
-                  rounded
-                ></v-progress-linear>
+            <!-- Progress indicator -->
+            <div class="progress-container mb-4">
+              <div class="progress-text d-flex justify-space-between">
+                <span>Progress: {{ completionPercentage }}%</span>
+                <span>{{ questionsCompleted }} of {{ totalQuestions }}</span>
               </div>
+              <v-progress-linear 
+                color="primary" 
+                :model-value="completionPercentage"
+                height="8"
+                rounded
+                bg-color="grey-lighten-3"
+              ></v-progress-linear>
+            </div>
 
+            <div v-if="currentQuestions.length > 0" class="questionnaire-layout">
               <!-- Questions area -->
               <div class="questions-wrapper">
                 <div class="questions-scroll-area">
@@ -267,29 +268,28 @@
           </ul>
         </v-card>
         
-        <!-- Take Another Assessment -->
-        <div class="text-center mb-10">
+        <!-- Results Page Buttons -->
+        <div class="buttons-container">
           <v-btn
             color="primary"
-            class="restart-btn"
+            class="action-btn"
             @click="resetAssessment"
             rounded
           >
             Take Another Assessment
           </v-btn>
+          
+          <checklist-p-d-f
+            :checklist-data="{
+              overallSafetyScore,
+              overallSafetyLevel,
+              overallSafetyMessage,
+              categoryResults,
+              improvementRecommendations,
+              safetyStrengths
+            }"
+          />
         </div>
-
-        <!-- PDF Download Button -->
-        <checklist-p-d-f
-          :checklist-data="{
-            overallSafetyScore,
-            overallSafetyLevel,
-            overallSafetyMessage,
-            categoryResults,
-            improvementRecommendations,
-            safetyStrengths
-          }"
-        />
       </div>
     </div>
   </div>
@@ -812,24 +812,19 @@ export default {
 
 /* Progress bar styles */
 .progress-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 0 24px;
   background: transparent;
 }
 
 .progress-text {
-  display: flex;
-  justify-content: space-between;
+  margin-bottom: 8px;
   color: #64748B;
-  font-size: 15px;
-  margin-bottom: 12px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 .v-progress-linear {
-  border-radius: 8px !important;
-  height: 10px !important;
+  border-radius: 12px !important;
   background: rgba(241, 245, 249, 0.5) !important;
 }
 
@@ -1587,5 +1582,16 @@ export default {
   .progress-text {
     font-size: 14px;
   }
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.action-btn {
+  min-width: 200px;
 }
 </style> 
