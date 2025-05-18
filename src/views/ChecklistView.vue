@@ -157,7 +157,7 @@
           />
         </div>
       </div>
-      
+
       <!-- Results Area - Only shown after submission -->
       <div v-if="analysisComplete">
         <!-- Overall Safety Score -->
@@ -392,7 +392,8 @@ export default {
       this.checklistData = safetyChecklistData.categories.reduce((acc, category) => {
         acc[category.id] = category.questions.map(q => ({
           text: q.text,
-          id: q.id
+          id: q.id,
+          importance: q.importance
         }));
         return acc;
       }, {});
@@ -449,6 +450,7 @@ export default {
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
+    // Method to generate results
     generateResults() {
       // Calculate scores for each category
       const categoryScores = {};
