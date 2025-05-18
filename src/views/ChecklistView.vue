@@ -23,7 +23,8 @@
       
       <!-- Questionnaire area - shown before submission -->
       <div v-if="!analysisComplete">
-        <v-card class="input-card mx-auto mb-8" max-width="800" elevation="1">
+        <!-- Mobile View: Original Questionnaire -->
+        <v-card v-if="isMobileView" class="input-card mx-auto mb-8" max-width="800" elevation="1">
           <div class="tab-container mb-4">
             <v-btn 
               :class="['tab-btn mr-2', activeTab === 'cybersafety' ? 'tab-btn-active' : '']" 
@@ -146,6 +147,15 @@
             </v-btn>
           </div>
         </v-card>
+        
+        <!-- Desktop View: Card Stack -->
+        <div v-else>
+          <CardStack 
+            :questions="flattenedQuestions"
+            :on-response-update="handleCardResponseUpdate"
+            :on-submit="submitChecklist"
+          />
+        </div>
       </div>
       
       <!-- Results Area - Only shown after submission -->
@@ -287,14 +297,15 @@
 
 <script>
 import ChecklistPDF from '@/components/ChecklistPDF.vue'
-
+import CardStack from '@/components/CardStack.vue';
 // Import the JSON data
 import safetyChecklistData from '@/assets/safetyChecklistData.json'
 
 export default {
   name: 'ChecklistView',
   components: {
-    ChecklistPDF
+    ChecklistPDF,
+    CardStack
   },
   data() {
     return {
@@ -310,7 +321,8 @@ export default {
       improvementRecommendations: [],
       safetyStrengths: [],
       currentQuestionIndex: 0,
-      observer: null
+      observer: null,
+      windowWidth: window.innerWidth
     }
   },
   computed: {
@@ -338,6 +350,26 @@ export default {
     },
     allRecommendationsCount() {
       return this.improvementRecommendations.reduce((total, category) => total + category.items.length, 0);
+    },
+    isMobileView() {
+      return this.windowWidth < 768;
+    },
+    
+    flattenedQuestions() {
+      const questions = [];
+      Object.entries(this.checklistData).forEach(([categoryId, categoryQuestions]) => {
+        categoryQuestions.forEach((question, index) => {
+          questions.push({
+            id: question.id,
+            text: question.text,
+            categoryId: categoryId,
+            questionIndex: index,
+            responseKey: `${categoryId}_${index}`,
+            importance: question.importance || 'medium' // Default to medium if not specified
+          });
+        });
+      });
+      return questions;
     }
   },
   created() {
@@ -345,12 +377,14 @@ export default {
     this.initializeChecklistData();
   },
   mounted() {
-    this.setupIntersectionObserver()
+    this.setupIntersectionObserver();
+    window.addEventListener('resize', this.handleResize);
   },
   beforeUnmount() {
     if (this.observer) {
       this.observer.disconnect()
     }
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     initializeChecklistData() {
@@ -583,6 +617,42 @@ export default {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    handleCardResponseUpdate(categoryId, questionIndex, responseValue) {
+      // Create the response key in the format used by the original component
+      const responseKey = `${categoryId}_${questionIndex}`;
+      
+      // Convert string values from CardStack to numeric values for ChecklistView
+      let numericValue;
+      switch(responseValue) {
+        case 'always': numericValue = 3; break;
+        case 'sometimes': numericValue = 2; break;
+        case 'rarely': numericValue = 1; break;
+        case 'never': numericValue = 0; break;
+        default: numericValue = null;
+      }
+      
+      // Update the responses object in a Vue 3 compatible way
+      if (numericValue === null) {
+        // If the answer was removed, delete the property
+        if (responseKey in this.responses) {
+          const newResponses = { ...this.responses };
+          delete newResponses[responseKey];
+          this.responses = newResponses;
+        }
+      } else {
+        // Otherwise assign the new value
+        this.responses = { 
+          ...this.responses, 
+          [responseKey]: numericValue 
+        };
+      }
+      
+      // Optional: update progress tracking
+      this.updateProgress();
     }
   }
 }
