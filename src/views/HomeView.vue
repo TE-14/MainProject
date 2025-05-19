@@ -2,7 +2,6 @@
   <!-- Banner -->
   <section class="home-hero-section">
     <div class="banner-flex">
-      <!-- 左侧文字内容 -->
       <div class="banner-left" data-aos="fade-right">
         <h1 class="hero-title mb-6">
           Empower Safe & Smart Online Lives
@@ -93,6 +92,18 @@
         <p class="text-subtitle-1 text-grey-darken-1 mt-12">
           These statistics underscore the urgent need for awareness and proactive measures to combat cyberbullying among Australian youth.
         </p>
+        <div class="cta-analyzer-row">
+          <span class="cta-analyzer-text">Curious if your words are safe online?</span>
+          <v-btn
+            class="learning-btn"
+            color="primary"
+            size="large"
+            :to="'/safety-check'"
+          >
+            <span>Try Safety Analyzer</span>
+            <v-icon right class="ml-2">mdi-shield-search</v-icon>
+          </v-btn>
+        </div>
       </div>
     </div>
   </section>
@@ -129,7 +140,44 @@
             </div>
           </v-col>
           <v-col cols="12" md="6" order-md="2" order="1">
-            <canvas ref="chartRef" width="400" height="300"></canvas>
+            <div class="infographic" ref="infographicRef">
+              <h2>Cyberbullying & Impulsivity</h2>
+              <p>What % of highly impulsive teens reported being cyberbullied?</p>
+
+              <div class="gender-row">
+                <!-- MALE BLOCK -->
+                <div class="gender-block">
+                  <div class="icons">
+                    <i
+                      v-for="n in 10"
+                      :key="'m' + n"
+                      class="fas fa-user icon"
+                      :class="n <= maleAnimated ? 'filled-male' : 'faded-male'"
+                    ></i>
+                  </div>
+                  <div class="info">
+                    <div class="percent male">{{ malePercent }}%</div>
+                    <div class="label">Male Teens</div>
+                  </div>
+                </div>
+
+                <!-- FEMALE BLOCK -->
+                <div class="gender-block">
+                  <div class="icons">
+                    <i
+                      v-for="n in 10"
+                      :key="'f' + n"
+                      class="fas fa-user icon"
+                      :class="n <= femaleAnimated ? 'filled-female' : 'faded-female'"
+                    ></i>
+                  </div>
+                  <div class="info">
+                    <div class="percent female">{{ femalePercent }}%</div>
+                    <div class="label">Female Teens</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </v-col>
         </v-row>
       </div>
@@ -167,26 +215,27 @@
     </div>
   </section>
 
-  <!-- 新全屏 learning section -->
+  <!-- learning section -->
   <section class="learning-fullscreen-section" data-aos="fade-up">
     <div class="learning-flex">
       <div class="learning-left">
-        <h2 class="learning-title">Ready to Experience Real-World Scenarios?</h2>
+        <h2 class="learning-title">Play Minigames, Boost Your Digital Skills!</h2>
         <p class="learning-desc">
-          Learn through interactive scenarios to better understand digital security.
+          Challenge yourself with fun minigames and learn how to stay safe online. Practice digital safety in an engaging way!
         </p>
         <v-btn
           class="learning-btn"
           color="primary"
           size="x-large"
-          :to="'/scenario'"
+          :to="'/mini-games'"
         >
-          <span>Start Scenario</span>
+          <span>PLAY MINIGAMES</span>
           <v-icon right class="ml-2">mdi-arrow-right</v-icon>
         </v-btn>
       </div>
       <div class="learning-right">
-        <img :src="require('@/assets/images/learning.jpg')" alt="Learning Scenario" class="learning-img" />
+        <img :src="require('@/assets/images/learning.jpg')" alt="Learning Minigames" class="learning-img" />
+        <div class="logo-blur"></div>
       </div>
     </div>
   </section>
@@ -199,70 +248,62 @@ export default {
 </script>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { Chart, registerables } from 'chart.js'
+import { ref, onMounted, computed } from 'vue'
 
-Chart.register(...registerables)
+const malePercent = ref(0)
+const femalePercent = ref(0)
 
-const chartRef = ref(null)
+const maleIconsFilled = computed(() => Math.round(malePercent.value / 10))
+const femaleIconsFilled = computed(() => Math.round(femalePercent.value / 10))
 
+const maleAnimated = ref(0)
+const femaleAnimated = ref(0)
+const infographicRef = ref(null)
+
+function startAnimation() {
+  maleAnimated.value = 0
+  femaleAnimated.value = 0
+  let m = 0, f = 0
+  const animate = () => {
+    let updated = false
+    if (m < maleIconsFilled.value) {
+      m++
+      maleAnimated.value = m
+      updated = true
+    }
+    if (f < femaleIconsFilled.value) {
+      f++
+      femaleAnimated.value = f
+      updated = true
+    }
+    if (updated) {
+      setTimeout(animate, 100)
+    }
+  }
+  animate()
+}
+
+let observer
 onMounted(async () => {
   try {
-    const res = await fetch('/api/perpetrators-by-age')
+    const res = await fetch('api/impulsive-cyberbullying-stats')
     const data = await res.json()
+    malePercent.value = data.malePercent
+    femalePercent.value = data.femalePercent
 
-    const labels = data.map(row => row.age)
-    const counts = data.map(row => row.count)
-
-    new Chart(chartRef.value, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Perpetrators by Age',
-          data: counts,
-          backgroundColor: 'rgba(239, 68, 68, 0.6)', // red-ish
-          borderColor: 'rgba(239, 68, 68, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Age Distribution of Cyberbullies'
-          }
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Number of Perpetrators',
-              color: '#374151',
-              font: {
-                size: 14,
-                weight: 'bold'
-              }
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Age',
-              color: '#374151',
-              font: {
-                size: 14,
-                weight: 'bold'
-              }
-            }
-          }
+    // Intersection Observer
+    observer = new window.IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          startAnimation()
+          observer.disconnect()
         }
-      }
-    })
+      },
+      { threshold: 0.3 }
+    )
+    if (infographicRef.value) {
+      observer.observe(infographicRef.value)
+    }
   } catch (error) {
     console.error('Error fetching data:', error)
   }
@@ -846,6 +887,7 @@ section.py-16 .v-container {
   align-items: center;
   justify-content: center;
   height: 100%;
+  position: relative;
 }
 .learning-img {
   width: 90%;
@@ -859,5 +901,110 @@ section.py-16 .v-container {
   .stats-row {
     flex-wrap: nowrap !important;
   }
+}
+
+/* New Infographic Styles */
+.infographic {
+  max-width:1100px;
+  margin: 40px auto;
+  padding: 24px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.gender-row {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.gender-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.icons {
+  display: flex;
+  margin-right: 8px;
+}
+
+.icon {
+  font-size: 2.6rem;
+  margin: 0 2px;
+  transition: color 0.3s ease;
+}
+
+.filled-male {
+  color: #2563eb;
+}
+
+.faded-male {
+  color: #cbd5e1;
+}
+
+.filled-female {
+  color: #ec4899;
+}
+
+.faded-female {
+  color: #f3d1e6;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.percent {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.percent.male {
+  color: #2563eb;
+}
+
+.percent.female {
+  color: #ec4899;
+}
+
+.label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ASUS logo blur */
+.logo-blur {
+  position: absolute;
+  right: 160px;
+  bottom: 350px;
+  width: 70px;
+  height: 30px;
+  background: rgba(218, 203, 203, 0.018);
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.cta-analyzer-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-analyzer-text {
+  font-size: 1.1rem;
+  color: #6366f1;
+  font-weight: 500;
 }
 </style> 
