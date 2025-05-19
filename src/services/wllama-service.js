@@ -191,7 +191,7 @@ ${userMessage}
       stop: ["<|user|>", "<|system|>"]
     });
     
-    console.log("Raw response:", response);
+    // console.log("Raw response:", response);
     
     // Clean up the response
     return cleanResponse(response);
