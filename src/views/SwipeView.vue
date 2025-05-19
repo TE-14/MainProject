@@ -2,19 +2,19 @@
     <div class="swipe-container">
       <!-- Large directional arrows -->
       <div class="directional-arrows">
-        <div class="arrow arrow-left">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="arrow arrow-left" @click="triggerSwipe('left')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
-            </svg>
-            <span class="arrow-label">CYBERBULLYING</span>
+          </svg>
+          <span class="arrow-label">CYBERBULLYING</span>
         </div>
-        <div class="arrow arrow-right">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="arrow arrow-right" @click="triggerSwipe('right')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18l6-6-6-6"></path>
-            </svg>
-            <span class="arrow-label">HEALTHY</span>
+          </svg>
+          <span class="arrow-label">HEALTHY</span>
         </div>
-        </div>
+      </div>
   
         <div v-if="cards.length === 0" class="results-container">
           <h2 class="results-title">All messages reviewed!</h2>
@@ -59,7 +59,8 @@
           @removed="removeTopCard"
           class="swipe-card"
           :class="{'cover-card': currentCard.type === 'cover'}"
-        >
+          :swipe-direction="swipeDirection"
+          >
           <div class="card-content">
             <!-- Cover card content -->
             <div v-if="currentCard.type === 'cover'" class="cover-content">
@@ -136,7 +137,8 @@
         aiPersonality: 'kenny', // Default AI personality set to the anime bully
         showModelStatus: false, // Whether to show model loading status
         isCoverCardSwiped: false, // Track if cover card has been swiped
-        useCardSpecificPersonas: true // Default to using character-specific personas
+        useCardSpecificPersonas: true, // Default to using character-specific personas
+        swipeDirection: null
       }
     },
     computed: {
@@ -243,6 +245,34 @@
         }
         
         console.log('Interactive reset, new stack created with', this.cards.length, 'cards');
+      },
+      // Add these methods to the methods section of SwipeView.vue
+      triggerLeftSwipe() {
+        if (this.currentCard) {
+          // Reference the SwipeCard component using $refs
+          this.$refs.currentSwipeCard.triggerSwipe('left');
+        }
+      },
+
+      triggerRightSwipe() {
+        if (this.currentCard) {
+          // Reference the SwipeCard component using $refs
+          this.$refs.currentSwipeCard.triggerSwipe('right');
+        }
+      },
+      triggerSwipe(direction) {
+        if (this.currentCard) {
+          // Set the swipe direction
+          this.swipeDirection = direction;
+        
+          
+          // Remove the card after a brief delay to allow for animation
+          setTimeout(() => {
+            this.removeTopCard();
+            // Reset the swipe direction
+            this.swipeDirection = null;
+          }, 300);
+        }
       }
     }
   }
@@ -283,8 +313,19 @@
     font-size: 24px;
     font-weight: bold;
     animation: pulse 2s infinite;
+    pointer-events: auto; /* Make arrows clickable */
+    cursor: pointer; /* Add pointer cursor */
+    padding: 15px; /* Add padding for easier clicking */
+    z-index: 10;
   }
   
+  .arrow:hover {
+    opacity: 1 !important;
+    animation: none;
+    transform: translateY(-50%) scale(1.1);
+    transition: transform 0.2s ease;
+  }
+
   .arrow svg {
     width: 100px;
     height: 100px;
