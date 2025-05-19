@@ -1,9 +1,8 @@
 <template>
+  <!-- 顶部装饰元素 -->
+  <div class="decoration-circle circle-1"></div>
+  <div class="decoration-circle circle-2"></div>
   <v-container class="resources-container py-8">
-    <!-- 顶部装饰元素 -->
-    <div class="decoration-circle circle-1"></div>
-    <div class="decoration-circle circle-2"></div>
-    
     <!-- 页面标题部分 -->
     <v-row>
       <v-col cols="12" class="text-center mb-8 position-relative">
@@ -117,11 +116,9 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- 底部装饰元素 -->
-    <div class="decoration-circle circle-3"></div>
-    <div class="decoration-circle circle-4"></div>
   </v-container>
+  <!-- 底部装饰元素 -->
+  <div class="decoration-circle circle-4"></div>
 </template>
 
 <script>
