@@ -210,7 +210,6 @@ export default {
     const magnifierZoom = ref(1.5)
     const magnifierClone = ref(null)
 
-    // 导航项配置
     const navigationItems = [
       {
         title: 'HOME',

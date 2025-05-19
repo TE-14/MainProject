@@ -103,6 +103,20 @@
           </div>
         </div>
 
+        <div style="height: 24px;"></div>
+        <!-- 承上启下的引导区块 -->
+        <div class="section-transition text-center">
+          <v-icon size="36" color="primary" class="mb-2 bounce-down">mdi-chevron-down</v-icon>
+          <h2 class="transition-title">📊 Dive Deeper: Emoji Trends & Cyberbullying Risk</h2>
+          <p class="transition-desc">
+            The chart below reveals how teens use different types of facial emojis in online conversations—and how these trends may signal shifts in online safety and cyberbullying risk.<br>
+            Scroll down to discover which emojis are considered safe, moderate, or risky!
+          </p>
+        </div>
+        <div class="mt-10">
+          <InfographicCyberbullying />
+        </div>
+
         <div class="text-center mt-12">
           <v-btn
             x-large
@@ -121,8 +135,12 @@
 </template>
 
 <script>
+import InfographicCyberbullying from '../../components/InfographicCyberbullying.vue';
 export default {
   name: 'CyberbullyingView',
+  components: {
+    InfographicCyberbullying
+  },
   data() {
     return {
       activeCardIndex: 0,
@@ -146,9 +164,7 @@ export default {
         {
           id: 4,
           title: 'What is trolling?',
-          content: 'Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it\'s meant to upset someone, it\'s not funny — it\'s bullying.',
-          isFlipped: false,
-          icon: 'mdi-message-alert-outline',
+          content: 'Trolling is when someone posts mean or offensive content just to get a reaction. It might look like a joke, but if it\'s meant to upset someone, it\'s not funny — it\'s bullying.',          icon: 'mdi-message-alert-outline',
           color: 'warning'
         },
         {
@@ -801,5 +817,43 @@ export default {
   }
 }
 
-/* 已移除不必要的动画样式 */
+.explanation-placeholder {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 32px 24px;
+  min-height: 300px;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.05);
+  text-align: left;
+}
+
+.section-transition {
+  margin: 40px auto 0 auto;
+  max-width: 700px;
+  padding: 40px 24px 20px 24px;
+  background: rgba(99,102,241,0.04);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(99,102,241,0.06);
+}
+
+.transition-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 12px;
+}
+
+.transition-desc {
+  font-size: 1.1rem;
+  color: #4b5563;
+  margin-bottom: 0;
+}
+
+.bounce-down {
+  animation: bounceDown 1.5s infinite;
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(12px);}
+}
 </style> 
