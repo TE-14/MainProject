@@ -23,6 +23,15 @@
               <span>NEVER - I don't follow this practice</span>
           </div>
           </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-title">Questionnaire Progress</span>
+              <span class="progress-text">{{ progressText }}</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+            </div>
+          </div>
       </div>
     </div>
 
@@ -343,6 +352,21 @@ export default {
       if (percentage >= thresholds.high) return 'high';
       if (percentage >= thresholds.medium) return 'medium';
       return 'low';
+    },
+    
+    // Calculate progress percentage
+    progressPercentage() {
+      return this.totalQuestions > 0 ? Math.round((this.totalAnswered / this.totalQuestions) * 100) : 0;
+    },
+    
+    // 计算总问题数（不包括按钮）
+    totalQuestions() {
+      return this.cards.filter(c => !c.isButton).length;
+    },
+    
+    // 进度显示文本
+    progressText() {
+      return `${this.totalAnswered}/${this.totalQuestions} Questions (${this.progressPercentage}%)`;
     }
   },
   methods: {
@@ -786,116 +810,106 @@ margin: 0 auto 20px auto;
 }
 
 .instructions-content {
-background-color: white;
-padding: 20px 30px;
-border-radius: 8px;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-text-align: left;
+  background-color: #F8F9FE;
+  padding: 30px 35px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  text-align: left;
+  user-select: none;
 }
 
 .instructions-content h2 {
-margin-top: 0;
-color: #333;
-font-size: 24px;
-margin-bottom: 15px;
+  color: #4F46E5;
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
 }
 
 .instructions-content p {
-color: #444;
-font-size: 16px;
-line-height: 1.5;
-margin-bottom: 15px;
+  color: #64748B;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 28px;
 }
 
 .bubble-legend {
-display: flex;
-flex-wrap: wrap;
-gap: 15px;
-margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
 .legend-item {
-display: flex;
-align-items: center;
-flex: 1 1 40%;
-min-width: 250px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
 }
 
 .legend-bubble {
-width: 24px;
-height: 24px;
-border-radius: 50%;
-margin-right: 10px;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.legend-item span {
+  color: #475569;
+  font-size: 14px;
 }
 
 .always-legend .legend-bubble {
-background-color: rgba(76, 175, 80, 0.5);
-border: 2px solid rgba(76, 175, 80, 0.8);
+  background-color: #22C55E;
 }
 
 .sometimes-legend .legend-bubble {
-background-color: rgba(255, 152, 0, 0.5);
-border: 2px solid rgba(255, 152, 0, 0.8);
+  background-color: #F59E0B;
 }
 
 .rarely-legend .legend-bubble {
-background-color: rgba(156, 39, 176, 0.5);
-border: 2px solid rgba(156, 39, 176, 0.8);
+  background-color: #8B5CF6;
 }
 
 .never-legend .legend-bubble {
-background-color: rgba(244, 67, 54, 0.5);
-border: 2px solid rgba(244, 67, 54, 0.8);
+  background-color: #EF4444;
 }
 
-/* Moving Bubbles Background */
-.bubbles-container {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-overflow: hidden;
-z-index: 5;
-pointer-events: none;
-will-change: transform; 
+.progress-section {
+  margin-top: 20px;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 20px;
 }
 
-.bubble-bg {
-position: absolute;
-bottom: -100px;
-border-radius: 50%;
-background: radial-gradient(
-  circle at 30% 30%, 
-  rgb(98, 200, 220) 0%, 
-  rgba(6, 93, 150, 0.4) 40%, 
-  rgba(24, 6, 183, 0.708) 60%
-);
-animation: rise linear infinite;
-opacity: 0.5;
-pointer-events: none;
-will-change: transform, opacity; 
-transform: translateZ(0); 
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-@keyframes rise {
-0% {
-  transform: translateY(0) rotate(0);
-  opacity: 0.3;
-}
-50% {
-  opacity: 0.7;
-}
-100% {
-  transform: translateY(-100vh) rotate(360deg);
-  opacity: 0;
-}
+.progress-title {
+  font-size: 14px;
+  color: #4F46E5;
+  font-weight: 500;
 }
 
-.card-stack-container {
-  margin: 0 auto 30px;
-  max-width: 1300px;
+.progress-text {
+  font-size: 14px;
+  color: #64748B;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #E2E8F0;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: #3B82F6;
+  border-radius: 6px;
+  transition: width 0.3s ease;
 }
 
 /* Desktop Styles */
@@ -904,13 +918,11 @@ position: relative;
 width: 100%;
 max-width: 1300px;
 margin: 0 auto;
-border: 2px solid #ccc;
 border-radius: 12px;
-background-color: #f0f5ff;
+background-color: #EEF2FF;
 overflow: hidden;
 box-sizing: border-box;
 transition: height 0.5s ease;
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .stack-origin {
@@ -920,6 +932,10 @@ left: 515px;
 transform: translate(-50%, -50%);
 z-index: 10;
 will-change: transform;
+user-select: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
 }
 
 .reset-button {
@@ -1103,7 +1119,6 @@ background-color: #3a78e7;
 padding: 15px;
 background-color: #f0f5ff;
 border-radius: 8px;
-border: 1px solid #ddd;
 }
 
 .mobile-score-display {
@@ -1216,5 +1231,58 @@ display: flex;
 justify-content: center;
 align-items: center;
 z-index: 100;
+}
+
+/* Moving Bubbles Background */
+.bubbles-container {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+z-index: 5;
+pointer-events: none;
+will-change: transform; 
+}
+
+.bubble-bg {
+position: absolute;
+bottom: -100px;
+border-radius: 50%;
+background: radial-gradient(
+  circle at 30% 30%, 
+  rgb(98, 200, 220) 0%, 
+  rgba(6, 93, 150, 0.4) 40%, 
+  rgba(24, 6, 183, 0.708) 60%
+);
+animation: rise linear infinite;
+opacity: 0.5;
+pointer-events: none;
+will-change: transform, opacity; 
+transform: translateZ(0); 
+}
+
+@keyframes rise {
+0% {
+  transform: translateY(0) rotate(0);
+  opacity: 0.3;
+}
+50% {
+  opacity: 0.7;
+}
+100% {
+  transform: translateY(-100vh) rotate(360deg);
+  opacity: 0;
+}
+}
+
+.card-stack-container {
+  margin: 0 auto 30px;
+  max-width: 1300px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 </style>
