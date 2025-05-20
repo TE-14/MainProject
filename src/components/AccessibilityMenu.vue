@@ -125,38 +125,6 @@
             </button>
           </div>
         </div>
-
-        <!-- Magnifier -->
-        <div class="menu-item">
-          <h3>
-            <span class="icon">🔍</span>
-            Screen Magnifier
-            <span class="shortcut">(Alt + 7)</span>
-          </h3>
-          <div class="magnifier-controls">
-            <button 
-              @click="toggleMagnifier"
-              :class="{ 'active': isMagnifierEnabled }"
-              :aria-label="'Screen Magnifier ' + (isMagnifierEnabled ? 'Enabled' : 'Enable') + ' (Alt + 7)'"
-              :title="'Screen Magnifier ' + (isMagnifierEnabled ? 'Enabled' : 'Enable') + ' (Alt + 7)'"
-            >
-              {{ isMagnifierEnabled ? 'Enabled' : 'Enable' }}
-            </button>
-            <div v-if="isMagnifierEnabled" class="zoom-controls">
-              <button 
-                @click="adjustMagnifierZoom(-0.5)"
-                aria-label="Decrease Zoom"
-                title="Decrease Zoom"
-              >-</button>
-              <span>{{ magnifierZoom }}x</span>
-              <button 
-                @click="adjustMagnifierZoom(0.5)"
-                aria-label="Increase Zoom"
-                title="Increase Zoom"
-              >+</button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="menu-footer">
@@ -178,11 +146,8 @@ export default {
       isHighlightTitlesEnabled: localStorage.getItem('accessibility_highlightTitles') === 'true',
       showFontIndicator: false,
       fontIndicatorText: '',
-      isMagnifierEnabled: false,
-      magnifierZoom: 1.5,
-      lastFocusedElement: null,
-      magnifierPosition: null,
       currentSaturation: localStorage.getItem('accessibility_saturation') || 'normal',
+      lastFocusedElement: null
     }
   },
   created() {
@@ -191,7 +156,6 @@ export default {
     if (savedDyslexiaState === 'true') {
       this.isDyslexiaFontEnabled = true
       document.body.classList.add('dyslexia-font')
-      this.applyDyslexiaFont()
     }
     this.applySettings()
     window.addEventListener('keydown', this.handleKeyboard)
@@ -223,17 +187,12 @@ export default {
     },
     toggleDyslexiaFont() {
       this.isDyslexiaFontEnabled = !this.isDyslexiaFontEnabled
-      
       if (this.isDyslexiaFontEnabled) {
-        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
-        document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
+        document.body.classList.add('dyslexia-font')
       } else {
-        document.documentElement.style.setProperty('--dyslexia-font', 'inherit')
-        document.documentElement.style.fontFamily = ''
+        document.body.classList.remove('dyslexia-font')
       }
-      
       localStorage.setItem('accessibility_dyslexiaFont', this.isDyslexiaFontEnabled)
-      
       this.fontIndicatorText = this.isDyslexiaFontEnabled ? 'Dyslexia Friendly Font Enabled' : 'Default Font Restored'
       this.showFontIndicator = true
       setTimeout(() => {
@@ -265,24 +224,6 @@ export default {
       setTimeout(() => {
         this.showFontIndicator = false
       }, 2000)
-    },
-    toggleMagnifier() {
-      this.isMagnifierEnabled = !this.isMagnifierEnabled
-      this.$emit('toggle-magnifier', this.isMagnifierEnabled)
-      localStorage.setItem('accessibility_magnifier', this.isMagnifierEnabled)
-      
-      if (this.isMagnifierEnabled) {
-        const rect = document.body.getBoundingClientRect()
-        this.magnifierPosition = {
-          x: rect.width / 2,
-          y: rect.height / 2
-        }
-      }
-    },
-    adjustMagnifierZoom(change) {
-      this.magnifierZoom = Math.max(1.2, Math.min(4, this.magnifierZoom + change))
-      this.$emit('set-magnifier-zoom', this.magnifierZoom)
-      localStorage.setItem('accessibility_magnifierZoom', this.magnifierZoom)
     },
     handleKeyboard(event) {
       if (event.altKey && event.key === 'a') {
@@ -334,46 +275,27 @@ export default {
               this.setSaturation(levels[nextIndex])
             }
             break
-          case '7':
-            if (event.altKey) {
-              event.preventDefault()
-              this.toggleMagnifier()
-            }
-            break
         }
       }
     },
     applySettings() {
       document.documentElement.style.fontSize = `${this.fontSize}%`
-      
       const savedDyslexiaState = localStorage.getItem('accessibility_dyslexiaFont')
       if (savedDyslexiaState === 'true') {
         this.isDyslexiaFontEnabled = true
-        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
-        document.documentElement.style.fontFamily = 'var(--dyslexia-font)'
+        document.body.classList.add('dyslexia-font')
+      } else {
+        document.body.classList.remove('dyslexia-font')
       }
-      
       if (this.isHighlightLinksEnabled) document.body.classList.add('highlight-links')
       if (this.isHighlightTitlesEnabled) document.body.classList.add('highlight-titles')
-      
       const savedSaturation = localStorage.getItem('accessibility_saturation')
       if (savedSaturation && savedSaturation !== 'normal') {
         document.body.classList.add(`saturation-${savedSaturation}`)
       }
-      
-      this.isMagnifierEnabled = localStorage.getItem('accessibility_magnifier') === 'true'
-      this.magnifierZoom = parseFloat(localStorage.getItem('accessibility_magnifierZoom')) || 1.5
-      if (this.isMagnifierEnabled) {
-        this.$emit('toggle-magnifier', true)
-        this.$emit('set-magnifier-zoom', this.magnifierZoom)
-      }
     },
     applyDyslexiaFont() {
-      if (this.isDyslexiaFontEnabled) {
-        document.documentElement.style.setProperty('--dyslexia-font', '"OpenDyslexic", Arial, sans-serif')
-      } else {
-        document.documentElement.style.setProperty('--dyslexia-font', 'inherit')
-      }
+      // 该方法已不再需要，可留空或删除
     },
   }
 }
@@ -385,55 +307,7 @@ export default {
   --dyslexia-font: inherit;
 }
 
-/* 使用更强的选择器确保字体应用到所有文本元素 */
-:root[style*="--dyslexia-font"] {
-  font-family: var(--dyslexia-font) !important;
-}
-
-:root[style*="--dyslexia-font"] * {
-  font-family: var(--dyslexia-font) !important;
-}
-
-/* 特别处理一些可能会被遗漏的元素 */
-:root[style*="--dyslexia-font"] .accessibility-menu *,
-:root[style*="--dyslexia-font"] h1,
-:root[style*="--dyslexia-font"] h2,
-:root[style*="--dyslexia-font"] h3,
-:root[style*="--dyslexia-font"] h4,
-:root[style*="--dyslexia-font"] h5,
-:root[style*="--dyslexia-font"] h6,
-:root[style*="--dyslexia-font"] p,
-:root[style*="--dyslexia-font"] span,
-:root[style*="--dyslexia-font"] div,
-:root[style*="--dyslexia-font"] button,
-:root[style*="--dyslexia-font"] input,
-:root[style*="--dyslexia-font"] textarea,
-:root[style*="--dyslexia-font"] label,
-:root[style*="--dyslexia-font"] a {
-  font-family: var(--dyslexia-font) !important;
-}
-
-/* 确保按钮状态样式正确显示 */
-.menu-item button {
-  position: relative;
-  overflow: hidden;
-}
-
-.menu-item button.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: currentColor;
-  opacity: 0.1;
-}
-
-/* 确保深色模式下的状态正确 */
-:deep(.dark-mode) .menu-item button.active::before {
-  opacity: 0.2;
-}
+/* 确保只用.dyslexia-font控制字体 */
 </style>
 
 <style scoped>
@@ -580,7 +454,6 @@ export default {
 }
 
 .font-size-controls,
-.magnifier-controls,
 .saturation-controls {
   display: flex;
   align-items: center;
@@ -588,7 +461,7 @@ export default {
 }
 
 .font-size-controls button,
-.zoom-controls button {
+.saturation-controls button {
   width: 36px;
   height: 36px;
   min-width: unset;
@@ -674,7 +547,6 @@ export default {
   }
 
   .font-size-controls,
-  .magnifier-controls,
   .saturation-controls {
     flex-wrap: wrap;
   }
