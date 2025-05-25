@@ -72,12 +72,19 @@
             </button>
           </div>
         </div>
-        <button @click="startGame" class="start-btn">
+        <button ref="startBtn" @click="startGame" class="start-btn">
           <span class="start-icon">🎮</span>
           <span>Start Game</span>
         </button>
       </div>
     </div>
+    <!-- Fixed down-arrow button at the bottom center of the viewport -->
+    <button v-if="gameState === 'start' && !atBottom" class="down-arrow-btn-fixed" @click="scrollToStartBtn" aria-label="Scroll to Start Game">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="12" fill="rgba(128,128,128,0.18)"/>
+        <polyline points="8 10 12 14 16 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </button>
 
     <!-- Main Game Screen -->
     <div v-if="gameState === 'playing' || gameState === 'feedback'" class="game-screen game-play-screen">
@@ -409,11 +416,13 @@ practicesDatabase: [
     console.log('Game component mounted', this.gameState);
     // Add event listeners for keyboard, touch events, etc.
     window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('scroll', this.checkIfAtBottom);
   },
   beforeUnmount() {
     clearInterval(this.gameLoop);
     clearInterval(this.timerInterval);
     window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('scroll', this.checkIfAtBottom);
   },
   methods: {
     setDifficulty(level) {
@@ -859,6 +868,35 @@ practicesDatabase: [
     
     isWall(row, col) {
       return this.board[row] && this.board[row][col] === 'wall';
+    },
+    scrollToNextSection() {
+      // Scroll down by one viewport height
+      window.scrollBy({
+        top: window.innerHeight * 0.85,
+        left: 0,
+        behavior: 'smooth'
+      });
+    },
+    scrollToStartBtn() {
+      // Scroll smoothly to the Start Game button
+      this.$nextTick(() => {
+        const btn = this.$refs.startBtn;
+        if (btn && btn.scrollIntoView) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    },
+    checkIfAtBottom() {
+      // Hide arrow if user is at (or very near) the bottom of the page
+      const threshold = 2; // px
+      const atBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - threshold);
+      this.atBottom = atBottom;
+    },
+  },
+  watch: {
+    // When gameState changes, re-check if at bottom (for edge cases)
+    gameState() {
+      this.$nextTick(this.checkIfAtBottom);
     }
   }
 };
@@ -1133,7 +1171,7 @@ practicesDatabase: [
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 2px;
   max-width: 680px;
 }
 
@@ -2245,5 +2283,32 @@ practicesDatabase: [
   .countdown-number {
     font-size: 4rem;
   }
+}
+
+.down-arrow-btn-fixed {
+  position: fixed;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(128,128,128,0.13);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  z-index: 1002;
+  transition: background 0.2s, box-shadow 0.2s;
+  padding: 0;
+}
+.down-arrow-btn-fixed:hover {
+  background: rgba(128,128,128,0.22);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+.down-arrow-btn-fixed svg {
+  display: block;
 }
 </style>

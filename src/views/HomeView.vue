@@ -27,6 +27,8 @@
           alt="Teens Digital Learning"
           class="banner-img"
         />
+        <!-- Source label at bottom right of the image, gray and italic -->
+        <span class="banner-img-source">Source: Google Images</span>
       </div>
     </div>
   </section>
@@ -352,6 +354,7 @@ onMounted(async () => {
   overflow: hidden;
   clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
   background: #fff;
+  position: relative;
 }
 
 .banner-img {
@@ -1006,5 +1009,20 @@ section.py-16 .v-container {
   font-size: 1.1rem;
   color: #6366f1;
   font-weight: 500;
+}
+
+/* Source label for banner image */
+.banner-img-source {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: #888;
+  font-size: 13px;
+  font-style: italic;
+  pointer-events: none; /* Do not block image interaction */
+  z-index: 3;
+  background: rgba(255,255,255,0.6); /* Optional: subtle background for readability */
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 </style> 

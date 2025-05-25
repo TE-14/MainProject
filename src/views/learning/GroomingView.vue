@@ -9,7 +9,16 @@
               <v-icon size="32" color="error" class="floating-icon top">mdi-alert-circle</v-icon>
               <v-icon size="40" color="success" class="floating-icon right">mdi-hand-heart</v-icon>
             </div>
-            <h1 class="main-title">Understanding Grooming</h1>
+            <div class="title-row">
+              <v-icon
+                class="back-arrow"
+                @click="goBack"
+                color="#6366f1"
+                size="38"
+                title="Back"
+              >mdi-chevron-left</v-icon>
+              <h1 class="main-title">Understanding Grooming</h1>
+            </div>
             <div class="decorative-line"></div>
           </div>
           <p class="intro-text">
@@ -225,6 +234,13 @@
         </div>
       </v-col>
     </v-row>
+    <!-- Fixed down-arrow button at the bottom center of the viewport -->
+    <button v-if="!atBottom" class="down-arrow-btn-fixed" @click="scrollToNextSection" aria-label="Scroll Down">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="12" fill="rgba(128,128,128,0.13)"/>
+        <polyline points="8 10 12 14 16 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </button>
   </v-container>
 </template>
 
@@ -274,7 +290,8 @@ export default {
       ],
       newsArticles: [],
       loadingNews: false,
-      error: null
+      error: null,
+      atBottom: false // Track if user is at the bottom
     }
   },
   methods: {
@@ -328,10 +345,27 @@ export default {
         this.cards[cardIndex].isFlipped = true;
         this.activeCard = cardId;
       }
+    },
+    goBack() {
+      this.$router.back();
+    },
+    scrollToNextSection() {
+      // Always scroll down by one viewport height (like flipping a page)
+      window.scrollBy({ top: window.innerHeight * 0.85, left: 0, behavior: 'smooth' });
+    },
+    checkIfAtBottom() {
+      // Hide arrow if user is at (or very near) the bottom of the page
+      const threshold = 2; // px
+      const atBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - threshold);
+      this.atBottom = atBottom;
     }
   },
   mounted() {
     this.fetchNews();
+    window.addEventListener('scroll', this.checkIfAtBottom);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.checkIfAtBottom);
   }
 }
 </script>
@@ -605,5 +639,65 @@ export default {
   .flip-card-front, .flip-card-back {
     padding: 1.5rem;
   }
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.back-arrow {
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  margin-right: 18px;
+  vertical-align: middle;
+}
+
+.back-arrow:hover {
+  color: #4f46e5;
+  transform: scale(1.15);
+}
+
+.down-arrow-btn-fixed {
+  position: fixed;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(128,128,128,0.13);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(128,128,128,0.13);
+  cursor: pointer;
+  z-index: 1002;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  padding: 0;
+  animation: bounceDown 1.5s infinite;
+}
+
+.down-arrow-btn-fixed:hover {
+  background: rgba(128,128,128,0.22);
+  box-shadow: 0 8px 28px rgba(128,128,128,0.18);
+  transform: translateX(-50%) scale(1.08);
+}
+
+.down-arrow-btn-fixed svg {
+  display: block;
+}
+
+.down-arrow-btn-fixed svg polyline {
+  stroke: #fff;
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(12px);}
 }
 </style>

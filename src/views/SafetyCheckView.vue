@@ -37,6 +37,7 @@
               class="google-style-input"
               @focus="clearError"
               @input="clearError"
+              @keydown.enter="analyzeContent"
               hide-details
             >
               <template v-slot:append-inner>
