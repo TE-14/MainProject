@@ -96,13 +96,10 @@
               <v-card-text>
                 <p>You can contact local services confidentially:</p>
                 <ul class="mt-2">
-                  <li><strong>headspace Melbourne</strong> (Youth Mental Health)</li>
-                  <li>headspace.org.au/headspace-centres/melbourne</li>
+                  <li><strong>headspace Melbourne (Youth Mental Health)</strong></li>
+                  <li><a href="https://headspace.org.au/headspace-centres/melbourne" target="_blank" class="resource-link">headspace.org.au/headspace-centres/melbourne</a></li>
+                  <li><strong>Find Local Support</strong></li>
                 </ul>
-                <div class="remember-tip mt-3">
-                  <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                  <span>Find Local Support</span>
-                </div>
               </v-card-text>
             </v-card>
 
@@ -115,15 +112,15 @@
                 <ul class="support-list">
                   <li>
                     <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                    Kids Helpline: 1800 55 1800
+                    <strong>Kids Helpline:</strong> 1800 55 1800
                   </li>
                   <li>
                     <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                    eSafety Commissioner
+                    <strong>eSafety Commissioner</strong>
                   </li>
                   <li>
                     <v-icon size="small" icon="mdi-information" class="mr-1"></v-icon>
-                    www.esafety.gov.au
+                    <a href="https://www.esafety.gov.au" target="_blank" class="resource-link">www.esafety.gov.au</a>
                   </li>
                 </ul>
               </v-card-text>
@@ -953,5 +950,15 @@ li:last-child {
 .support-list .v-icon {
   margin-right: 0.5rem;
   color: #483d8b;
+}
+
+.resource-link {
+  color: #483d8b;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.resource-link:hover {
+  text-decoration: underline;
 }
 </style> 
