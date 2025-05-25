@@ -108,7 +108,7 @@
                 <p>Professional help is available:</p>
                 <ul class="mt-2">
                   <li><strong>Kids Helpline:</strong> 1800 55 1800</li>
-                  <li><strong>Online Chat:</strong> yourtown.com.au/webcounselling</li>
+                  <li><strong>Online Chat:</strong> <a href="https://kidshelpline.com.au/teens" target="_blank" class="resource-link">kidshelpline.com.au/teens</a></li>
                   <li><strong>eSafety Commissioner</strong></li>
                   <li><strong>School Counselors</strong></li>
                 </ul>
@@ -1007,5 +1007,16 @@ li:last-child {
   margin-bottom: 0.8rem;
   color: #4682b4;
   text-align: center;
+}
+
+.resource-link {
+  color: #6366f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.resource-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
 }
 </style> 
