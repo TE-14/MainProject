@@ -15,40 +15,64 @@
         </ul>
       </div>
 
-      <div v-if="emojiDetails" class="emoji-rows">
-        <div class="emoji-group safe">
-          <h3>🟢 Top 10 Safe Emojis</h3>
-          <p class="category-desc">Typically cheerful or positive facial expressions.</p>
-          <div class="emoji-scroll">
-            <div v-for="e in emojiDetails.safe" :key="e.emoji" class="emoji-item">
-              {{ e.emoji }}
-              <span class="score">({{ e.risk.toFixed(2) }})</span>
-            </div>
-          </div>
-        </div>
+      <div class="emoji-rows">
 
-        <div class="emoji-group moderate">
-          <h3>🟡 Top 10 Moderate Emojis</h3>
-          <p class="category-desc">Often neutral or context-dependent expressions.</p>
-          <div class="emoji-scroll">
-            <div v-for="e in emojiDetails.moderate" :key="e.emoji" class="emoji-item">
-              {{ e.emoji }}
-              <span class="score">({{ e.risk.toFixed(2) }})</span>
-            </div>
-        </div>
-      </div>
-
-      <div class="emoji-group risky">
-        <h3>🔴 Top 10 Risky Emojis</h3>
-        <p class="category-desc">Often linked with sarcasm, threats, or aggressive tones.</p>
-        <div class="emoji-scroll">
-          <div v-for="e in emojiDetails.risky" :key="e.emoji" class="emoji-item">
-            {{ e.emoji }}
-            <span class="score">({{ e.risk.toFixed(2) }})</span>
-          </div>
-        </div>
-      </div>
+  <!-- SAFE -->
+  <div class="emoji-group safe">
+    <h3>🟢 Top 10 Safe Emojis</h3>
+    <p class="category-desc">Typically cheerful or positive facial expressions.</p>
+    <div class="emoji-scroll">
+      <div class="emoji-item"><div class="emoji-char">😉</div><span class="score">(0.10)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🙆‍♀️</div><span class="score">(0.09)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😀</div><span class="score">(0.08)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😛</div><span class="score">(0.08)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🙏</div><span class="score">(0.08)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😊</div><span class="score">(0.07)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😻</div><span class="score">(0.07)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😇</div><span class="score">(0.07)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😗</div><span class="score">(0.06)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🙂</div><span class="score">(0.06)</span></div>
     </div>
+  </div>
+
+  <!-- MODERATE -->
+  <div class="emoji-group moderate">
+    <h3>🟡 Top 10 Moderate Emojis</h3>
+    <p class="category-desc">Often neutral or context-dependent expressions.</p>
+    <div class="emoji-scroll">
+      <div class="emoji-item"><div class="emoji-char">😹</div><span class="score">(0.30)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😁</div><span class="score">(0.29)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🤠</div><span class="score">(0.29)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😬</div><span class="score">(0.27)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😱</div><span class="score">(0.26)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🤔</div><span class="score">(0.25)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😂</div><span class="score">(0.25)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😈</div><span class="score">(0.20)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😺</div><span class="score">(0.20)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😮</div><span class="score">(0.18)</span></div>
+    </div>
+  </div>
+
+  <!-- RISKY -->
+  <div class="emoji-group risky">
+    <h3>🔴 Top 10 Risky Emojis</h3>
+    <p class="category-desc">Often linked with sarcasm, threats, or aggressive tones.</p>
+    <div class="emoji-scroll">
+      <div class="emoji-item"><div class="emoji-char">😟</div><span class="score">(0.60)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😫</div><span class="score">(0.59)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😒</div><span class="score">(0.59)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😾</div><span class="score">(0.59)</span></div>
+      <div class="emoji-item"><div class="emoji-char">🧓</div><span class="score">(0.58)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😿</div><span class="score">(0.58)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😠</div><span class="score">(0.56)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😐</div><span class="score">(0.55)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😞</div><span class="score">(0.55)</span></div>
+      <div class="emoji-item"><div class="emoji-char">😣</div><span class="score">(0.54)</span></div>
+    </div>
+  </div>
+
+</div>
+
   </div>
   </div>
 </template>
@@ -141,7 +165,7 @@ export default {
     }
   },
   mounted() {
-    fetch('http://localhost:3001/api/emoji-risk-stream')
+    fetch('/api/emoji-risk-stream')
       .then(res => res.json())
       .then(data => {
         const isFaceEmoji = (emoji) => {

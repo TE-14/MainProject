@@ -7,7 +7,7 @@ export default [
     },
     // Configuration flags for AI behavior
     aiConfig: {
-      skipAI: false,           // Whether to skip AI generation and use default responses
+      skipAI: true,           // Whether to skip AI generation and use default responses
       personalityKey: "kenny"   // The personality to use with this conversation
     },
     initialMessageCount: 2,
@@ -338,7 +338,7 @@ export default [
     },
     // Configuration flags for AI behavior
     aiConfig: {
-      skipAI: false,             // Use AI for Mallory
+      skipAI: true,             // Use AI for Mallory
       personalityKey: "mallory",  // Use the Mallory personality
       timeoutSeconds: 60,         // Custom timeout for this character (optional)
       simulateTyping: true        // Show typing indicator for realism

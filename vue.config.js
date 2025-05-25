@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const path = require('path')
 
 module.exports = defineConfig({
+  publicPath: '/v3/',
   transpileDependencies: true,
   devServer: {
     port: 3007,

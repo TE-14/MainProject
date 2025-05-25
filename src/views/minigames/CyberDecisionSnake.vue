@@ -15,34 +15,41 @@
     <div v-else-if="gameState === 'start'" class="snake-landing-outer">
       <div class="snake-landing-header">
         <h1 class="game-title">Cyber Decision Snake</h1>
-        <p class="game-slogan">Navigate your snake to the correct symbol based on the cybersecurity practice!</p>
+        <p class="game-slogan">Navigate your snake to make smart choices about online safety!</p>
       </div>
       <div class="snake-landing-main">
         <div class="snake-card">
-          <img src="@/assets/images/snake.png" alt="Snake Game" class="snake-img" />
+          <div class="snake-image-container">
+            <img src="@/assets/images/snake.png" alt="Snake Game" class="snake-img" />
+            <div class="snake-card-overlay">
+              <div class="pulse-circle"></div>
+              <div class="pulse-circle delay-1"></div>
+              <div class="pulse-circle delay-2"></div>
+            </div>
+          </div>
         </div>
         <div class="rule-card">
           <h3>How to play:</h3>
           <ul class="instructions-list">
             <li class="instruction-item">
               <span class="icon-bullet" style="background:#6366f1"><span>🧑‍💻</span></span>
-              <span class="instruction-text">A scenario about online interactions will appear at the top of the screen</span>
+              <span class="instruction-text">Read the cybersecurity scenario at the top</span>
             </li>
             <li class="instruction-item">
               <span class="icon-bullet" style="background:#8b5cf6"><span>🎮</span></span>
-              <span class="instruction-text">Use arrow keys or on-screen buttons to move your snake</span>
+              <span class="instruction-text">Use arrow keys or touch controls to move</span>
             </li>
             <li class="instruction-item">
               <span class="icon-bullet" style="background:#22c55e"><span>✅</span></span>
-              <span class="instruction-text">Move toward the <span class="highlight-green">✓</span> if it's a <strong class="highlight-green">safe or smart choice</strong></span>
+              <span class="instruction-text">Go to the <span class="highlight-green">✓</span> for <strong class="highlight-green">safe choices</strong></span>
             </li>
             <li class="instruction-item">
               <span class="icon-bullet" style="background:#ef4444"><span>❌</span></span>
-              <span class="instruction-text">Move toward the <span class="highlight-red">✗</span> if it's an <strong class="highlight-red">unsafe or risky choice</strong></span>
+              <span class="instruction-text">Go to the <span class="highlight-red">✗</span> for <strong class="highlight-red">unsafe choices</strong></span>
             </li>
             <li class="instruction-item">
               <span class="icon-bullet" style="background:#f59e42"><span>🛡️</span></span>
-              <span class="instruction-text">Learn to recognize signs of online grooming and protect yourself!</span>
+              <span class="instruction-text">Learn to spot online risks and stay safe!</span>
             </li>
           </ul>
         </div>
@@ -51,56 +58,120 @@
         <div class="difficulty-select">
           <h3>Select Difficulty:</h3>
           <div class="difficulty-buttons">
-            <button @click="setDifficulty('easy')" :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']">Easy</button>
-            <button @click="setDifficulty('medium')" :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']">Medium</button>
-            <button @click="setDifficulty('hard')" :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']">Hard</button>
+            <button @click="setDifficulty('easy')" :class="['difficulty-btn', selectedDifficulty === 'easy' ? 'selected' : '']">
+              <span class="difficulty-icon">😌</span>
+              <span class="difficulty-text">Easy</span>
+            </button>
+            <button @click="setDifficulty('medium')" :class="['difficulty-btn', selectedDifficulty === 'medium' ? 'selected' : '']">
+              <span class="difficulty-icon">😎</span>
+              <span class="difficulty-text">Medium</span>
+            </button>
+            <button @click="setDifficulty('hard')" :class="['difficulty-btn', selectedDifficulty === 'hard' ? 'selected' : '']">
+              <span class="difficulty-icon">🔥</span>
+              <span class="difficulty-text">Hard</span>
+            </button>
           </div>
         </div>
-        <button @click="startGame" class="start-btn">Start Game</button>
+        <button @click="startGame" class="start-btn">
+          <span class="start-icon">🎮</span>
+          <span>Start Game</span>
+        </button>
       </div>
     </div>
 
     <!-- Main Game Screen -->
     <div v-if="gameState === 'playing' || gameState === 'feedback'" class="game-screen game-play-screen">
-      <div class="game-info">
-        <div class="score-display">Score: {{ score }}</div>
-        <div class="lives-display">Lives: <span v-for="n in lives" :key="n">❤️</span></div>
-      </div>
-      
-      <div class="practice-display">
-        <div class="practice-title">🎯 Current Question</div>
-        <div class="practice-text">{{ currentPractice.text }}</div>
-      </div>
-      <div class="timer-bar-wrapper">
-        <div class="timer-bar">
-          <div class="timer-progress" :style="{ width: timerWidth + '%' }"></div>
-        </div>
-      </div>
-      
-      <div class="game-board" ref="gameBoard" tabindex="0" @keydown="handleKeyDown">
-        <!-- Game grid cells -->
-        <div 
-          v-for="(row, rowIndex) in board" 
-          :key="rowIndex" 
-          class="board-row"
-        >
-          <div 
-            v-for="(cell, colIndex) in row" 
-            :key="colIndex" 
-            class="board-cell"
-            :class="{
-              'snake-head': isSnakeHead(rowIndex, colIndex),
-              'snake-body': isSnakeBody(rowIndex, colIndex),
-              'good-target': isGoodTarget(rowIndex, colIndex),
-              'bad-target': isBadTarget(rowIndex, colIndex),
-              'wall': isWall(rowIndex, colIndex)
-            }"
-          >
-            <span v-if="isGoodTarget(rowIndex, colIndex)">✓</span>
-            <span v-if="isBadTarget(rowIndex, colIndex)">✗</span>
+      <div class="game-header">
+        <div class="game-info">
+          <div class="score-display">
+            <span class="score-icon">🏆</span>
+            <span class="score-text">{{ score }}</span>
+          </div>
+          <div class="lives-display">
+            <span v-for="n in maxLives" :key="n" :class="['life-heart', n <= lives ? 'active' : '']">
+              {{ n <= lives ? '❤️' : '🖤' }}
+            </span>
           </div>
         </div>
+        
+        <div class="practice-display">
+          <div class="practice-title">🎯 Current Scenario</div>
+          <div class="practice-text">{{ currentPractice.text }}</div>
+        </div>
+        <div class="timer-bar-wrapper">
+          <div class="timer-bar">
+            <div class="timer-progress" :style="{ width: timerWidth + '%' }"></div>
+          </div>
+          <div class="timer-text">Time remaining</div>
+        </div>
       </div>
+
+      <div class="game-board-container">
+  <div class="game-board" ref="gameBoard" tabindex="0" @keydown="handleKeyDown">
+    <!-- Game grid cells -->
+    <div 
+      v-for="(row, rowIndex) in board" 
+      :key="rowIndex" 
+      class="board-row"
+    >
+      <div 
+        v-for="(cell, colIndex) in row" 
+        :key="colIndex" 
+        class="board-cell"
+        :class="{
+          'snake-head': isSnakeHead(rowIndex, colIndex),
+          'snake-body': isSnakeBody(rowIndex, colIndex),
+          'good-target': isGoodTarget(rowIndex, colIndex),
+          'bad-target': isBadTarget(rowIndex, colIndex),
+          'wall': isWall(rowIndex, colIndex)
+        }"
+      >
+        <span v-if="isGoodTarget(rowIndex, colIndex)" class="target-icon">✓</span>
+        <span v-if="isBadTarget(rowIndex, colIndex)" class="target-icon">✗</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="game-controls-container">
+    <div class="game-action-buttons">
+      <button @click="togglePause" class="action-btn pause-btn" aria-label="Pause/Play">
+        <svg v-if="!pauseState" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path d="M10 4H6v16h4V4zm8 0h-4v16h4V4z"/>
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="game-controls">
+      <button disabled class="control-btn up-btn" aria-label="Move Up">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+      </button>
+      <div class="horizontal-controls">
+        <button disabled class="control-btn left-btn" aria-label="Move Left">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M19 12H5M12 5l-7 7 7 7"/>
+          </svg>
+        </button>
+        <button disabled class="control-btn right-btn" aria-label="Move Right">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+      <button disabled class="control-btn down-btn" aria-label="Move Down">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </button>
+        <!-- Instructional Text -->
+      <p class="keyboard-tip">Use arrow keys on your keyboard to move</p>
+    </div>
+  </div>
+</div>
       
       <div v-if="isCountingDown" class="countdown-overlay">
         <transition name="fade-scale" mode="out-in">
@@ -109,29 +180,29 @@
           </div>
         </transition>
       </div>
-      <div class="game-controls">
-        <button @click="move('up')" class="control-btn up-btn">↑</button>
-        <div class="horizontal-controls">
-          <button @click="move('left')" class="control-btn left-btn">←</button>
-          <button @click="move('right')" class="control-btn right-btn">→</button>
-        </div>
-        <button @click="move('down')" class="control-btn down-btn">↓</button>
-      </div>
 
-      <!-- 反馈模态框 -->
+      <!-- Feedback Modal -->
       <transition name="fade">
         <div v-if="gameState === 'feedback'" class="feedback-modal-overlay">
           <div class="feedback-modal" :class="[
             lastDecisionCorrect ? 'correct-feedback' : 'incorrect-feedback'
           ]">
-            <h2>{{ lastDecisionCorrect ? 'Well Done! 🎉' : 'Think Again! 🤔' }}</h2>
+            <div class="feedback-header">
+              <div class="feedback-icon">{{ lastDecisionCorrect ? '🎉' : '🤔' }}</div>
+              <h2>{{ lastDecisionCorrect ? 'Well Done!' : 'Think Again!' }}</h2>
+            </div>
             <div class="practice-info">
               <p class="practice-text">"{{ lastPractice.text }}"</p>
-              <p class="practice-type">This is a <strong>{{ lastPractice.isGood ? 'good' : 'bad' }}</strong> practice because:</p>
+              <div class="practice-verdict" :class="lastPractice.isGood ? 'good-verdict' : 'bad-verdict'">
+                This is a <strong>{{ lastPractice.isGood ? 'SAFE' : 'RISKY' }}</strong> online behavior
+              </div>
               <p class="practice-explanation">{{ lastPractice.explanation }}</p>
             </div>
             <button @click="continuePlaying" class="continue-btn">
-              Continue Playing
+              <span>Continue</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
             </button>
           </div>
         </div>
@@ -141,23 +212,36 @@
     <!-- Game Over Screen -->
     <div v-else-if="gameState === 'gameover'" class="game-screen gameover-screen">
       <div class="gameover-card">
-        <h2>Game Over!</h2>
+        <div class="gameover-header">
+          <div class="gameover-icon">🏁</div>
+          <h2>Game Over!</h2>
+        </div>
+        
         <div class="results-summary">
-          <p>Final Score: {{ score }}</p>
-          <p>Correct Decisions: {{ correctDecisions }}</p>
-          <p>Incorrect Decisions: {{ incorrectDecisions }}</p>
+          <div class="result-item">
+            <span class="result-label">Final Score:</span>
+            <span class="result-value">{{ score }}</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Correct Decisions:</span>
+            <span class="result-value correct">{{ correctDecisions }}</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Incorrect Decisions:</span>
+            <span class="result-value incorrect">{{ incorrectDecisions }}</span>
+          </div>
         </div>
         
         <div class="knowledge-summary">
           <h3>Cybersecurity Knowledge:</h3>
           <div class="knowledge-bar">
             <div class="knowledge-progress" :style="{ width: knowledgePercentage + '%' }"></div>
+            <div class="knowledge-text">{{ knowledgePercentage }}%</div>
           </div>
-          <div class="knowledge-text">{{ knowledgePercentage }}%</div>
+          <div class="knowledge-level">{{ getKnowledgeLevel }}</div>
         </div>
-        
         <div class="practice-review">
-          <h3>Remember these key practices:</h3>
+          <h3>Key Online Safety Tips:</h3>
           <div class="practices-list">
             <div v-for="(practice, index) in reviewPractices" :key="index" class="practice-item">
               <div :class="['practice-icon', practice.isGood ? 'good-icon' : 'bad-icon']">
@@ -171,7 +255,16 @@
           </div>
         </div>
         
-        <button @click="resetGame" class="restart-btn">Play Again</button>
+        <div class="gameover-actions">
+          <button @click="resetGame" class="restart-btn">
+            <span class="btn-icon">🔄</span>
+            <span>Play Again</span>
+          </button>
+          <button @click="shareScore" class="share-btn">
+            <span class="btn-icon">📱</span>
+            <span>View Score</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -189,9 +282,16 @@ export default {
       nextDirection: 'right',
       score: 0,
       lives: 3,
+      maxLives: 3,
       selectedDifficulty: 'medium',
-      gameSpeed: 200, // milliseconds between moves
-      boardSize: 15, // 15x15 grid
+      gameSpeed: 280, // milliseconds between moves - slower than original for better playability
+      boardSize: { // Optimized board sizes for different difficulties
+        easy: 10,
+        medium: 12,
+        hard: 15,
+      },
+      currentBoardSize: 12, // Will be set based on difficulty
+      pauseState: false,
       goodTargetPosition: null,
       badTargetPosition: null,
       gameLoop: null,
@@ -203,70 +303,118 @@ export default {
       practicesEncountered: [],
       timerWidth: 100,
       timerInterval: null,
+      timerDuration: 25, // seconds - increased from original for better playability
       reviewPractices: [],
       countdownNumber: 3,
       isCountingDown: false,
       
-      // Database of cybersecurity practices
-      practicesDatabase: [
-        // Good practices
-        {
-  text: "Tell a trusted adult if someone online asks for private photos",
-  isGood: true,
-  explanation: "Reporting to an adult helps keep you safe and stops the person from harming others."
-},
-{
-  text: "Avoid sharing your address or school name with strangers online",
-  isGood: true,
-  explanation: "This keeps you from being tracked or targeted in real life."
-},
-{
-  text: "Only add people you know in real life to your friend list",
-  isGood: true,
-  explanation: "Strangers pretending to be teens may have bad intentions."
-},
-{
-  text: "Block and report anyone who makes you uncomfortable online",
-  isGood: true,
-  explanation: "You have the right to feel safe and set boundaries."
-},
-{
-  text: "Use a nickname or screen name that doesn't reveal your identity",
-  isGood: true,
-  explanation: "Keeping personal info private protects you from grooming attempts."
-},
-{
-  text: "Keep chatting with someone online even if they make weird comments",
-  isGood: false,
-  explanation: "If something feels off, it's okay to stop responding and tell someone you trust."
-},
-{
-  text: "Send pictures to someone online to prove you're real",
-  isGood: false,
-  explanation: "Groomers often ask for photos as a form of manipulation—never send them."
-},
-{
-  text: "Share your daily routine with someone you met in a game",
-  isGood: false,
-  explanation: "This can give away too much about where you are and when you're vulnerable."
-},
-{
-  text: "Believe someone is a teenager just because they say so online",
-  isGood: false,
-  explanation: "People can easily lie about their age",}
-
-      ]
+      // Enhanced database of cybersecurity practices with more teen-focused scenarios
+      // Enhanced database of cybersecurity practices focused on online grooming
+practicesDatabase: [
+  // Good practices (safe responses to potential grooming)
+  {
+    text: "Tell a trusted adult if someone online asks for private photos",
+    isGood: true,
+    explanation: "Reporting inappropriate requests helps keep you and others safe from potential predators."
+  },
+  {
+    text: "Block and report users who make you uncomfortable online",
+    isGood: true,
+    explanation: "You have the right to feel safe online and reporting helps platforms identify harmful users."
+  },
+  {
+    text: "Only accept friend requests from people you know in real life",
+    isGood: true,
+    explanation: "This reduces the risk of connecting with someone who might have harmful intentions."
+  },
+  {
+    text: "Keep your social media profiles private",
+    isGood: true,
+    explanation: "This limits the personal information that strangers can see about you."
+  },
+  {
+    text: "Refuse to share personal details like your school or home address",
+    isGood: true,
+    explanation: "This information could be used to locate you in real life."
+  },
+  {
+    text: "Tell someone if an online contact wants to keep your conversations secret",
+    isGood: true,
+    explanation: "Secrecy is often a warning sign that someone knows their behavior is inappropriate."
+  },
+  {
+    text: "Use a nickname instead of your real name in games and forums",
+    isGood: true,
+    explanation: "This helps protect your identity from people with bad intentions."
+  },
+  // Bad practices (unsafe responses to potential grooming)
+  {
+    text: "Continue chatting with someone who asks inappropriate questions",
+    isGood: false,
+    explanation: "Inappropriate questions are a warning sign. It's best to end contact and tell a trusted adult."
+  },
+  {
+    text: "Share photos of yourself when someone online insists",
+    isGood: false,
+    explanation: "No matter how much they pressure you, it's never safe to send photos to strangers online."
+  },
+  {
+    text: "Keep it secret when an online friend asks you not to tell anyone about your conversations",
+    isGood: false,
+    explanation: "Requests for secrecy are a major warning sign of grooming behavior."
+  },
+  {
+    text: "Agree to meet an online friend in person without telling an adult",
+    isGood: false,
+    explanation: "Meeting online contacts in person can be extremely dangerous without adult supervision."
+  },
+  {
+    text: "Give personal information to someone who seems trustworthy online",
+    isGood: false,
+    explanation: "Groomers are skilled at building false trust to gather information about potential victims."
+  },
+  {
+    text: "Accept gifts or game currency from people you've met online",
+    isGood: false,
+    explanation: "Predators often use gifts to build trust and make you feel obligated to them."
+  },
+  {
+    text: "Talk about personal problems with someone you just met online",
+    isGood: false,
+    explanation: "Groomers look for vulnerable targets and often pretend to be understanding of problems."
+  },
+  {
+    text: "Believe someone who says they're the same age as you without proof",
+    isGood: false, 
+    explanation: "Adults often pretend to be younger online to gain trust and manipulate young people."
+  }
+]
     };
   },
   computed: {
     knowledgePercentage() {
       if (this.correctDecisions + this.incorrectDecisions === 0) return 0;
       return Math.round((this.correctDecisions / (this.correctDecisions + this.incorrectDecisions)) * 100);
+    },
+    getKnowledgeLevel() {
+      const percentage = this.knowledgePercentage;
+      if (percentage >= 90) return "Online Security Expert! 🏆";
+      if (percentage >= 75) return "Safety Champion! 🥇";
+      if (percentage >= 60) return "Security Savvy! 🔒";
+      if (percentage >= 40) return "Learning the Basics 📚";
+      return "Needs Practice 🔍";
     }
   },
   mounted() {
-  console.log('Game component mounted', this.gameState);
-},
+    console.log('Game component mounted', this.gameState);
+    // Add event listeners for keyboard, touch events, etc.
+    window.addEventListener('keydown', this.handleKeyDown);
+  },
+  beforeUnmount() {
+    clearInterval(this.gameLoop);
+    clearInterval(this.timerInterval);
+    window.removeEventListener('keydown', this.handleKeyDown);
+  },
   methods: {
     setDifficulty(level) {
       this.selectedDifficulty = level;
@@ -274,67 +422,124 @@ export default {
       // Adjust game parameters based on difficulty
       switch(level) {
         case 'easy':
-          this.gameSpeed = 250;
-          this.boardSize = 12;
+          this.gameSpeed = 400; // Slower for easier gameplay
+          this.currentBoardSize = this.boardSize.easy;
+          this.timerDuration = 30; // More time on easy mode
           break;
         case 'medium':
-          this.gameSpeed = 200;
-          this.boardSize = 15;
+          this.gameSpeed = 350;
+          this.currentBoardSize = this.boardSize.medium;
+          this.timerDuration = 25;
           break;
         case 'hard':
-          this.gameSpeed = 150;
-          this.boardSize = 18;
+          this.gameSpeed = 300; // Still faster than original but more playable
+          this.currentBoardSize = this.boardSize.hard;
+          this.timerDuration = 20; // Less time on hard mode
           break;
       }
     },
     
     startGame() {
-  console.log('Starting game');
-  try {
-    this.initializeBoard();
-    console.log('Board initialized');
-    this.initializeSnake();
-    console.log('Snake initialized');
-    this.placeTargets();
-    console.log('Targets placed');
-    this.selectPractice();
-    console.log('Practice selected');
-    this.startTimer();
-    console.log('Timer started');
-    
-    this.gameState = 'playing';
-    this.score = 0;
-    this.lives = 3;
-    this.correctDecisions = 0;
-    this.incorrectDecisions = 0;
-    this.practicesEncountered = [];
-    
-    console.log('Game state set to playing');
-    
-    this.$nextTick(() => {
-      if (this.$refs.gameBoard) {
-        this.$refs.gameBoard.focus();
-        console.log('Game board focused');
-      } else {
-        console.warn('Game board ref not found');
+      console.log('Starting game');
+      try {
+        this.initializeBoard();
+        console.log('Board initialized');
+        this.initializeSnake();
+        console.log('Snake initialized');
+        this.placeTargets();
+        console.log('Targets placed');
+        this.selectPractice();
+        this.pauseState = false;
+        console.log('Practice selected');
+        
+        // Start with countdown
+        this.gameState = 'ready';
+        this.countdownNumber = 3;
+        this.isCountingDown = true;
+        
+        const countdownInterval = setInterval(() => {
+          this.countdownNumber--;
+          if (this.countdownNumber <= 0) {
+            clearInterval(countdownInterval);
+            this.isCountingDown = false;
+            this.gameState = 'playing';
+            this.startTimer();
+            
+            this.$nextTick(() => {
+              if (this.$refs.gameBoard) {
+                this.$refs.gameBoard.focus();
+                console.log('Game board focused');
+              } else {
+                console.warn('Game board ref not found');
+              }
+            });
+            
+            this.gameLoop = setInterval(() => {
+              this.moveSnake();
+            }, this.gameSpeed);
+            console.log('Game loop started');
+          }
+        }, 1000);
+        
+        // Reset game stats
+        this.score = 0;
+        this.lives = this.maxLives;
+        this.correctDecisions = 0;
+        this.incorrectDecisions = 0;
+        this.practicesEncountered = [];
+        
+        console.log('Game initialized');
+      } catch (error) {
+        console.error('Error in startGame:', error);
       }
-    });
-    
+    },
+    togglePause() {
+  this.pauseState = !this.pauseState;
+  
+  if (this.pauseState) {
+    // Pause the game
+    clearInterval(this.gameLoop);
+    clearInterval(this.timerInterval);
+  } else {
+    // Resume the game
     this.gameLoop = setInterval(() => {
       this.moveSnake();
     }, this.gameSpeed);
-    console.log('Game loop started');
-  } catch (error) {
-    console.error('Error in startGame:', error);
+    
+    // Resume the timer with current width
+    const intervalTime = 100;
+    const totalIntervals = this.timerDuration * 1000 / intervalTime;
+    const decrement = 100 / totalIntervals;
+    
+    this.timerInterval = setInterval(() => {
+      this.timerWidth -= decrement;
+      
+      if (this.timerWidth <= 0) {
+        clearInterval(this.timerInterval);
+        // Penalize for timeout
+        this.lives--;
+        
+        if (this.lives <= 0) {
+          this.endGame();
+        } else {
+          this.lastPractice = this.currentPractice;
+          this.lastDecisionCorrect = false;
+          this.incorrectDecisions++;
+          this.practicesEncountered.push(this.currentPractice);
+          this.gameState = 'feedback';
+          clearInterval(this.gameLoop);
+        }
+      }
+    }, intervalTime);
   }
 },
     initializeBoard() {
       this.board = [];
-      for (let i = 0; i < this.boardSize; i++) {
+      for (let i = 0; i < this.currentBoardSize; i++) {
         const row = [];
-        for (let j = 0; j < this.boardSize; j++) {
+        for (let j = 0; j < this.currentBoardSize; j++) {
           // Add walls around the edges
-          if (i === 0 || i === this.boardSize - 1 || j === 0 || j === this.boardSize - 1) {
+          if (i === 0 || i === this.currentBoardSize - 1 || j === 0 || j === this.currentBoardSize - 1) {
             row.push('wall');
           } else {
             row.push(null);
@@ -345,11 +550,11 @@ export default {
     },
     
     initializeSnake() {
-      const middle = Math.floor(this.boardSize / 2);
+      const middle = Math.floor(this.currentBoardSize / 2);
+      // Make the snake shorter to start - easier to control
       this.snake = [
         [middle, middle],
-        [middle, middle - 1],
-        [middle, middle - 2]
+        [middle, middle - 1]
       ];
       this.direction = 'right';
       this.nextDirection = 'right';
@@ -358,8 +563,8 @@ export default {
     placeTargets() {
       // Find available positions (not occupied by snake or walls)
       const availablePositions = [];
-      for (let i = 0; i < this.boardSize; i++) {
-        for (let j = 0; j < this.boardSize; j++) {
+      for (let i = 0; i < this.currentBoardSize; i++) {
+        for (let j = 0; j < this.currentBoardSize; j++) {
           if (this.board[i][j] !== 'wall' && !this.isSnakePosition(i, j)) {
             availablePositions.push([i, j]);
           }
@@ -367,14 +572,33 @@ export default {
       }
       
       if (availablePositions.length >= 2) {
-        // Place good target
+        // Make sure targets aren't too close to each other or the snake
+        // First, place good target
         const goodIndex = Math.floor(Math.random() * availablePositions.length);
         this.goodTargetPosition = availablePositions[goodIndex];
-        availablePositions.splice(goodIndex, 1);
+        
+        // Remove positions too close to good target
+        const filteredPositions = availablePositions.filter((pos, index) => {
+          if (index === goodIndex) return false;
+          
+          // Calculate distance from good target
+          const distance = Math.abs(pos[0] - this.goodTargetPosition[0]) + 
+                          Math.abs(pos[1] - this.goodTargetPosition[1]);
+          
+          // Only keep positions that are at least 3 cells away
+          return distance >= 3;
+        });
         
         // Place bad target
-        const badIndex = Math.floor(Math.random() * availablePositions.length);
-        this.badTargetPosition = availablePositions[badIndex];
+        if (filteredPositions.length > 0) {
+          const badIndex = Math.floor(Math.random() * filteredPositions.length);
+          this.badTargetPosition = filteredPositions[badIndex];
+        } else {
+          // Fallback if no good positions found
+          availablePositions.splice(goodIndex, 1);
+          const badIndex = Math.floor(Math.random() * availablePositions.length);
+          this.badTargetPosition = availablePositions[badIndex];
+        }
       }
     },
     
@@ -399,7 +623,9 @@ export default {
       this.timerWidth = 100;
       clearInterval(this.timerInterval);
       
-      const decrement = 100 / (this.selectedDifficulty === 'easy' ? 30 : this.selectedDifficulty === 'medium' ? 20 : 15);
+      const intervalTime = 100; // Update timer more frequently for smoother animation
+      const totalIntervals = this.timerDuration * 1000 / intervalTime;
+      const decrement = 100 / totalIntervals;
       
       this.timerInterval = setInterval(() => {
         this.timerWidth -= decrement;
@@ -420,11 +646,11 @@ export default {
             clearInterval(this.gameLoop);
           }
         }
-      }, 1000);
+      }, intervalTime);
     },
     
     handleKeyDown(event) {
-      if (this.gameState !== 'playing' || this.isCountingDown) return;
+      if (this.gameState !== 'playing') return;
       
       switch (event.key) {
         case 'ArrowUp':
@@ -441,19 +667,6 @@ export default {
           break;
       }
     },
-    
-    move(direction) {
-      if (this.gameState !== 'playing' || this.isCountingDown) return;
-      
-      // Prevent 180-degree turns
-      if ((direction === 'up' && this.direction !== 'down') ||
-          (direction === 'down' && this.direction !== 'up') ||
-          (direction === 'left' && this.direction !== 'right') ||
-          (direction === 'right' && this.direction !== 'left')) {
-        this.nextDirection = direction;
-      }
-    },
-    
     moveSnake() {
       this.direction = this.nextDirection;
       
@@ -477,108 +690,115 @@ export default {
       }
       
       // Check for collision with walls
-if (this.isWall(head[0], head[1])) {
-  this.handleCollision();
-  return;
-}
-
-// Check for collision with self
-if (this.isSnakeBody(head[0], head[1])) {
-  this.handleCollision();
-  return;
-}
-
-// Check for target collision
-const hitGoodTarget = this.isGoodTarget(head[0], head[1]);
-const hitBadTarget = this.isBadTarget(head[0], head[1]);
-
-this.snake.unshift(head); // Always move the head
-
-if (hitGoodTarget || hitBadTarget) {
-  clearInterval(this.timerInterval);
-  clearInterval(this.gameLoop);
-  
-  const correctDecision = (hitGoodTarget && this.currentPractice.isGood) ||
-                           (hitBadTarget && !this.currentPractice.isGood);
-  
-  if (correctDecision) {
-    this.score += 10;
-    this.correctDecisions++;
-    this.lastDecisionCorrect = true;
-  } else {
-    this.lives--;
-    this.incorrectDecisions++;
-    this.lastDecisionCorrect = false;
-  }
-  
-  this.lastPractice = this.currentPractice;
-  this.practicesEncountered.push(this.currentPractice);
-  
-  if (this.lives <= 0) {
-    this.endGame();
-  } else {
-    this.gameState = 'feedback';
-  }
-  
-  // 🚨 Do NOT pop the tail! Snake grows!
-  this.goodTargetPosition = null;
-  this.badTargetPosition = null;
-
-  return; // Stop further movement
-}
-
-// 🚨 If not eating target, normal move: pop the tail
-this.snake.pop();
+      if (this.isWall(head[0], head[1])) {
+        this.handleCollision();
+        return;
+      }
+      
+      // Check for collision with self
+      if (this.isSnakeBody(head[0], head[1])) {
+        this.handleCollision();
+        return;
+      }
+      
+      // Check for target collision
+      const hitGoodTarget = this.isGoodTarget(head[0], head[1]);
+      const hitBadTarget = this.isBadTarget(head[0], head[1]);
+      
+      // Always move the head
+      this.snake.unshift(head);
+      
+      if (hitGoodTarget || hitBadTarget) {
+        clearInterval(this.timerInterval);
+        clearInterval(this.gameLoop);
+        
+        const correctDecision = (hitGoodTarget && this.currentPractice.isGood) ||
+                               (hitBadTarget && !this.currentPractice.isGood);
+        
+        if (correctDecision) {
+          // Add visual/audio feedback
+          this.score += this.selectedDifficulty === 'easy' ? 5 : 
+                        this.selectedDifficulty === 'medium' ? 10 : 15;
+          this.correctDecisions++;
+          this.lastDecisionCorrect = true;
+        } else {
+          this.lives--;
+          this.incorrectDecisions++;
+          this.lastDecisionCorrect = false;
+        }
+        
+        this.lastPractice = this.currentPractice;
+        this.practicesEncountered.push(this.currentPractice);
+        
+        if (this.lives <= 0) {
+          this.endGame();
+        } else {
+          this.gameState = 'feedback';
+        }
+        
+        // Don't pop the tail - snake grows on both targets
+        this.goodTargetPosition = null;
+        this.badTargetPosition = null;
+        
+        return; // Stop further movement
+      }
+      
+      // If not eating target, normal move: pop the tail
+      this.snake.pop();
     },
     
     handleCollision() {
-  this.lives--;
-
-  if (this.lives <= 0) {
-    this.endGame();
-  } else {
-    clearInterval(this.gameLoop);
-    clearInterval(this.timerInterval);
-    this.initializeSnake();
-    this.placeTargets();
-    this.selectPractice();
-
-    // Start countdown overlay
-    this.countdownNumber = 3;
-    this.isCountingDown = true;
-
-    const countdownInterval = setInterval(() => {
-      this.countdownNumber--;
-      if (this.countdownNumber === 0) {
-        clearInterval(countdownInterval);
-        this.isCountingDown = false;
-        this.startTimer();
-        this.$nextTick(() => {
-          this.$refs.gameBoard?.focus();
-        });
-        this.gameLoop = setInterval(() => {
-          this.moveSnake();
-        }, this.gameSpeed);
+      // Play collision sound
+      this.lives--;
+      
+      if (this.lives <= 0) {
+        this.endGame();
+      } else {
+        clearInterval(this.gameLoop);
+        clearInterval(this.timerInterval);
+        
+        // Instead of resetting snake position entirely, just revert to initial position
+        this.initializeSnake();
+        this.placeTargets();
+        
+        // Keep the current practice - gives player another chance with same question
+        
+        // Start countdown overlay
+        this.countdownNumber = 3;
+        this.isCountingDown = true;
+        
+        const countdownInterval = setInterval(() => {
+          this.countdownNumber--;
+          if (this.countdownNumber <= 0) {
+            clearInterval(countdownInterval);
+            this.isCountingDown = false;
+            this.startTimer();
+            this.$nextTick(() => {
+              this.$refs.gameBoard?.focus();
+            });
+            this.gameLoop = setInterval(() => {
+              this.moveSnake();
+            }, this.gameSpeed);
+          }
+        }, 1000);
       }
-    }, 1000);
-  }
-},
-
+    },
     
     continuePlaying() {
   // Reset board for next round
-  this.placeTargets();
+  this.initializeSnake(); // Add this line to reset snake position first
+  this.placeTargets();    // Then place targets so they won't overlap
   this.selectPractice();
   this.startTimer();
-  
+  this.pauseState = false;
   this.gameState = 'playing';
-
+  
   this.$nextTick(() => {
     if (this.$refs.gameBoard) {
       this.$refs.gameBoard.focus();
     }
   });
-
+  
   this.gameLoop = setInterval(() => {
     this.moveSnake();
   }, this.gameSpeed);
@@ -590,16 +810,32 @@ this.snake.pop();
       
       // Prepare review practices for game over screen
       // Include both correct and incorrect decisions for learning
-      this.reviewPractices = this.practicesEncountered.slice(-5); // Last 5 practices
+      // Sort to show correct practices first, then incorrect ones
+      const sortedPractices = [...this.practicesEncountered]
+        .sort((a, b) => (b.isGood ? 1 : 0) - (a.isGood ? 1 : 0))
+        .slice(-5); // Last 5 practices
+      
+      this.reviewPractices = sortedPractices;
       
       this.gameState = 'gameover';
+    },
+    
+    shareScore() {
+      // Would implement actual sharing functionality here
+      // For now, just show an alert
+      alert(`You scored ${this.score} points with ${this.knowledgePercentage}% knowledge in Cyber Decision Snake! 🐍`);
     },
     
     resetGame() {
       console.log('Resetting game to start state');
       this.gameState = 'start';
+      // Reset all game state variables
+      this.score = 0;
+      this.lives = this.maxLives;
+      this.correctDecisions = 0;
+      this.incorrectDecisions = 0;
+      this.practicesEncountered = [];
     },
-    
     // Helper methods for cell types
     isSnakeHead(row, col) {
       return this.snake.length > 0 && this.snake[0][0] === row && this.snake[0][1] === col;
@@ -624,10 +860,6 @@ this.snake.pop();
     isWall(row, col) {
       return this.board[row] && this.board[row][col] === 'wall';
     }
-  },
-  beforeUnmount() {
-    clearInterval(this.gameLoop);
-    clearInterval(this.timerInterval);
   }
 };
 </script>
@@ -642,43 +874,77 @@ this.snake.pop();
 }
 
 .cyber-snake-game {
-  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  background: linear-gradient(135deg, #2b3141 0%, #1a202c 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  min-height: 100vh;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+.keyboard-tip {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  text-align: center;
+  font-style: italic;
+}
+.control-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Start Screen */
 .snake-landing-outer {
-  min-height: calc(100vh - 64px - 56px);
+  min-height: calc(100vh - 64px);
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #e0c3fc 0%, #f8fafc 100%);
+  background: linear-gradient(135deg, #2b3141 0%, #1a202c 100%);
   overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 16px;
 }
+
 .snake-landing-header {
   text-align: center;
   margin-top: 32px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
 }
+
 .game-title {
-  font-size: 2.8rem;
-  font-weight: bold;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   letter-spacing: 2px;
+  text-shadow: 0 2px 12px rgba(56, 189, 248, 0.4);
+  animation: pulse-title 3s infinite ease-in-out;
 }
+
+@keyframes pulse-title {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
 .game-slogan {
-  font-size: 1.2rem;
-  color: #6c47ff;
-  font-weight: 600;
+  font-size: 1.3rem;
+  color: #a5b4fc;
+  font-weight: 500;
   letter-spacing: 1px;
   margin-bottom: 0;
+  max-width: 650px;
 }
+
 .snake-landing-main {
   flex: 1;
   display: flex;
@@ -687,56 +953,149 @@ this.snake.pop();
   gap: 48px;
   min-height: 0;
   padding: 0 4vw;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
 }
+
 .snake-card, .rule-card {
   width: 480px;
   height: 480px;
-  background: linear-gradient(120deg, #f8fafc 60%, #fbc2eb 100%);
-  border-radius: 28px;
-  box-shadow: 0 4px 24px 0 rgba(118, 75, 162, 0.12);
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 44px 32px 32px 32px;
+  padding: 32px;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 }
-.snake-img {
+
+.snake-card::before, .rule-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  z-index: 2;
+}
+
+.snake-image-container {
   width: 100%;
   height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.snake-img {
+  width: 90%;
+  height: 90%;
   object-fit: contain;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(80, 80, 120, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.snake-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.1);
+  animation: pulse-animation 3s infinite;
+}
+
+.delay-1 {
+  animation-delay: 1s;
+}
+
+.delay-2 {
+  animation-delay: 2s;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
 }
 .rule-card h3 {
-  font-weight: bold;
-  margin-bottom: 22px;
-  color: #5f2c82;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #a5b4fc;
   text-align: left;
   width: 100%;
+  font-size: 1.5rem;
+  position: relative;
 }
+
+.rule-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  border-radius: 4px;
+}
+
 .instructions-list {
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
 }
+
 .instruction-item {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 14px;
-  font-size: 1em;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
   border-radius: 12px;
-  padding: 4px 6px;
+  padding: 8px;
   cursor: default;
-  background: none;
-  transition: none;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.2s ease;
 }
+
+.instruction-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+}
+
 .icon-bullet {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -744,256 +1103,473 @@ this.snake.pop();
   color: #fff;
   font-size: 1.3em;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
-  margin-top: 2px;
-  transition: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
 }
+
+.instruction-item:hover .icon-bullet {
+  transform: scale(1.1);
+}
+
 .instruction-text {
   flex: 1;
   line-height: 1.6;
-  color: #333;
-  font-size: 0.98em;
+  color: #e2e8f0;
+  font-size: 1rem;
 }
+
 .highlight-green {
-  color: #22c55e;
-  font-weight: bold;
+  color: #34d399;
+  font-weight: 700;
 }
+
 .highlight-red {
-  color: #ef4444;
-  font-weight: bold;
+  color: #f87171;
+  font-weight: 700;
 }
+
 .difficulty-section {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 24px;
+  margin-top: 32px;
+  max-width: 680px;
 }
+
 .difficulty-select {
-  margin-bottom: 18px;
+  margin-bottom: 32px;
   text-align: center;
+  width: 100%;
 }
+
 .difficulty-select h3 {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+  color: #a5b4fc;
+  font-weight: 600;
 }
+
 .difficulty-buttons {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 24px;
 }
+
 .difficulty-btn {
   border: none;
-  border-radius: 24px;
-  padding: 12px 32px;
+  border-radius: 16px;
+  padding: 14px 28px;
   font-size: 1.1rem;
   font-weight: 600;
-  background: linear-gradient(90deg, #d1c4e9 0%, #b39ddb 100%);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(149, 117, 205, 0.10);
-  transition: transform 0.15s, box-shadow 0.15s, background 0.2s, border 0.2s;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
   cursor: pointer;
   outline: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
 .difficulty-btn.selected {
-  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.25);
-  transform: scale(1.10);
-  border: 2.5px solid #7c4dff;
-  background: linear-gradient(90deg, #7c4dff 0%, #9575cd 100%);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   color: #fff;
   z-index: 1;
 }
-.difficulty-btn:hover {
-  opacity: 0.96;
-  background: linear-gradient(90deg, #9575cd 0%, #7c4dff 100%);
+
+.difficulty-btn:hover:not(.selected) {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
 }
-.start-btn {
-  display: block;
-  margin: 0 auto;
-  padding: 16px 48px;
+
+.difficulty-icon {
   font-size: 1.3rem;
-  font-weight: bold;
-  border-radius: 32px;
+  margin-right: 6px;
+}
+
+.start-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+  padding: 18px 48px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border-radius: 16px;
   border: none;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.18);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+.start-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
 .start-btn:hover {
-  background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
-  transform: scale(1.05);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(56, 189, 248, 0.4);
 }
+
+.start-btn:hover::before {
+  left: 100%;
+}
+
+.start-icon {
+  font-size: 1.4rem;
+}
+
 @media (max-width: 1100px) {
   .snake-card, .rule-card {
-    width: 80vw;
-    max-width: 420px;
-    min-width: 220px;
-    height: auto;
-    max-height: 70vh;
-    padding: 28px 12px 18px 12px;
+    width: 400px;
+    height: 400px;
+    padding: 24px;
   }
+  
   .snake-landing-main {
-    gap: 18px;
+    gap: 24px;
   }
+  
+  .game-title {
+    font-size: 2.8rem;
+  }
+  
+  .game-slogan {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .snake-landing-main {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .snake-card, .rule-card {
+    width: 90%;
+    max-width: 480px;
+    height: auto;
+    min-height: 320px;
+  }
+  
   .snake-img {
     max-height: 220px;
   }
-  .rule-card h3 {
-    margin-bottom: 16px;
-  }
-  .instructions-list {
-    font-size: 0.97em;
+  
+  .difficulty-buttons {
+    flex-wrap: wrap;
   }
 }
-@media (max-width: 800px) {
-  .snake-card, .rule-card {
-    width: 95vw;
-    max-width: 98vw;
-    min-width: 0;
-    height: auto;
-    max-height: none;
-    padding: 14px 4vw 10px 4vw;
-  }
-  .snake-landing-main {
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-  }
-  .snake-landing-header {
-    margin-top: 18px;
-  }
+
+@media (max-width: 600px) {
   .game-title {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
   }
+  
   .game-slogan {
     font-size: 1rem;
   }
-}
-@media (max-width: 600px) {
-  .snake-card, .rule-card {
-    width: 98vw;
-    max-width: 99vw;
-    min-width: 0;
-    height: auto;
-    max-height: none;
-    padding: 8px 2vw 6px 2vw;
+  
+  .difficulty-btn {
+    padding: 10px 16px;
+    font-size: 1rem;
   }
-  .snake-landing-header {
-    margin-top: 8px;
-  }
-  .game-title {
+  
+  .start-btn {
+    padding: 14px 32px;
     font-size: 1.1rem;
   }
-  .game-slogan {
-    font-size: 0.92rem;
-  }
-  .difficulty-section {
-    margin-top: 12px;
+  
+  .snake-landing-header {
+    margin-top: 20px;
+    margin-bottom: 16px;
   }
 }
 
 /* Game Play Screen */
 .game-play-screen {
-  background-color: #f8f9fa;
+  background-color: #111827;
   justify-content: flex-start;
-  padding: 10px;
-  min-height: 80vh; /* Add this line */
-  width: 100%; /* Add this line */
+  padding: 16px;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+.game-header {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .game-info {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .score-display, .lives-display {
-  font-size: 18px;
-  font-weight: bold;
-  padding: 8px 15px;
-  background-color: #333;
-  color: white;
-  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.score-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.score-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.life-heart {
+  margin: 0 3px;
+  transition: all 0.3s ease;
+}
+
+.life-heart.active {
+  animation: beat 1.5s ease infinite;
+}
+
+@keyframes beat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
 }
 
 .practice-display {
-  margin: 32px auto 24px auto;
-  padding: 32px 32px 22px 32px;
-  background: linear-gradient(100deg, #232526 0%, #414345 100%);
-  border-radius: 22px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 2px 8px #00e0ff44;
+  margin: 24px auto;
+  padding: 24px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   max-width: 800px;
-  min-height: 120px;
   text-align: center;
   position: relative;
-  border: 3px solid #00e0ff;
-  animation: pop-in 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+  border: 2px solid #3b82f6;
+  animation: glow 3s infinite alternate;
 }
-@keyframes pop-in {
-  0% { transform: scale(0.7); opacity: 0.2;}
-  80% { transform: scale(1.08);}
-  100% { transform: scale(1); opacity: 1;}
+
+@keyframes glow {
+  0% { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2); }
+  100% { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.5); }
 }
+
 .practice-title {
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: #00e0ff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #93c5fd;
   margin-bottom: 12px;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 12px #00e0ff55;
+  letter-spacing: 1px;
 }
+
 .practice-text {
-  font-size: 1.7rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #fff;
-  letter-spacing: 1.5px;
-  text-shadow: 0 2px 12px #00e0ff55, 0 1px 0 #232526;
+  letter-spacing: 0.5px;
   margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 .timer-bar-wrapper {
-  width: 340px;
-  max-width: 90vw;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto 24px auto;
-  padding: 10px 0;
+  padding: 8px 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
 .timer-bar {
   width: 100%;
-  height: 18px;
-  background: #232526;
-  border-radius: 9px;
+  height: 12px;
+  background: #1f2937;
+  border-radius: 6px;
   overflow: hidden;
-  border: 2.5px solid #00e0ff;
-  box-shadow: 0 2px 12px #00e0ff33;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .timer-progress {
   height: 100%;
-  background: linear-gradient(90deg, #ff7675, #fd79a8, #a29bfe, #74b9ff);
-  transition: width 1s linear;
-  border-radius: 9px 0 0 9px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  transition: width 0.1s linear;
+  border-radius: 6px;
+}
+
+.timer-text {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+.game-board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 .game-board {
   width: 100%;
   aspect-ratio: 1 / 1;
   max-width: 500px;
-  min-height: 300px; /* Add this line */
-  margin: 0 auto;
-  background-color: #e9ecef;
-  border: 2px solid #333;
-  border-radius: 5px;
+  background-color: #1f2937;
+  border: 3px solid #3b82f6;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   outline: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
+.game-controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.game-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.action-btn {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.action-btn:active {
+  transform: translateY(1px);
+}
+
+.action-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.horizontal-controls {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.control-btn {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: #e2e8f0;
+  border: none;
+  border-radius: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.control-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.control-btn:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  transform: translateY(-2px);
+}
+
+.control-btn:active {
+  transform: translateY(1px);
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+/* Add media queries to handle mobile layout */
+@media (max-width: 900px) {
+  .game-board-container {
+    flex-direction: column;
+  }
+  
+  .game-controls-container {
+    flex-direction: row;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 24px;
+  }
+  
+  .game-action-buttons {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .game-controls-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
 .board-row {
   display: flex;
   flex: 1;
@@ -1006,415 +1582,80 @@ this.snake.pop();
   justify-content: center;
   font-size: 18px;
   font-weight: bold;
-  border: 1px solid #ddd; /* Add this line */
-  min-width: 20px; /* Add this line */
-  min-height: 20px; /* Add this line */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 20px;
+  min-height: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
 .snake-head {
-  background-color: #17a2b8;
-  border-radius: 5px;
-  z-index: 2; /* Add this line */
+  background-color: #3b82f6;
+  border-radius: 4px;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+.snake-head::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 25%;
+  height: 25%;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 3;
 }
 
 .snake-body {
-  background-color: #138496;
-  border-radius: 5px;
-  z-index: 1; /* Add this line */
+  background-color: #60a5fa;
+  border-radius: 4px;
+  z-index: 1;
 }
 
 .good-target {
-  background-color: #28a745;
+  background-color: #10b981;
   color: white;
   border-radius: 50%;
-  font-size: 24px; /* Add this line */
-  z-index: 2; /* Add this line */
+  z-index: 2;
+  animation: pulse-target 2s infinite ease-in-out;
 }
 
 .bad-target {
-  background-color: #dc3545;
+  background-color: #ef4444;
   color: white;
   border-radius: 50%;
-  font-size: 24px; /* Add this line */
-  z-index: 2; /* Add this line */
+  z-index: 2;
+  animation: pulse-target 2s infinite ease-in-out;
+}
+
+@keyframes pulse-target {
+  0% { transform: scale(0.85); }
+  50% { transform: scale(1); }
+  100% { transform: scale(0.85); }
+}
+
+.target-icon {
+  font-size: 1.2rem;
+  font-weight: 900;
 }
 
 .wall {
-  background-color: #6c757d;
+  background-color: #4b5563;
+  background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
 }
 
-.game-controls {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; /* Add this line */
-}
 
-.horizontal-controls {
-  display: flex;
-  gap: 20px;
-  margin: 10px 0;
-}
-
-.control-btn {
-  width: 60px;
-  height: 60px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px; /* Add this line */
-}
-
-.control-btn:active {
-  transform: scale(0.95);
-}
-
-/* Feedback Screen */
-.feedback-screen {
-  /* background-color: rgba(0, 0, 0, 0.8); */
-  background: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.feedback-container {
-  max-width: 420px;
-  padding: 32px 24px;
-  border-radius: 24px;
-  text-align: center;
-  margin: 48px auto 0 auto;
-  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.10);
-  background: rgba(255,255,255,0.28);
-  backdrop-filter: blur(10px);
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.correct-feedback {
-  background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%, rgba(255,255,255,0.28));
-  color: #fff;
-  border: none;
-}
-
-.incorrect-feedback {
-  background: linear-gradient(135deg, #ff5858 0%, #f09819 100%, rgba(255,255,255,0.28));
-  color: #fff;
-  border: none;
-}
-
-.practice-info {
-  margin: 20px 0;
-  padding: 18px;
-  background: rgba(255,255,255,0.22);
-  border-radius: 14px;
-  text-align: left;
-  color: #fff;
-  font-size: 1.08rem;
-  box-shadow: none;
-}
-
-.continue-btn {
-  margin-top: 24px;
-  padding: 14px 48px;
-  font-size: 1.15rem;
-  font-weight: bold;
-  border-radius: 28px;
-  border: none;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  letter-spacing: 1.2px;
-  text-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
-}
-.correct-feedback .continue-btn {
-  background: linear-gradient(90deg, #74b9ff 0%, #a29bfe 100%);
-}
-.correct-feedback .continue-btn:hover {
-  background: linear-gradient(90deg, #4e8cff 0%, #6c5ce7 100%);
-  transform: scale(1.04);
-}
-.incorrect-feedback .continue-btn {
-  background: linear-gradient(90deg, #ffd86f 0%, #ff9a44 100%);
-  color: #fff;
-}
-.incorrect-feedback .continue-btn:hover {
-  background: linear-gradient(90deg, #ffb347 0%, #ff6e7f 100%);
-  transform: scale(1.04);
-}
-
-/* Game Over Screen */
-.gameover-screen {
-  min-height: 100vh;
-  width: 100vw;
-  background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #222;
-  text-align: center;
-  overflow-y: auto;
-  padding: 0;
-}
-
-.gameover-card {
-  background: rgba(255,255,255,0.35);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-  backdrop-filter: blur(10px);
-  border-radius: 32px;
-  padding: 48px 36px 36px 36px;
-  max-width: 480px;
-  margin: 48px 0 32px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.gameover-card h2 {
-  font-size: 2.4rem;
-  font-weight: bold;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 18px;
-  text-shadow: 0 2px 8px rgba(118, 75, 162, 0.12);
-}
-
-.results-summary {
-  margin: 18px 0 10px 0;
-  font-size: 1.15rem;
-  color: #333;
-}
-
-.knowledge-summary {
-  margin: 18px 0 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.knowledge-bar {
-  width: 90%;
-  height: 18px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 10px 0 4px 0;
-}
-.knowledge-progress {
-  height: 100%;
-  background: linear-gradient(90deg, #43e97b, #38f9d7, #a29bfe);
-  transition: width 1s ease;
-}
-.knowledge-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.practice-review {
-  width: 100%;
-  max-width: 420px;
-  margin: 18px 0 0 0;
-}
-.practice-review h3 {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-}
-.practices-list {
-  background: rgba(255,255,255,0.18);
-  border-radius: 14px;
-  padding: 12px 10px;
-  max-height: 180px;
-  overflow-y: auto;
-  margin-bottom: 8px;
-}
-.practice-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.practice-item:last-child {
-  margin-bottom: 0;
-  border-bottom: none;
-}
-.practice-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 12px;
-  font-weight: bold;
-  flex-shrink: 0;
-  font-size: 1.2em;
-}
-.good-icon {
-  background-color: #43e97b;
-  color: white;
-}
-.bad-icon {
-  background-color: #ff7675;
-  color: white;
-}
-.practice-detail {
-  flex: 1;
-  text-align: left;
-}
-.practice-text {
-  font-weight: bold;
-  margin-bottom: 2px;
-  font-size: 1rem;
-}
-.practice-explanation {
-  font-size: 0.97rem;
-  opacity: 0.92;
-}
-
-.restart-btn {
-  display: block;
-  margin: 32px auto 0 auto;
-  padding: 14px 44px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 28px;
-  border: none;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(118, 75, 162, 0.18);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-}
-.restart-btn:hover {
-  background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
-  transform: scale(1.05);
-}
-
-@media (max-width: 600px) {
-  .gameover-card {
-    padding: 18px 6px 18px 6px;
-    max-width: 98vw;
-  }
-  .practice-review {
-    max-width: 98vw;
-  }
-  .restart-btn {
-    padding: 10px 18px;
-    font-size: 1rem;
-  }
-}
-
-.ready-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #f8f9fa;
-  color: #333;
-  font-size: 2em;
-  font-weight: bold;
-}
-.countdown-number {
-  font-size: 5rem;
-  color: #333;
-  animation: pulse 1s ease-in-out;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.2;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.2;
-  }
-}
-
-.fade-scale-enter-active, .fade-scale-leave-active {
-  transition: all 0.5s ease;
-}
-.fade-scale-enter-from, .fade-scale-leave-to {
-  transform: scale(0.8);
-  opacity: 0;
-}
-.fade-scale-enter-to, .fade-scale-leave-from {
-  transform: scale(1.2);
-  opacity: 1;
-}
-.countdown-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  padding: 40px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-}
-
-.countdown-number {
-  font-size: 4rem;
-  color: #333;
-  animation: pulse 1s ease-in-out;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.2;
-  }
-  50% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.2;
-  }
-}
-
-.fade-scale-enter-active, .fade-scale-leave-active {
-  transition: all 0.4s ease;
-}
-.fade-scale-enter-from, .fade-scale-leave-to {
-  transform: scale(0.7);
-  opacity: 0;
-}
-.fade-scale-enter-to, .fade-scale-leave-from {
-  transform: scale(1.2);
-  opacity: 1;
-}
-
-/* 反馈模态框样式 */
+/* Feedback Modal */
 .feedback-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(17, 24, 39, 0.85);
+  background-color: rgba(17, 24, 39, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1423,131 +1664,586 @@ this.snake.pop();
 }
 
 .feedback-modal {
-  background: #ffffff;
-  padding: 2.5rem;
+  background: #1f2937;
+  padding: 32px;
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  max-width: 550px;
   width: 90%;
   text-align: center;
+  animation: modal-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid #3b82f6;
+}
+
+@keyframes modal-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .feedback-modal.correct-feedback {
-  border: none;
-  background: linear-gradient(145deg, #ffffff, #f0fff4);
-  box-shadow: 0 20px 40px rgba(72, 187, 120, 0.2);
+  border-color: #10b981;
+  background: linear-gradient(135deg, #1f2937 0%, #064e3b 100%);
 }
 
 .feedback-modal.incorrect-feedback {
-  border: none;
-  background: linear-gradient(145deg, #ffffff, #fff5f5);
-  box-shadow: 0 20px 40px rgba(245, 101, 101, 0.2);
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #1f2937 0%, #7f1d1d 100%);
+}
+
+.feedback-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.feedback-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 
 .feedback-modal h2 {
-  margin: 0 0 1.5rem 0;
+  margin: 0;
   font-size: 2.2rem;
   font-weight: 800;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .correct-feedback h2 {
-  color: #48bb78;
+  background: linear-gradient(90deg, #34d399, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .incorrect-feedback h2 {
-  color: #f56565;
+  background: linear-gradient(90deg, #f87171, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .feedback-modal .practice-info {
-  background: linear-gradient(145deg, #f7fafc, #edf2f7);
-  padding: 1.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
   border-radius: 16px;
-  margin: 1.5rem 0;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  margin: 24px 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  border-left: 4px solid #3b82f6;
+}
+
+.correct-feedback .practice-info {
+  border-left-color: #10b981;
+}
+
+.incorrect-feedback .practice-info {
+  border-left-color: #ef4444;
 }
 
 .feedback-modal .practice-text {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2d3748;
-  margin-bottom: 1.2rem;
+  color: #e2e8f0;
+  margin-bottom: 16px;
   line-height: 1.5;
 }
 
-.feedback-modal .practice-type {
-  color: #4a5568;
-  margin: 1rem 0;
+.practice-verdict {
   font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.good-verdict {
+  color: #34d399;
+}
+
+.bad-verdict {
+  color: #f87171;
 }
 
 .feedback-modal .practice-explanation {
-  color: #4a5568;
+  color: #94a3b8;
   line-height: 1.7;
-  margin-top: 1rem;
+  margin-top: 16px;
   font-size: 1.1rem;
 }
 
-.feedback-modal .practice-info strong {
-  color: #4299e1;
-  font-weight: 700;
-}
-
-.correct-feedback .practice-info strong {
-  color: #38a169;
-}
-
-.incorrect-feedback .practice-info strong {
-  color: #e53e3e;
-}
-
 .feedback-modal .continue-btn {
-  background: linear-gradient(145deg, #4299e1, #3182ce);
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   color: white;
   border: none;
-  padding: 1rem 2.8rem;
-  border-radius: 9999px;
+  padding: 16px 36px;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 2rem;
-  text-transform: uppercase;
+  margin-top: 16px;
   letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .correct-feedback .continue-btn {
-  background: linear-gradient(145deg, #48bb78, #38a169);
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .incorrect-feedback .continue-btn {
-  background: linear-gradient(145deg, #f56565, #e53e3e);
-  box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .feedback-modal .continue-btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(110%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
 .feedback-modal .continue-btn:active {
-  transform: translateY(1px);
+  transform: translateY(-1px);
 }
 
-/* 添加过渡动画 */
+.feedback-modal .continue-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Game Over Screen */
+.gameover-screen {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e2e8f0;
+  text-align: center;
+  overflow-y: auto;
+  padding: 40px 16px;
+}
+
+.gameover-card {
+  background: rgba(31, 41, 55, 0.7);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgba(59, 130, 246, 0.5);
+  animation: fade-up 0.6s ease;
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gameover-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.gameover-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  animation: spin 5s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.gameover-card h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(56, 189, 248, 0.4);
+}
+.results-summary {
+  margin: 24px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.result-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.result-label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.result-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.result-value.correct {
+  color: #34d399;
+}
+
+.result-value.incorrect {
+  color: #f87171;
+}
+
+.knowledge-summary {
+  width: 100%;
+  margin: 24px 0;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.knowledge-summary h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #e2e8f0;
+}
+
+.knowledge-bar {
+  width: 100%;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+}
+
+.knowledge-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.knowledge-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.knowledge-level {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-top: 8px;
+}
+
+.practice-review {
+  width: 100%;
+  margin: 24px 0 0 0;
+}
+
+.practice-review h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #e2e8f0;
+}
+
+.practices-list {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.practice-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.practice-item:hover {
+  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.practice-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.good-icon {
+  background-color: #10b981;
+  color: white;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.bad-icon {
+  background-color: #ef4444;
+  color: white;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.practice-detail {
+  flex: 1;
+  text-align: left;
+}
+
+.practice-detail .practice-text {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+
+.practice-detail .practice-explanation {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.gameover-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 32px;
+  width: 100%;
+}
+
+.restart-btn, .share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  max-width: 180px;
+}
+
+.restart-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.restart-btn:hover, .share-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.restart-btn:active, .share-btn:active {
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+.ready-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: #fff;
+  position: relative;
+}
+
+.countdown-number {
+  font-size: 8rem;
+  font-weight: 800;
+  color: #fff;
+  animation: zoom-pulse 1s cubic-bezier(.17,.67,.83,.67);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes zoom-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+}
+
+.countdown-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(17, 24, 39, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+/* Transitions */
 .fade-enter-active, .fade-leave-active {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
-  transform: scale(0.95) translateY(10px);
+  transform: scale(0.95);
 }
 
-.fade-enter-to, .fade-leave-from {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+.fade-scale-enter-active, .fade-scale-leave-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fade-scale-enter-from, .fade-scale-leave-to {
+  transform: scale(0.7);
+  opacity: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .practice-display {
+    padding: 16px;
+  }
+  
+  .practice-text {
+    font-size: 1.2rem;
+  }
+  
+  .game-board {
+    width: 90vw;
+    max-width: 90vw;
+  }
+  
+  .gameover-card {
+    padding: 24px;
+  }
+
+  .results-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .gameover-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .restart-btn, .share-btn {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .feedback-modal {
+    padding: 24px 16px;
+  }
+  
+  .countdown-number {
+    font-size: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.8rem;
+  }
+  
+  .practice-text {
+    font-size: 1rem;
+  }
+  
+  .control-btn {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .gameover-card h2 {
+    font-size: 2rem;
+  }
+  
+  .countdown-number {
+    font-size: 4rem;
+  }
 }
 </style>

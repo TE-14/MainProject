@@ -286,7 +286,7 @@ function startAnimation() {
 let observer
 onMounted(async () => {
   try {
-    const res = await fetch('api/impulsive-cyberbullying-stats')
+    const res = await fetch('/api/impulsive-cyberbullying-stats')
     const data = await res.json()
     malePercent.value = data.malePercent
     femalePercent.value = data.femalePercent
