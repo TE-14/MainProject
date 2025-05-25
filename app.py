@@ -22,19 +22,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-<<<<<<< Updated upstream
-    allow_origins=[
-        "http://localhost:3007", 
-        "http://localhost:8080", 
-        "http://127.0.0.1:3007", 
-        "http://127.0.0.1:8080",
-        "http://shieldskills.live",
-        "http://v1.shieldskills.live",
-        "http://v2.shieldskills.live"
-    ],
-=======
     allow_origin_regex=".*",
->>>>>>> Stashed changes
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Accept", "Authorization"],
