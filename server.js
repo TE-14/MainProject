@@ -148,6 +148,58 @@ app.get('/api/emoji-risk-stream', (req, res) => {
   });
 });
 
+app.get('/api/grooming-awareness', (req, res) => {
+  const queries = {
+    knowGrooming: `
+      SELECT Know_grooming AS response FROM CSA_Data_Cleaned
+    `,
+    knowSigns: `
+      SELECT Know_signs AS response FROM CSA_Data_Cleaned
+    `,
+    supportCounseling: `
+      SELECT Support_counseling AS response FROM CSA_Data_Cleaned
+    `,
+    takeLegalAction: `
+      SELECT Take_legal_action AS response FROM CSA_Data_Cleaned
+    `
+  };
+
+  const getProportionYes = (query, callback) => {
+    db.query(query, (err, results) => {
+      if (err) return callback(err);
+      const total = results.length;
+      const yesCount = results.filter(r => r.response && r.response.trim().toLowerCase() === 'yes').length;
+      const ratio = total ? +(yesCount / total).toFixed(2) : 0;
+      callback(null, ratio);
+    });
+  };
+
+  const responseData = {};
+  let completed = 0;
+  const totalQueries = Object.keys(queries).length;
+
+  for (const key in queries) {
+    getProportionYes(queries[key], (err, ratio) => {
+      if (err) return res.status(500).json({ error: err.message });
+      responseData[formatKey(key)] = ratio;
+      completed++;
+      if (completed === totalQueries) {
+        res.json(responseData);
+      }
+    });
+  }
+
+  function formatKey(key) {
+    switch (key) {
+      case 'knowGrooming': return 'Know Grooming';
+      case 'knowSigns': return 'Know Signs';
+      case 'supportCounseling': return 'Support Counseling';
+      case 'takeLegalAction': return 'Take Legal Action';
+      default: return key;
+    }
+  }
+});
+
 app.get('/api/impulsive-cyberbullying-stats', (req, res) => {
   const sql = `
     SELECT 
