@@ -188,11 +188,7 @@
       <div class="content-block">
         <div class="grooming-section">
           <div class="grooming-img-container">
-            <img
-              :src="require('@/assets/images/WhatsApp Image 2025-04-10 at 21.14.30.jpeg')"
-              alt="Online Grooming"
-              class="grooming-img"
-            />
+            <GroomingRadarChart />
           </div>
           <div class="grooming-content">
             <div class="d-flex align-center mb-6">
@@ -251,6 +247,7 @@ export default {
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import GroomingRadarChart from '@/components/GroomingRadarChart.vue'
 
 const malePercent = ref(0)
 const femalePercent = ref(0)
@@ -785,11 +782,20 @@ section.py-16 .v-container {
 }
 
 .grooming-img-container {
-  flex: 0 0 500px;
-  width: 500px;
+  flex: 0 0 600px;
+  width: 600px;
+  max-width: 45vw;
+  min-width: 350px;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
+  background: transparent;
+  padding: 0.5rem 1.5rem 0 0;
+  margin-left: -40px;
+  margin-top: -30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
 }
 
 .grooming-img {
@@ -802,7 +808,7 @@ section.py-16 .v-container {
 .grooming-section {
   display: flex;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 4rem;
   margin: 2rem auto;
   max-width: 1280px;
   padding: 0 1rem;
@@ -816,13 +822,17 @@ section.py-16 .v-container {
 }
 
 @media (max-width: 960px) {
-  .grooming-section {
-    flex-direction: column;
+  .grooming-img-container {
+    width: 100% !important;
+    max-width: 100vw;
+    padding: 1rem 0 1rem 0;
+    margin-left: 0;
+    margin-top: 0;
+    justify-content: center;
+    align-items: center;
   }
-  
-  .grooming-img {
-    width: 100%;
-    flex: none;
+  .grooming-section {
+    gap: 1.5rem;
   }
 }
 
